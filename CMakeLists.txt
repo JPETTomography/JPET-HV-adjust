@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 2.6)
 project(HV-adjust)
 
+add_subdirectory(FitGen)
+include_directories(FitGen/include)
+
 set(CMAKE_CXX_FLAGS "-pthread -std=gnu++11")
 include_directories(include)
 file(GLOB HEADERS include/*.h)
