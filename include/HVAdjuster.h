@@ -4,20 +4,23 @@
 #	define ______HVADJUSTER____H______
 #include <functional>
 #include <vector>
+#include <Genetic/abstract.h>
 namespace HVAdjust{
+	const double HV_MAX=1300;
+	const double HV_DELTA=50;
+	
 	struct MeasuredParameters{
 		double HV;
 		double Gain;
 	};
 	class HVAdjuster{
 	public:
-		HVAdjuster(const std::function<double(double)> HV2Gain, const double hv_delta);
+		HVAdjuster(const std::function<double(const MeasuredParameters&)> dGain_dHV);
 		HVAdjuster(const HVAdjuster&source);
 		virtual ~HVAdjuster();
-		const std::vector<double> Adjust(const std::vector<MeasuredParameters>&data)const;
+		const Genetic::ParamSet Adjust(const std::vector<MeasuredParameters>&data,Genetic::RANDOM&engine)const;
 	private:
-		const std::function<double(double)> f_HV2Gain;
-		double f_hv_delta;
+		const std::function<double(const MeasuredParameters&)> f_dGain_dHV;
 	};
 };
 
