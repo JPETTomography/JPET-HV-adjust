@@ -20,6 +20,8 @@ namespace HVAdjust{
 		HVAdjuster(const HVAdjuster&source);
 		virtual ~HVAdjuster();
 		virtual const std::vector<PhmParameters> Adjust(const std::vector<PhmParameters>&data)const;
+	protected:
+		const std::vector<PhmParameters> SetAllGain(const MathTemplates::value<double>&newGain,const std::vector<PhmParameters>&data)const;
 	private:
 		const GainDerivativeByHV f_dGain_dHV;
 	};

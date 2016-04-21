@@ -12,9 +12,16 @@ namespace HVAdjust {
 		if(data.size()<2)throw Exception<HVAdjuster>("There must be at least two photomultipliers");
 		WeightedAverage<double> AverageGain;
 		for(const auto&phm:data)AverageGain<<phm.Gain;
+		return SetAllGain(AverageGain(),data);
+	}
+	const vector< PhmParameters > HVAdjuster::SetAllGain(const value< double >& newGain, const vector< PhmParameters >& data) const{
 		vector<PhmParameters> res;
-		for(const auto&phm:data)
-			res.push_back({.HV=phm.HV+(AverageGain()-phm.Gain)/f_dGain_dHV(phm),.Gain=AverageGain()});
+		for(const auto&phm:data){
+			auto dGdV=f_dGain_dHV(phm);
+			if(dGdV.min()<=0.0)throw Exception<HVAdjuster>("dG/dV cannot be negative or zero");
+			res.push_back({.HV=phm.HV+((newGain-phm.Gain)/dGdV),.Gain=newGain});
+		}
 		return res;
 	}
+
 };
