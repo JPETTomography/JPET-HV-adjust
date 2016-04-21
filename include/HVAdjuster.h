@@ -32,6 +32,15 @@ namespace HVAdjust{
 		virtual ~HVAdjustToAverage();
 		virtual const std::vector<PhmParameters> Adjust(const std::vector<PhmParameters>&data)const override;
 	};
+	class HVAdjustWithMaximum:public AbstractHVAdjuster{
+	public:
+		HVAdjustWithMaximum(const GainDerivativeByHV dGain_dHV,const double maximumHV);
+		HVAdjustWithMaximum(const HVAdjustWithMaximum&source);
+		virtual ~HVAdjustWithMaximum();
+		virtual const std::vector<PhmParameters> Adjust(const std::vector<PhmParameters>&data)const override;
+	private:
+		double f_maximumHV;
+	};
 };
 
 #endif

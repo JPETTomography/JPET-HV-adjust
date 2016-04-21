@@ -63,3 +63,10 @@ TEST(HVAdjustToAverage, similar_dependence){
 		}
 	}
 }
+TEST(HVAdjustWithMaximum,throwing){
+	HVAdjustWithMaximum test([](const PhmParameters&)->double{return 1.0;},1000.0);
+	EXPECT_THROW(test.Adjust({}),Exception<HVAdjustWithMaximum>);
+	EXPECT_THROW(test.Adjust({{.HV=500.0,.Gain={1.0,0.1}}}),Exception<HVAdjustWithMaximum>);
+	EXPECT_THROW(test.Adjust({{.HV=500.0,.Gain=1.0},{.HV=500.0,.Gain=1.0}}),Exception<WeightedAverage<double>>);
+	EXPECT_NO_THROW(test.Adjust({{.HV=500.0,.Gain={1.0,0.1}},{.HV=500.0,.Gain={1.0,0.1}}}));
+}

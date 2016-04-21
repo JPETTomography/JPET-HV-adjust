@@ -27,4 +27,30 @@ namespace HVAdjust {
 		for(const auto&phm:data)AverageGain<<phm.Gain;
 		return SetAllGain(AverageGain(),data);
 	}
+	
+	HVAdjustWithMaximum::HVAdjustWithMaximum(const GainDerivativeByHV dGain_dHV, const double maximumHV)
+	:AbstractHVAdjuster(dGain_dHV),f_maximumHV(maximumHV){}
+	HVAdjustWithMaximum::HVAdjustWithMaximum(const HVAdjustWithMaximum& source)
+	:AbstractHVAdjuster(source),f_maximumHV(source.f_maximumHV){}
+	HVAdjustWithMaximum::~HVAdjustWithMaximum(){}
+	const vector<PhmParameters> HVAdjustWithMaximum::Adjust(const vector<PhmParameters>&data)const{
+		if(data.size()<2)throw Exception<HVAdjustWithMaximum>("There must be at least two photomultipliers");
+		value<double> gain;
+		{
+			WeightedAverage<double> AverageGain;
+			for(const auto&phm:data)AverageGain<<phm.Gain;
+			gain=AverageGain();
+		}
+		vector<PhmParameters> res;
+		bool done=false;
+		do{
+			res=SetAllGain(gain,data);
+			done=true;
+			for(const auto&item:res)done&=(item.HV.max()<f_maximumHV);
+			if(!done)gain*=0.9;
+		}while(!done);
+		return res;
+	}
+
+
 };
