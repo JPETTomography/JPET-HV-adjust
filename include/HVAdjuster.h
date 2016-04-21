@@ -14,16 +14,23 @@ namespace HVAdjust{
 		MathTemplates::value<double> Gain;
 	};
 	typedef std::function<MathTemplates::value<double>(const PhmParameters&)> GainDerivativeByHV;
-	class HVAdjuster{
+	class AbstractHVAdjuster{
 	public:
-		HVAdjuster(const GainDerivativeByHV dGain_dHV);
-		HVAdjuster(const HVAdjuster&source);
-		virtual ~HVAdjuster();
-		virtual const std::vector<PhmParameters> Adjust(const std::vector<PhmParameters>&data)const;
+		AbstractHVAdjuster(const GainDerivativeByHV dGain_dHV);
+		AbstractHVAdjuster(const AbstractHVAdjuster&source);
+		virtual ~AbstractHVAdjuster();
+		virtual const std::vector<PhmParameters> Adjust(const std::vector<PhmParameters>&data)const=0;
 	protected:
 		const std::vector<PhmParameters> SetAllGain(const MathTemplates::value<double>&newGain,const std::vector<PhmParameters>&data)const;
 	private:
 		const GainDerivativeByHV f_dGain_dHV;
+	};
+	class HVAdjustToAverage:public AbstractHVAdjuster{
+	public:
+		HVAdjustToAverage(const GainDerivativeByHV dGain_dHV);
+		HVAdjustToAverage(const AbstractHVAdjuster&source);
+		virtual ~HVAdjustToAverage();
+		virtual const std::vector<PhmParameters> Adjust(const std::vector<PhmParameters>&data)const override;
 	};
 };
 
