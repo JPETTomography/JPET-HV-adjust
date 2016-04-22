@@ -33,6 +33,9 @@ namespace HVAdjust {
 	HVAdjustWithMaximum::HVAdjustWithMaximum(const HVAdjustWithMaximum& source)
 	:AbstractHVAdjuster(source),f_maximumHV(source.f_maximumHV){}
 	HVAdjustWithMaximum::~HVAdjustWithMaximum(){}
+	const double& HVAdjustWithMaximum::MaximumHV() const{
+		return f_maximumHV;
+	}
 	const vector<PhmParameters> HVAdjustWithMaximum::Adjust(const vector<PhmParameters>&data)const{
 		if(data.size()<2)throw Exception<HVAdjustWithMaximum>("There must be at least two photomultipliers");
 		value<double> gain;

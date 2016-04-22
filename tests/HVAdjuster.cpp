@@ -65,8 +65,22 @@ TEST(HVAdjustToAverage, similar_dependence){
 }
 TEST(HVAdjustWithMaximum,throwing){
 	HVAdjustWithMaximum test([](const PhmParameters&)->double{return 1.0;},1000.0);
+	EXPECT_EQ(1000.0,test.MaximumHV());
 	EXPECT_THROW(test.Adjust({}),Exception<HVAdjustWithMaximum>);
 	EXPECT_THROW(test.Adjust({{.HV=500.0,.Gain={1.0,0.1}}}),Exception<HVAdjustWithMaximum>);
 	EXPECT_THROW(test.Adjust({{.HV=500.0,.Gain=1.0},{.HV=500.0,.Gain=1.0}}),Exception<WeightedAverage<double>>);
 	EXPECT_NO_THROW(test.Adjust({{.HV=500.0,.Gain={1.0,0.1}},{.HV=500.0,.Gain={1.0,0.1}}}));
+}
+TEST(HVAdjustWithMaximum,twoitemstest){
+	HVAdjustWithMaximum test([](const PhmParameters&)->double{return 1.0;},950.0);
+	EXPECT_EQ(950.0,test.MaximumHV());
+	auto below=test.Adjust({{.HV=700.0,.Gain={700.0,1.0}},{.HV=900.0,.Gain={900.0,1.0}}});
+	EXPECT_EQ(950.0,test.MaximumHV());
+	EXPECT_TRUE(value<double>(800,1).contains(below[0].HV.val()));
+	EXPECT_TRUE(value<double>(800,1).contains(below[1].HV.val()));
+	auto above=test.Adjust({{.HV=1100.0,.Gain={1100.0,1.0}},{.HV=900.0,.Gain={900.0,1.0}}});
+	EXPECT_EQ(950.0,test.MaximumHV());
+	EXPECT_TRUE(value<double>(above[0].HV.val(),1).contains(above[1].HV.val()));
+	EXPECT_TRUE(above[0].HV.max()<test.MaximumHV());
+	EXPECT_TRUE(above[1].HV.max()<test.MaximumHV());
 }

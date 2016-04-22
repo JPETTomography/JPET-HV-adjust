@@ -37,6 +37,7 @@ namespace HVAdjust{
 		HVAdjustWithMaximum(const GainDerivativeByHV dGain_dHV,const double maximumHV);
 		HVAdjustWithMaximum(const HVAdjustWithMaximum&source);
 		virtual ~HVAdjustWithMaximum();
+		const double&MaximumHV()const;
 		virtual const std::vector<PhmParameters> Adjust(const std::vector<PhmParameters>&data)const override;
 	private:
 		double f_maximumHV;
