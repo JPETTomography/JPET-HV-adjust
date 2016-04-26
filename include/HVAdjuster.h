@@ -6,9 +6,6 @@
 #include <vector>
 #include <math_h/sigma.h>
 namespace HVAdjust{
-	const double HV_MAX=1300;
-	const double HV_DELTA=50;
-	
 	struct PhmParameters{
 		MathTemplates::value<double> HV;
 		MathTemplates::value<double> Gain;
