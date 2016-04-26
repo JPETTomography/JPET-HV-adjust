@@ -9,6 +9,10 @@ namespace DataAccess{
 		for(const auto item:row)
 			f_data[item.first]=item.second;
 	}
+	DataItem::DataItem(const DataItem&source){
+		for(const auto item:source.f_data)
+			f_data[item.first]=item.second;
+	}
 	DataItem::~DataItem(){}
 	const string& DataItem::operator[](string&& name)const{
 		auto found=f_data.find(name);

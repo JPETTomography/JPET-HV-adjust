@@ -7,25 +7,24 @@
 #include <string>
 #include <memory>
 namespace DataAccess{
-	enum RequestType{
-		empty_request,
-		insertcalibrationtype,
-		insertcalibration_phm_ampl,
-		connect_calibration_phm_ampl,
-		getcalibrationtype,
-		getcalibrationtypes,
-		getcalibrations_phm_ampl,
-		getconnectedcalibrations_phm_ampl
+	struct RequestType{
+		enum datatype{
+			dummy,
+			calibrationtype,
+			calibration_phmampl,
+			calibration_phmampl_connected
+		};
+		datatype data;
+		enum operationtype{get,insert,remove};
+		operationtype operation;
 	};
 	class DataItem{
 	public:
 		DataItem(const std::map<std::string,std::string>&row);
+		DataItem(const DataItem&);
 		virtual ~DataItem();
 		const std::string&operator[](std::string&&name)const;
 	private:
-		DataItem(const DataItem&){}
-		DataItem&operator=(const DataItem&){return *this;}
-		
 		std::map<std::string,std::string> f_data;
 	};
 	typedef std::vector<std::string> RequestParameters;
@@ -36,7 +35,7 @@ namespace DataAccess{
 	};
 	class DataSet{
 	public:
-		DataSet(const std::shared_ptr<IDataSource> source,const RequestType getter,const RequestParameters&getter_params,const RequestType inserter=empty_request,const RequestType deleter=empty_request);
+		DataSet(const std::shared_ptr<IDataSource> source,const RequestType getter,const RequestParameters&getter_params,const RequestType inserter,const RequestType deleter);
 		virtual ~DataSet();
 		
 		typedef std::vector<DataItem>::const_iterator const_iterator;
