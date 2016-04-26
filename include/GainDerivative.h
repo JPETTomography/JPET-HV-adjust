@@ -9,7 +9,7 @@ namespace HVAdjust{
 		GainHVderivative(const double alfa,const double beta);
 		GainHVderivative(const GainHVderivative&source);
 		virtual ~GainHVderivative();
-		const GainHVderivative func()const;
+		const GainDerivativeByHV func()const;
 		const double alfa()const;
 		const double beta()const;
 	private:
