@@ -7,15 +7,15 @@
 #include <string>
 #include <memory>
 namespace DataAccess{
+	enum datatype{
+		dummy,
+		calibrationtype,
+		calibration_phmampl,
+		calibration_phmampl_connected
+	};
+	enum operationtype{data_obtain,data_insert,data_remove};
 	struct RequestType{
-		enum datatype{
-			dummy,
-			calibrationtype,
-			calibration_phmampl,
-			calibration_phmampl_connected
-		};
 		datatype data;
-		enum operationtype{get,insert,remove};
 		operationtype operation;
 	};
 	class DataItem{
@@ -38,6 +38,7 @@ namespace DataAccess{
 		DataSet(const std::shared_ptr<IDataSource> source,const RequestType getter,const RequestParameters&getter_params,const RequestType inserter,const RequestType deleter);
 		virtual ~DataSet();
 		
+		const size_t size()const;
 		typedef std::vector<DataItem>::const_iterator const_iterator;
 		const_iterator begin()const;
 		const_iterator cbegin()const;

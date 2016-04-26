@@ -39,6 +39,7 @@ namespace DataAccess{
 		vector<DataItem> tmp;
 		return f_source->Request(f_deleter,par,tmp)&&Update();
 	}
+	const size_t DataSet::size() const{return f_data.size();}
 	DataSet::const_iterator DataSet::begin() const{return f_data.begin();}
 	DataSet::const_iterator DataSet::cbegin() const{return f_data.cbegin();}
 	DataSet::const_iterator DataSet::end() const{return f_data.end();}
