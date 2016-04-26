@@ -35,7 +35,7 @@ public:
 
 TEST(DataSet,basetest){
 	auto src=make_shared<test_data_source>(true);
-	DataSet test(src,{.data=dummy,.operation=data_obtain},{},{.data=dummy,.operation=data_insert},{.data=dummy,.operation=data_remove});
+	DataSet test(src,dummy,{});
 	EXPECT_EQ(2,test.size());
 	EXPECT_EQ(1,src->Count(DataAccess::data_obtain));
 	EXPECT_EQ(0,src->Count(DataAccess::data_insert));

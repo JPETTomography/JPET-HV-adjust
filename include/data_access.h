@@ -6,6 +6,7 @@
 #include <map>
 #include <string>
 #include <memory>
+#include <sstream>
 namespace DataAccess{
 	enum datatype{
 		dummy,
@@ -35,7 +36,7 @@ namespace DataAccess{
 	};
 	class DataSet{
 	public:
-		DataSet(const std::shared_ptr<IDataSource> source,const RequestType getter,const RequestParameters&getter_params,const RequestType inserter,const RequestType deleter);
+		DataSet(const std::shared_ptr<IDataSource> source,const datatype type,const RequestParameters&getter_params);
 		virtual ~DataSet();
 		
 		const size_t size()const;
@@ -53,10 +54,31 @@ namespace DataAccess{
 		DataSet&operator=(const DataSet&){return *this;}
 		
 		std::shared_ptr<IDataSource> f_source;
-		RequestType f_getter,f_inserter,f_deleter;
+		datatype f_type;
 		RequestParameters f_update_params;
 		std::vector<DataItem> f_data;
 		bool Update();
+	};
+	template<class DataItemRepresenter>
+	class Factory{
+	private:
+		DataAccess::DataSet m_data;
+	public:
+		Factory(const std::shared_ptr<IDataSource> src,const RequestParameters&&params)
+		:m_data(src,DataItemRepresenter::type){}
+		virtual ~Factory(){}
+		const size_t size()const{return m_data.size();}
+		const DataItemRepresenter Get(const size_t id)const{
+			for(const auto item:m_data){
+				std::istringstream str(item[DataItemRepresenter::keyfield()]);
+				size_t ID;str>>ID;
+				if(id==ID)return DataItemRepresenter(item);
+			}
+			return DataItemRepresenter();
+		}
+		bool Add(const DataItemRepresenter&&item){
+			return m_data.Insert(item.params_to_insert());
+		}
 	};
 };
 #endif

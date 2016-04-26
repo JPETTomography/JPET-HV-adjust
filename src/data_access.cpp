@@ -14,30 +14,31 @@ namespace DataAccess{
 			f_data[item.first]=item.second;
 	}
 	DataItem::~DataItem(){}
-	const string& DataItem::operator[](string&& name)const{
+	const string& DataItem::operator[](string&&name)const{
 		auto found=f_data.find(name);
 		if(found!=f_data.end())
 			return found->second;
 		else
 			throw Exception<DataItem>("DataItem: field not found");
 	}
-	DataSet::DataSet(const shared_ptr<IDataSource> source, const RequestType getter, const RequestParameters& getter_params, const RequestType inserter, const RequestType deleter)
-		:f_source(source),f_getter(getter),f_inserter(inserter),f_deleter(deleter){
-			for(const auto&item:getter_params)f_update_params.push_back(item);
+	DataSet::DataSet(const shared_ptr<IDataSource> source, const datatype type, const RequestParameters& getter_params)
+		:f_source(source),f_type(type){
+			for(const auto&item:getter_params)
+				f_update_params.push_back(item);
 			Update();
 	}
 	DataSet::~DataSet(){}
 	bool DataSet::Update(){
 		f_data.clear();
-		return f_source->Request(f_getter,f_update_params,f_data);
+		return f_source->Request({.data=f_type,.operation=data_obtain},f_update_params,f_data);
 	}
 	bool DataSet::Insert(const RequestParameters& par){
 		vector<DataItem> tmp;
-		return f_source->Request(f_inserter,par,tmp)&&Update();
+		return f_source->Request({.data=f_type,.operation=data_insert},par,tmp)&&Update();
 	}
 	bool DataSet::Delete(const RequestParameters& par){
 		vector<DataItem> tmp;
-		return f_source->Request(f_deleter,par,tmp)&&Update();
+		return f_source->Request({.data=f_type,.operation=data_remove},par,tmp)&&Update();
 	}
 	const size_t DataSet::size() const{return f_data.size();}
 	DataSet::const_iterator DataSet::begin() const{return f_data.begin();}

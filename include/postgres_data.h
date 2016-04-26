@@ -1,5 +1,7 @@
 // this file is distributed under 
 // MIT license
+#ifndef _______POSTGRESS_DATA_H___________
+#	define _______POSTGRESS_DATA_H___________
 #include <pqxx/pqxx>
 #include <data_access.h>
 namespace DataAccess{
@@ -20,3 +22,4 @@ namespace DataAccess{
 		std::shared_ptr<pqxx::work> f_work;
 	};
 };
+#endif
