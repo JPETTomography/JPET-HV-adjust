@@ -3,7 +3,7 @@
 #include <random>
 #include <gtest/gtest.h>
 #include <math_h/error.h>
-#include <HVAdjuster.h>
+#include <HV/HVAdjuster.h>
 using namespace std;
 using namespace HVAdjust;
 using namespace MathTemplates;

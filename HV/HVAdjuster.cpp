@@ -1,7 +1,7 @@
 // this file is distributed under 
 // MIT license
 #include <math_h/error.h>
-#include <HVAdjuster.h>
+#include <HV/HVAdjuster.h>
 namespace HVAdjust {
 	using namespace std;
 	using namespace MathTemplates;

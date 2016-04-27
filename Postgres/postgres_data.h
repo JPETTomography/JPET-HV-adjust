@@ -3,7 +3,7 @@
 #ifndef _______POSTGRESS_DATA_H___________
 #	define _______POSTGRESS_DATA_H___________
 #include <pqxx/pqxx>
-#include <data_access.h>
+#include <DataGeneral/data_access.h>
 namespace DataAccess{
 	struct DBConfigData{
 		std::string db_name;

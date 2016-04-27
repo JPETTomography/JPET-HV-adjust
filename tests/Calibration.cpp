@@ -3,8 +3,7 @@
 #include <random>
 #include <gtest/gtest.h>
 #include <math_h/error.h>
-#include <data_access.h>
-#include <CalibrationGeneral.h>
+#include <DataGeneral/CalibrationGeneral.h>
 #include "test_data_source.h"
 using namespace std;
 using namespace MathTemplates;

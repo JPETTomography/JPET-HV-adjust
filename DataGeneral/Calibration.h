@@ -2,8 +2,8 @@
 // MIT license
 #ifndef ________PHMGAIN_H_______
 #	define ________PHMGAIN_H_______
-#include <data_access.h>
-#include <CalibrationGeneral.h>
+#include <DataGeneral/data_access.h>
+#include <DataGeneral/CalibrationGeneral.h>
 namespace Calibration{
 	class PhotomultiplierGain:public CalibrationForEquipment{
 	public:
