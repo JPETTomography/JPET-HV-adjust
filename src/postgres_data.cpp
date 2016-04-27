@@ -30,21 +30,21 @@ namespace DataAccess{
 				case data_insert: funcname="insert_calibrationtype"; break;
 				case data_remove:  break;
 				};
-				break;				
+				break;
 			case calibration_phmampl:
 				switch(request.operation){
 				case data_obtain: funcname="getcalibrations_phmampl_allphm"; break;
 				case data_insert: funcname="insert_calibration_phmampl"; break;
 				case data_remove:  break;
 				};
-				break;				
+				break;
 			case calibration_phmampl_connected:
 				switch(request.operation){
 				case data_obtain: funcname="getcalibrations_phmampl_setupandphm"; break;
 				case data_insert: funcname="connect_calibration_phmampl"; break;
 				case data_remove:  break;
 				};
-				break;				
+				break;
 			default:
 				return false;
 		}

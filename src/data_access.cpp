@@ -1,5 +1,6 @@
 // this file is distributed under 
 // MIT license
+#include <sstream>
 #include <math_h/error.h>
 #include <data_access.h>
 using namespace std;
@@ -14,13 +15,20 @@ namespace DataAccess{
 			f_data[item.first]=item.second;
 	}
 	DataItem::~DataItem(){}
-	const string& DataItem::operator[](string&&name)const{
+	const string& DataItem::operator[](const string&name)const{
 		auto found=f_data.find(name);
 		if(found!=f_data.end())
 			return found->second;
 		else
 			throw Exception<DataItem>("DataItem: field not found");
 	}
+	const string& DataItem::operator[](const string&&name) const{return operator[](name);}
+	const size_t DataItem::operator()(const string&name) const{
+		size_t res=0;
+		istringstream(operator[](name))>>res;
+		return res;
+	}
+	const size_t DataItem::operator()(const string&&name) const{return operator()(name);}
 	DataSet::DataSet(const shared_ptr<IDataSource> source, const datatype type, const RequestParameters& getter_params)
 		:f_source(source),f_type(type){
 			for(const auto&item:getter_params)

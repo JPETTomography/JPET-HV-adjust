@@ -3,6 +3,29 @@ project(HV-adjust)
 set(CMAKE_CXX_FLAGS "-pthread -std=gnu++11")
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+foreach(mode QUIET REQUIRED)
+  find_package(ROOT 5 ${mode} COMPONENTS
+    Hist
+    Physics
+    RIO
+    Thread
+    Tree
+    )
+  if(ROOT_USE_FILE)
+    include(${ROOT_USE_FILE})
+  endif()
+  if(ROOT_FOUND)
+    break()
+  endif()
+  list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/fallback)
+endforeach()
+include_directories(${ROOT_INCLUDE_DIRS})
+add_definitions(${ROOT_DEFINITIONS})
+message(STATUS "ROOT version: ${ROOT_VERSION}")
+if(ROOT_FOUND AND NOT ROOT_VERSION VERSION_LESS "6.0")
+  message(FATAL_ERROR "ROOT 6.0 is not compatible")
+endif()
+
 find_package(PQXX REQUIRED)
 include_directories(${PQXX_INCLUDE_DIRS})
 add_definitions(${PQXX_DEFINITIONS})
@@ -15,12 +38,12 @@ file(GLOB SOURCES src/*.cpp)
 file(GLOB TESTS tests/*.cpp)
 file(GLOB EXAMPLES example/*.cpp)
 add_library(hvadjust SHARED ${SOURCES})
-target_link_libraries(hvadjust ${PQXX_LIBRARIES})
+target_link_libraries(hvadjust ${PQXX_LIBRARIES} ${ROOT_LIBRARIES})
 
 foreach(example ${EXAMPLES})
 	get_filename_component(ex_app ${example} NAME_WE)
 	add_executable(${ex_app} ${example})
-	target_link_libraries(${ex_app} hvadjust ${PQXX_LIBRARIES})
+	target_link_libraries(${ex_app} hvadjust ${PQXX_LIBRARIES} ${ROOT_LIBRARIES})
 endforeach()
 
 option(tests "Compile tests." OFF) 
@@ -28,5 +51,5 @@ if(tests)
 	find_package(GTest REQUIRED)
 	include_directories(${GTEST_INCLUDE_DIRS})
 	add_executable(hvadjust-test.exe ${TESTS})
-	target_link_libraries(hvadjust-test.exe hvadjust ${PQXX_LIBRARIES} ${GTEST_BOTH_LIBRARIES})
+	target_link_libraries(hvadjust-test.exe hvadjust ${PQXX_LIBRARIES} ${ROOT_LIBRARIES} ${GTEST_BOTH_LIBRARIES})
 endif()

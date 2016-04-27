@@ -24,7 +24,10 @@ namespace DataAccess{
 		DataItem(const std::map<std::string,std::string>&row);
 		DataItem(const DataItem&);
 		virtual ~DataItem();
-		const std::string&operator[](std::string&&name)const;
+		const std::string&operator[](const std::string&name)const;
+		const std::string&operator[](const std::string&&name)const;
+		const size_t operator()(const std::string&name)const;
+		const size_t operator()(const std::string&&name)const;
 	private:
 		std::map<std::string,std::string> f_data;
 	};
@@ -65,7 +68,7 @@ namespace DataAccess{
 		DataAccess::DataSet m_data;
 	public:
 		Factory(const std::shared_ptr<IDataSource> src,const RequestParameters&&params)
-		:m_data(src,DataItemRepresenter::type){}
+		:m_data(src,datatype(DataItemRepresenter::type),params){}
 		virtual ~Factory(){}
 		const size_t size()const{return m_data.size();}
 		const DataItemRepresenter Get(const size_t id)const{
