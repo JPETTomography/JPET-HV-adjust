@@ -18,7 +18,8 @@ namespace DataAccess{
 		virtual ~PQData();
 		virtual const bool Request(const RequestType request, const RequestParameters&params,std::vector<DataItem>&)override;
 	private:
-		std::shared_ptr<pqxx::connection> f_connection;
+		pqxx::connection f_connection;
+		pqxx::work f_work;
 	};
 };
 #endif

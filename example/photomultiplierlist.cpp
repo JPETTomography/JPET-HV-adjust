@@ -22,4 +22,12 @@ int main(){
 	cout << data2.size()<<endl;
 	for(const PhotomultiplierData&item:data2.GetList())
 		cout<<item.setup_id()<<" - "<<item.name()<<endl;
+	PhotomultipliersData data3(src,3);
+	cout << data3.size()<<endl;
+	for(const PhotomultiplierData&item:data3.GetList())
+		cout<<item.setup_id()<<" - "<<item.name()<<endl;
+	PhotomultipliersData data4(src,1);
+	cout << data4.size()<<endl;
+	for(const PhotomultiplierData&item:data4.GetList())
+		cout<<item.setup_id()<<" - "<<item.name()<<endl;
 }

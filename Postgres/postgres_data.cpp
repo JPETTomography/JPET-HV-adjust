@@ -6,16 +6,19 @@ using namespace std;
 using namespace pqxx;
 namespace DataAccess{
 	PQData::PQData(const DBConfigData& cfg)
-	:f_connection(new connection(
+	:f_connection(
 		"dbname="+cfg.db_name+
 		" user="+cfg.username+
 		" password="+cfg.password+
 		" host="+cfg.hostname+
 		" port="+cfg.port
-	)){}
-	PQData::~PQData(){f_connection->disconnect();}
+	),f_work(f_connection){}
+	PQData::~PQData(){
+		f_work.commit();
+		f_connection.disconnect();
+	}
 	const bool PQData::Request(const RequestType request, const RequestParameters& params, vector<DataItem>&out){
-		if(f_connection->is_open()){
+		if(f_connection.is_open()){
 			string funcname="";
 			switch(request.data){
 			case calibrationtype:
@@ -55,14 +58,12 @@ namespace DataAccess{
 				for(size_t i=1;i<params.size();i++)
 					par_vals+=","+params[i];
 			}
-			pqxx::work wrk(*f_connection);
-			result l_result=wrk.exec("SELECT * FROM "+funcname+"("+par_vals+");");
+			result l_result=f_work.exec("SELECT * FROM "+funcname+"("+par_vals+");");
 			for(const auto&item:l_result){
 				map<string,string> toinsert;
 				for(const auto&field:item)toinsert[field.name()]=field.as<string >();
 				out.push_back(toinsert);
 			}
-			wrk.commit();
 			return true;
 		}
 		return false;
