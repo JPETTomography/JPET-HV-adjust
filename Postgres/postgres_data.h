@@ -19,7 +19,6 @@ namespace DataAccess{
 		virtual const bool Request(const RequestType request, const RequestParameters&params,std::vector<DataItem>&)override;
 	private:
 		std::shared_ptr<pqxx::connection> f_connection;
-		std::shared_ptr<pqxx::work> f_work;
 	};
 };
 #endif

@@ -13,8 +13,13 @@ int main(){
 	cfg.db_name="postgres";
 	cfg.username="postgres";
 	cfg.password="pass";
-	PhotomultipliersData data(make_shared<PQData>(cfg),1);
-	cout << data.size()<<endl;
-	for(const PhotomultiplierData&item:data.GetList())
-		cout<<item.name()<<endl;
+	auto src=make_shared<PQData>(cfg);
+	PhotomultipliersData data1(src,1);
+	cout << data1.size()<<endl;
+	for(const PhotomultiplierData&item:data1.GetList())
+		cout<<item.setup_id()<<" - "<<item.name()<<endl;
+	PhotomultipliersData data2(src,2);
+	cout << data2.size()<<endl;
+	for(const PhotomultiplierData&item:data2.GetList())
+		cout<<item.setup_id()<<" - "<<item.name()<<endl;
 }
