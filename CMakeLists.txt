@@ -54,7 +54,7 @@ file(GLOB EXAMPLES example/*.cpp)
 foreach(example ${EXAMPLES})
 	get_filename_component(ex_app ${example} NAME_WE)
 	add_executable(${ex_app} ${example})
-	target_link_libraries(${ex_app} hvadjust dataaccess pg_interface ${PQXX_LIBRARIES} ${ROOT_LIBRARIES})
+	target_link_libraries(${ex_app} hvadjust dataaccess pg_interface local_routines ${PQXX_LIBRARIES} ${ROOT_LIBRARIES})
 endforeach()
 
 option(tests "Compile tests." OFF) 

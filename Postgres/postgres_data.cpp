@@ -15,13 +15,14 @@ namespace DataAccess{
 	}
 	PQData::~PQData(){
 		if(f_connection->is_open()){
+			cout << "Closing database" << endl;
 			f_connection->disconnect();
 			f_connection->deactivate();
 			f_work->commit();
 		}
 		
 	}
-	const bool PQData::Request(const RequestType request, const RequestParameters& params, vector< DataItem >&){
+	const bool PQData::Request(const RequestType request, const RequestParameters& params, vector<DataItem>&out){
 		string funcname="";
 		switch(request.data){
 			case calibrationtype:
@@ -62,6 +63,12 @@ namespace DataAccess{
 				par_vals+=","+params[i];
 		}
 		result l_result=f_work->exec("SELECT * FROM "+funcname+"("+par_vals+");");
+		for(const auto&item:l_result){
+			map<string,string> toinsert;
+			for(const auto&field:item)
+				toinsert[field.name()]=field.as<string >();
+			out.push_back(toinsert);
+		}
 		f_work->commit();
 		return true;
 	}
