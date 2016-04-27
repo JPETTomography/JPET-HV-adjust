@@ -23,12 +23,6 @@ namespace DataAccess{
 			throw Exception<DataItem>("DataItem: field not found");
 	}
 	const string& DataItem::operator[](const string&&name) const{return operator[](name);}
-	const size_t DataItem::operator()(const string&name) const{
-		size_t res=0;
-		istringstream(operator[](name))>>res;
-		return res;
-	}
-	const size_t DataItem::operator()(const string&&name) const{return operator()(name);}
 	DataSet::DataSet(const shared_ptr<IDataSource> source, const datatype type, const RequestParameters& getter_params)
 		:f_source(source),f_type(type){
 			for(const auto&item:getter_params)

@@ -7,7 +7,7 @@ namespace Calibration {
 	PhotomultiplierGain::PhotomultiplierGain()
 	:CalibrationForEquipment(){}
 	PhotomultiplierGain::PhotomultiplierGain(const DataItem& row)
-	:CalibrationForEquipment({row("id_phm")},row,{"cal_id","name","param_cunt","formula","param_values","id_type"}){}
+	:CalibrationForEquipment({row.num_field<size_t>("id_phm")},row,{"cal_id","name","param_cunt","formula","param_values","id_type"}){}
 	PhotomultiplierGain::PhotomultiplierGain(const size_t phm_id, const CalibrationType& type, const parameter_set& parameters)
 	:CalibrationForEquipment({phm_id},type,parameters){}
 	PhotomultiplierGain::~PhotomultiplierGain(){}
@@ -34,7 +34,7 @@ namespace Calibration {
 	PhotomultiplierGain4Run::PhotomultiplierGain4Run()
 	:CalibrationForEquipmentAndRun(),f_key(0){}
 	PhotomultiplierGain4Run::PhotomultiplierGain4Run(const DataItem& row)
-	:CalibrationForEquipmentAndRun({row("id_phm")},row("id_run"),row,{"cal_id","name","param_cunt","formula","param_values"}){}
+	:CalibrationForEquipmentAndRun({row.num_field<size_t>("id_phm")},row.num_field<size_t>("id_run"),row,{"cal_id","name","param_cunt","formula","param_values"}){}
 	PhotomultiplierGain4Run::PhotomultiplierGain4Run(const size_t cal_id, size_t run_id)
 	:CalibrationForEquipmentAndRun(cal_id, run_id){}
 	PhotomultiplierGain4Run::~PhotomultiplierGain4Run(){}

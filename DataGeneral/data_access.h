@@ -12,7 +12,8 @@ namespace DataAccess{
 		dummy,
 		calibrationtype,
 		calibration_phmampl,
-		calibration_phmampl_connected
+		calibration_phmampl_connected,
+		photomultiplierdata
 	};
 	enum operationtype{data_obtain,data_insert,data_remove};
 	struct RequestType{
@@ -26,8 +27,14 @@ namespace DataAccess{
 		virtual ~DataItem();
 		const std::string&operator[](const std::string&name)const;
 		const std::string&operator[](const std::string&&name)const;
-		const size_t operator()(const std::string&name)const;
-		const size_t operator()(const std::string&&name)const;
+		template<typename numt>
+		const numt num_field(const std::string&name)const{
+			numt res=0;
+			std::istringstream(operator[](name))>>res;
+			return res;
+		}
+		template<typename numt>
+		const numt num_field(const std::string&&name)const{return num_field<numt>(name);}
 	private:
 		std::map<std::string,std::string> f_data;
 	};

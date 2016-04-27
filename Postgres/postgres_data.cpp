@@ -45,6 +45,13 @@ namespace DataAccess{
 				case data_remove:  break;
 				};
 				break;
+			case photomultiplierdata:
+				switch(request.operation){
+					case data_obtain: funcname="getphotomultipliersdata"; break;
+					case data_insert:  break;
+					case data_remove:  break;
+				};
+				break;
 			default:
 				return false;
 		}
