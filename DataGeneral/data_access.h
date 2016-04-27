@@ -87,8 +87,8 @@ namespace DataAccess{
 			}
 			return DataItemRepresenter();
 		}
-		const std::list<DataItemRepresenter> GetList()const{
-			std::list<DataItemRepresenter> res;
+		const std::vector<DataItemRepresenter> GetList()const{
+			std::vector<DataItemRepresenter> res;
 			for(const auto&item:m_data)res.push_back(DataItemRepresenter(item));
 			return res;
 		}
