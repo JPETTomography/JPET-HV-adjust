@@ -7,6 +7,7 @@ class TFormula;
 namespace Calibration{
 	class CalibrationType{
 	public:
+		CalibrationType(const std::string&n,const size_t count,const std::string&f);
 		CalibrationType(const std::string&&n,const size_t count,const std::string&&f);
 		virtual ~CalibrationType();
 		const size_t id()const;
@@ -15,11 +16,12 @@ namespace Calibration{
 		const std::string&formula()const;
 	protected:
 		friend class DataAccess::Factory<CalibrationType>;
-		enum{type=DataAccess::calibrationtype};
-		static const std::string keyfield();
 		CalibrationType();
 		CalibrationType(const DataAccess::DataItem&item);
+		enum{type=DataAccess::calibrationtype};
+		static const std::string keyfield();
 		const DataAccess::RequestParameters params_to_insert()const; 
+		const DataAccess::RequestParameters params_to_delete()const;
 	private:
 		size_t m_id,m_count;
 		std::string m_name,m_formula;
@@ -46,6 +48,7 @@ namespace Calibration{
 		Calibration(const DataAccess::DataItem&row,const field_set&field_names);
 		Calibration(const CalibrationType&type,const parameter_set&values);
 		Calibration(const Calibration&source);
+		Calibration();
 	private:
 		Calibration(const std::string& n,const size_t count,const std::string& f,const std::string&params);
 		std::string m_name,m_formula,m_encoded_params;
@@ -61,22 +64,28 @@ namespace Calibration{
 		CalibrationForEquipment(const id_set&eq_id,const CalibrationType&type,const parameter_set&values);
 		CalibrationForEquipment(const CalibrationForEquipment&source);
 		virtual ~CalibrationForEquipment();
-		const size_t calibration_id()const;
+		const size_t id()const;
+	protected:
+		CalibrationForEquipment();
 		const size_t type_id()const;
 		const id_set&equipment_ids()const;
 	private:
-		size_t m_type_id,m_cal_id;
+		size_t m_cal_id,m_type_id;
 		id_set m_eq_id;
 	};
 	class CalibrationForEquipmentAndRun:public Calibration{
 	public:
+		CalibrationForEquipmentAndRun(const size_t cal_id,size_t run_id);
 		CalibrationForEquipmentAndRun(const id_set&eq_id,size_t run_id,const DataAccess::DataItem&row,const field_set&field_names);
 		CalibrationForEquipmentAndRun(const CalibrationForEquipmentAndRun&source);
 		virtual ~CalibrationForEquipmentAndRun();
+		const size_t id()const;
 		const size_t run_id()const;
+	protected:
+		CalibrationForEquipmentAndRun();
 		const id_set&equipment_ids()const;
 	private:
-		size_t m_run_id;
+		size_t m_cal_id,m_run_id;
 		id_set m_eq_id;
 	};
 };

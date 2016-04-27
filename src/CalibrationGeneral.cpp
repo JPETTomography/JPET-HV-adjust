@@ -14,8 +14,10 @@ namespace Calibration {
 	const string CalibrationType::keyfield(){return "type_id";}
 	CalibrationType::CalibrationType(const DataItem& item)
 	:m_id(item("type_id")),m_count(item("param_count")),m_name(item["name"]),m_formula(item["formula"]){}
+	CalibrationType::CalibrationType(const string& n, const size_t count, const string& f)
+	:m_id(0),m_count(count),m_name(n),m_formula(f){}
 	CalibrationType::CalibrationType(const string&& n, const size_t count, const string&& f)
-	:m_id(0),m_count(0),m_name(""),m_formula(""){}
+	:m_id(0),m_count(count),m_name(n),m_formula(f){}
 	const size_t CalibrationType::id() const{return m_id;}
 	const string& CalibrationType::name() const{return m_name;}
 	const size_t CalibrationType::param_count()const{return m_count;}
@@ -23,11 +25,17 @@ namespace Calibration {
 	CalibrationType::~CalibrationType(){}
 	const RequestParameters CalibrationType::params_to_insert()const{
 		if(0==m_id)return {m_name,to_string(m_count),m_formula};
-		else throw MathTemplates::Exception<CalibrationType>("reinserting!");
+		else return {};
 	}
+	const RequestParameters CalibrationType::params_to_delete() const{
+		if(0==m_id)return {};
+		else return {to_string(m_id)};
+	}
+
 	CalibrationTypes::CalibrationTypes(const shared_ptr<IDataSource> src):Factory<CalibrationType>(src,{}){}
 	CalibrationTypes::~CalibrationTypes(){}
 	
+	Calibration::Calibration::Calibration():m_name(""),m_formula(""),m_encoded_params(""){}
 	Calibration::Calibration(const string&n,const size_t count,const string& f,const string&params)
 	:m_name(n),m_formula(f),m_encoded_params(params){
 		stringstream ss(params);
@@ -43,7 +51,7 @@ namespace Calibration {
 			init_formula();
 	}
 	Calibration::Calibration(const DataItem&row,const vector<string>&field_names)
-	:Calibration(row[field_names[0]],row(field_names[1]),row[field_names[2]],row[field_names[3]]){}
+	:Calibration(row[field_names[1]],row(field_names[2]),row[field_names[3]],row[field_names[4]]){}
 	Calibration::Calibration(const CalibrationType&type,const parameter_set&values):m_name(type.name()),m_formula(type.formula()){
 		if(0==type.id())throw Exception<Calibration>("attempt to create calibration of type that is not present in database");
 		if(values.size()!=type.param_count())
@@ -81,23 +89,30 @@ namespace Calibration {
 	}
 	double Calibration::operator()(const parameter_set&& X) const{return operator()(X);}
 	
+	CalibrationForEquipment::CalibrationForEquipment()
+	:Calibration(),m_cal_id(0),m_type_id(0){}
 	CalibrationForEquipment::CalibrationForEquipment(const id_set&eq_id,const DataItem&row,const field_set&field_names)
-	:Calibration(row, field_names){for(const auto&item:eq_id)m_eq_id.push_back(item);}
+	:Calibration(row, field_names),m_cal_id(row(field_names[0])),m_type_id(row(field_names[5])){for(const auto&item:eq_id)m_eq_id.push_back(item);}
 	CalibrationForEquipment::CalibrationForEquipment(const id_set&eq_id,const CalibrationType&type,const parameter_set&values)
-	:Calibration(type, values){for(const auto&item:eq_id)m_eq_id.push_back(item);}
+	:Calibration(type, values),m_cal_id(0),m_type_id(type.id()){for(const auto&item:eq_id)m_eq_id.push_back(item);}
 	CalibrationForEquipment::CalibrationForEquipment(const CalibrationForEquipment&source)
-	:Calibration(source){for(const auto&item:source.m_eq_id)m_eq_id.push_back(item);}
+	:Calibration(source),m_cal_id(source.m_cal_id),m_type_id(source.m_type_id){for(const auto&item:source.m_eq_id)m_eq_id.push_back(item);}
 	CalibrationForEquipment::~CalibrationForEquipment(){}
-	const size_t CalibrationForEquipment::calibration_id()const{return m_cal_id;}
-	const id_set& CalibrationForEquipment::equipment_ids()const{return m_eq_id;}
+	const size_t CalibrationForEquipment::id()const{return m_cal_id;}
 	const size_t CalibrationForEquipment::type_id()const{return m_type_id;}
+	const id_set& CalibrationForEquipment::equipment_ids()const{return m_eq_id;}
 	
+	CalibrationForEquipmentAndRun::CalibrationForEquipmentAndRun()
+	:Calibration(),m_cal_id(0),m_run_id(0){}
 	CalibrationForEquipmentAndRun::CalibrationForEquipmentAndRun(const id_set&eq_id,size_t run_id,const DataItem&row,const field_set&field_names)
-	:Calibration(row, field_names),m_run_id(run_id){for(const auto&item:eq_id)m_eq_id.push_back(item);}
+	:Calibration(row, field_names),m_cal_id(row(field_names[0])),m_run_id(run_id){for(const auto&item:eq_id)m_eq_id.push_back(item);}
+	CalibrationForEquipmentAndRun::CalibrationForEquipmentAndRun(const size_t cal_id, size_t run_id)
+	:Calibration(),m_cal_id(cal_id),m_run_id(run_id){}
 	CalibrationForEquipmentAndRun::CalibrationForEquipmentAndRun(const CalibrationForEquipmentAndRun& source)
-	:Calibration(source),m_run_id(source.m_run_id){for(const auto&item:source.m_eq_id)m_eq_id.push_back(item);}
+	:Calibration(source),m_cal_id(source.m_cal_id),m_run_id(source.m_run_id){for(const auto&item:source.m_eq_id)m_eq_id.push_back(item);}
 	CalibrationForEquipmentAndRun::~CalibrationForEquipmentAndRun(){}
-	const id_set&CalibrationForEquipmentAndRun::equipment_ids()const{return m_eq_id;}
+	const size_t CalibrationForEquipmentAndRun::id() const{return m_cal_id;}
 	const size_t CalibrationForEquipmentAndRun::run_id()const{return m_run_id;}
+	const id_set&CalibrationForEquipmentAndRun::equipment_ids()const{return m_eq_id;}
 	
 };

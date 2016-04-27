@@ -80,8 +80,16 @@ namespace DataAccess{
 			return DataItemRepresenter();
 		}
 		bool Add(const DataItemRepresenter&&item){
-			return m_data.Insert(item.params_to_insert());
+			auto params=item.params_to_insert();
+			if(params.size()>0)return m_data.Insert(params);
+			else return false;
 		}
+		bool Delete(const DataItemRepresenter&item){
+			auto params=item.params_to_delete();
+			if(params.size()>0)return m_data.Delete(params);
+			else return false;
+		}
+		bool Delete(const DataItemRepresenter&&item){return Delete(item);}
 	};
 };
 #endif
