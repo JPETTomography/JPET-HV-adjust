@@ -3,6 +3,7 @@
 #ifndef ______DATA_ACCESS_H________
 #	define ______DATA_ACCESS_H________
 #include <vector>
+#include <list>
 #include <map>
 #include <string>
 #include <memory>
@@ -79,12 +80,17 @@ namespace DataAccess{
 		virtual ~Factory(){}
 		const size_t size()const{return m_data.size();}
 		const DataItemRepresenter Get(const size_t id)const{
-			for(const auto item:m_data){
+			for(const auto&item:m_data){
 				std::istringstream str(item[DataItemRepresenter::keyfield()]);
 				size_t ID;str>>ID;
 				if(id==ID)return DataItemRepresenter(item);
 			}
 			return DataItemRepresenter();
+		}
+		const std::list<DataItemRepresenter> GetList()const{
+			std::list<DataItemRepresenter> res;
+			for(const auto&item:m_data)res.push_back(DataItemRepresenter(item));
+			return res;
 		}
 		bool Add(const DataItemRepresenter&&item){
 			auto params=item.params_to_insert();
