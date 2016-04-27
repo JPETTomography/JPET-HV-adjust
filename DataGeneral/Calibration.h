@@ -8,6 +8,7 @@ namespace Calibration{
 	class PhotomultiplierGain:public CalibrationForEquipment{
 	public:
 		PhotomultiplierGain(const size_t phm_id,const CalibrationType&type,const parameter_set&parameters);
+		PhotomultiplierGain(const PhotomultiplierGain&source);
 		virtual ~PhotomultiplierGain();
 		const size_t phm_id()const;
 	protected:
@@ -31,6 +32,7 @@ namespace Calibration{
 	class PhotomultiplierGain4Run:public CalibrationForEquipmentAndRun{
 	public:
 		PhotomultiplierGain4Run(const size_t cal_id, size_t run_id);
+		PhotomultiplierGain4Run(const PhotomultiplierGain4Run&source);
 		virtual ~PhotomultiplierGain4Run();
 		const size_t connection_id()const;
 		const size_t phm_id()const;

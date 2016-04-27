@@ -6,6 +6,10 @@ using namespace DataAccess;
 namespace JPetData {
 	PhotomultiplierData::PhotomultiplierData()
 	:f_key(0),f_run_id(0),f_setup_id(0),f_active(false),f_status(""),f_name(""),f_max_HV(0){}
+	PhotomultiplierData::PhotomultiplierData(const PhotomultiplierData& source)
+	:f_key(source.f_key),f_run_id(source.f_run_id),
+	f_setup_id(source.f_setup_id),f_active(source.f_active),
+	f_status(source.f_status),f_name(source.f_name),f_max_HV(source.f_max_HV){}
 	const string PhotomultiplierData::keyfield(){return "photomultiplier_id";}
 	PhotomultiplierData::PhotomultiplierData(const DataItem& row)
 	:f_key(row.num_field<size_t>("photomultiplier_id")),f_run_id(row.num_field<size_t>("run_id")),

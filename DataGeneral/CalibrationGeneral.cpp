@@ -18,6 +18,8 @@ namespace Calibration {
 	:m_id(0),m_count(count),m_name(n),m_formula(f){}
 	CalibrationType::CalibrationType(const string&& n, const size_t count, const string&& f)
 	:m_id(0),m_count(count),m_name(n),m_formula(f){}
+	CalibrationType::CalibrationType(const CalibrationType& source)
+	:m_id(source.m_id),m_count(source.m_count),m_name(source.m_name),m_formula(source.m_formula){}
 	const size_t CalibrationType::id() const{return m_id;}
 	const string& CalibrationType::name() const{return m_name;}
 	const size_t CalibrationType::param_count()const{return m_count;}

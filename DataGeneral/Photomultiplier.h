@@ -6,6 +6,7 @@
 namespace JPetData{
 	class PhotomultiplierData{
 	public:
+		PhotomultiplierData(const PhotomultiplierData&source);
 		virtual ~PhotomultiplierData();
 		const size_t id()const;
 		const size_t run_id()const;

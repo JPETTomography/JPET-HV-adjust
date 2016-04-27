@@ -9,6 +9,7 @@ namespace Calibration{
 	public:
 		CalibrationType(const std::string&n,const size_t count,const std::string&f);
 		CalibrationType(const std::string&&n,const size_t count,const std::string&&f);
+		CalibrationType(const CalibrationType&source);
 		virtual ~CalibrationType();
 		const size_t id()const;
 		const size_t param_count()const;
