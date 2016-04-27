@@ -35,18 +35,18 @@ include_directories(math_h/include)
 include_directories(.)
 
 file(GLOB HV HV/*.cpp)
-add_library(hvadjust SHARED ${HV})
+add_library(hvadjust ${HV})
 
 file(GLOB DATA DataGeneral/*.cpp)
-add_library(dataaccess SHARED ${DATA})
+add_library(dataaccess ${DATA})
 target_link_libraries(dataaccess ${ROOT_LIBRARIES})
 
 file(GLOB PGInterface Postgres/*.cpp)
-add_library(pg_interface SHARED ${PGInterface})
+add_library(pg_interface ${PGInterface})
 target_link_libraries(pg_interface ${PQXX_LIBRARIES})
 
 file(GLOB LOCAL_R local_routines/*.cpp)
-add_library(local_routines SHARED ${LOCAL_R})
+add_library(local_routines ${LOCAL_R})
 target_link_libraries(local_routines hvadjust dataaccess)
 
 
