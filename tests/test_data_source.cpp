@@ -32,7 +32,48 @@ const bool test_data_source::Request(const RequestType request, const RequestPar
 			item["formula"]="[0]+[1]*x+[2]*x*x";
 			output.push_back(DataItem(item));
 		}break;
-		
+		case calibration_phmampl:{
+			map<string,string> item;
+			item["cal_id"]="1";
+			item["type_id"]="2";
+			item["id_phm"]="1";
+			item["name"]="parabolic";
+			item["param_count"]="3";
+			item["formula"]="[0]+[1]*x+[2]*x*x";
+			item["param_values"]="1 1 ";
+			output.push_back(DataItem(item));
+			item["cal_id"]="2";
+			item["type_id"]="2";
+			item["phm_id"]="1";
+			item["name"]="parabolic";
+			item["param_count"]="3";
+			item["formula"]="[0]+[1]*x+[2]*x*x";
+			item["param_values"]="2 2 ";
+			output.push_back(DataItem(item));
+		};break;
+		case calibration_phmampl_connected:{
+			map<string,string> item;
+			item["id"]="1";
+			item["cal_id"]="1";
+			item["id_run"]="1";
+			item["id_phm"]="1";
+			item["name"]="parabolic";
+			item["param_count"]="3";
+			item["formula"]="[0]+[1]*x+[2]*x*x";
+			item["param_values"]="1 1 ";
+			output.push_back(DataItem(item));
+			item["id"]="2";
+			item["cal_id"]="2";
+			item["id_run"]="1";
+			item["phm_id"]="1";
+			item["name"]="parabolic";
+			item["param_count"]="3";
+			item["formula"]="[0]+[1]*x+[2]*x*x";
+			item["param_values"]="2 2 ";
+			output.push_back(DataItem(item));
+		};break;
+		case photomultiplierdata:{
+		};break;
 	}
 	f_counters[request.operation]++;
 	return true;

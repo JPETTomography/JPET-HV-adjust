@@ -28,28 +28,28 @@ namespace DataAccess{
 				switch(request.operation){
 				case data_obtain: funcname="getcalibrationtypes"; break;
 				case data_insert: funcname="insert_calibrationtype"; break;
-				case data_remove:  break;
+				case data_remove: return false; break;
 				};
 				break;
 			case calibration_phmampl:
 				switch(request.operation){
 				case data_obtain: funcname="getcalibrations_phmampl_allphm"; break;
 				case data_insert: funcname="insert_calibration_phmampl"; break;
-				case data_remove:  break;
+				case data_remove: return false; break;
 				};
 				break;
 			case calibration_phmampl_connected:
 				switch(request.operation){
 				case data_obtain: funcname="getcalibrations_phmampl_setupandphm"; break;
 				case data_insert: funcname="connect_calibration_phmampl"; break;
-				case data_remove:  break;
+				case data_remove: return false; break;
 				};
 				break;
 			case photomultiplierdata:
 				switch(request.operation){
 					case data_obtain: funcname="getphotomultipliersdata"; break;
-					case data_insert:  break;
-					case data_remove:  break;
+					case data_insert: return false; break;
+					case data_remove: return false; break;
 				};
 				break;
 			default:

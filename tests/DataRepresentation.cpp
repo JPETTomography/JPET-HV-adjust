@@ -4,11 +4,14 @@
 #include <gtest/gtest.h>
 #include <math_h/error.h>
 #include <DataGeneral/CalibrationGeneral.h>
+#include <DataGeneral/Calibration.h>
+#include <DataGeneral/Photomultiplier.h>
 #include "test_data_source.h"
 using namespace std;
 using namespace MathTemplates;
 using namespace DataAccess;
 using namespace Calibration;
+using namespace JPetData;
 TEST(CalibrationType,basetest){
 	CalibrationTypes typetable(make_shared<test_data_source>(true));
 	EXPECT_EQ(2,typetable.size());
@@ -35,8 +38,21 @@ TEST(CalibrationType,deleting){
 	auto src=make_shared<test_data_source>(true);
 	CalibrationTypes typetable(src);
 	EXPECT_EQ(2,typetable.size());
+	EXPECT_EQ(1,src->Count(DataAccess::data_obtain));
 	EXPECT_EQ(true,typetable.Delete(typetable.Get(1)));
 	EXPECT_EQ(1,src->Count(DataAccess::data_remove));
 	EXPECT_EQ(false,typetable.Delete(CalibrationType("new_element",1,"[0]+x")));
 	EXPECT_EQ(1,src->Count(DataAccess::data_remove));
+}
+TEST(PhotomultiplierGains,basetest){
+	auto src=make_shared<test_data_source>(true);
+	PhotomultiplierGains Gains(src,1);
+	EXPECT_EQ(2,Gains.size());
+	EXPECT_EQ(1,src->Count(DataAccess::data_obtain));
+}
+TEST(PhotomultiplierGains4Run,basetest){
+	auto src=make_shared<test_data_source>(true);
+	PhotomultiplierGains4Run Gains(src,1);
+	EXPECT_EQ(2,Gains.size());
+	EXPECT_EQ(1,src->Count(DataAccess::data_obtain));
 }
