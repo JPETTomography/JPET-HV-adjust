@@ -46,6 +46,7 @@ namespace JPetSetup{
 		bool f_active;
 		const std::shared_ptr<DataAccess::IDataSource> f_data_source;
 	};
+	
 	class Frame{
 	public:
 		Frame(const Frame&source);

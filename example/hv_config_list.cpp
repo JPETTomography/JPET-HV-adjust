@@ -1,10 +1,11 @@
 // this file is distributed under 
 // MIT license
 #include <iostream>
-#include <JPetData/Frames.h>
+#include <JPetData/HVconfig.h>
 #include <Postgres/postgres_data.h>
 using namespace std;
 using namespace DataAccess;
+using namespace JPetSetup;
 int main(){
 	DBConfigData cfg;
 	cfg.hostname="127.0.0.1";
@@ -13,5 +14,10 @@ int main(){
 	cfg.username="postgres";
 	cfg.password="pass";
 	auto src=make_shared<PQData>(cfg);
-
+	HVconfigTable hv_table(src);
+	for(const HVconfig&config:hv_table.GetList()){
+		cout<<config.description()<<endl;
+		for(const HVconfigEntry&entry:config.CreateEntriesFactory().GetList())
+			cout<<" \t hvpm:" << entry.HVPMConnection_id()<<"; hv="<<entry.HV()<<endl;
+	}
 }

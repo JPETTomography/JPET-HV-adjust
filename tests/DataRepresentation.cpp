@@ -3,7 +3,7 @@
 #include <random>
 #include <gtest/gtest.h>
 #include <math_h/error.h>
-#include <DataGeneral/CalibrationGeneral.h>
+#include <JPetData/CalibrationGeneral.h>
 #include <JPetData/Calibration.h>
 #include "test_data_source.h"
 using namespace std;

@@ -3,7 +3,7 @@
 #ifndef ________PHMGAIN_H_______
 #	define ________PHMGAIN_H_______
 #include <DataGeneral/data_access.h>
-#include <DataGeneral/CalibrationGeneral.h>
+#include <JPetData/CalibrationGeneral.h>
 namespace Calibration{
 	class PhotomultiplierGain:public CalibrationForEquipment{
 	public:

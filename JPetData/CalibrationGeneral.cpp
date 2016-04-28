@@ -4,7 +4,7 @@
 #include <iostream>
 #include <sstream>
 #include <TFormula.h>
-#include <DataGeneral/CalibrationGeneral.h>
+#include <JPetData/CalibrationGeneral.h>
 using namespace std;
 using namespace MathTemplates;
 using namespace DataAccess;

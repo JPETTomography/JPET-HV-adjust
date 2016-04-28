@@ -8,6 +8,7 @@
 #include <string>
 #include <memory>
 #include <sstream>
+#include <functional>
 namespace DataAccess{
 	enum datatype{
 		data_calibrationtype,data_calibration_phmampl,data_calibration_phmampl_connected,
@@ -99,7 +100,22 @@ namespace DataAccess{
 			return res;
 		}
 		template<typename numt>
-		const std::vector<DataItemRepresenter> GetFieldEq(const std::string&&name,const numt v)const{return GetFieldEq<numt>(name,v);}
+		const std::vector<DataItemRepresenter> GetFieldEq(const std::string&&name,const numt v)const{
+			return GetFieldEq<numt>(name,v);
+		}
+		template<typename numt>
+		const std::vector<DataItemRepresenter> FieldCondition(const std::string&name,const std::function<bool(numt)>func)const{
+			std::vector<DataItemRepresenter> res;
+			for(const DataItem&item: *m_data){
+				if(func(item.num_field<numt>(name)))
+					res.push_back(DataItemRepresenter(item,f_src));
+			}
+			return res;
+		}
+		template<typename numt>
+		const std::vector<DataItemRepresenter> FieldCondition(const std::string&&name,const std::function<bool(numt)>func)const{
+			return FieldCondition<numt>(name,func);
+		}
 	public:
 		Factory(const std::shared_ptr<IDataSource> src,const RequestParameters&params){
 			m_data=std::make_shared<DataSet>(src,datatype(DataItemRepresenter::type),params);
