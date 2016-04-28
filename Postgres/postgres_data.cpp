@@ -84,9 +84,16 @@ namespace DataAccess{
 				case data_remove: return false; break;
 				};
 			break;
-							
-					
-					
+			case data_setup:
+				switch(request.operation){
+				case data_obtain: sql_request="select * from \"Setup\" where frame_id="+P[0]+";";break;
+				case data_insert: return false; break;
+				case data_remove: return false; break;
+				};
+			break;
+				
+				
+				
 			default:
 				return false;
 			}

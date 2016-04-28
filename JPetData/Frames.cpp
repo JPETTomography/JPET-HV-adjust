@@ -29,6 +29,21 @@ namespace JPetSetup {
 	const bool Layer::active() const{return f_active;}
 	Factory<Slot> Layer::CreateSlotsFactory() const{return Factory<Slot>(f_data_source,{to_string(id())});}
 
+	
+	Setup::Setup(const Setup& source)
+	:f_id(source.f_id),f_frame_id(source.f_frame_id),f_highvoltage_id(source.f_highvoltage_id),
+	f_name(source.f_name),f_description(source.f_description){}
+	Setup::Setup(const DataItem& item, const shared_ptr< IDataSource > src)
+	:f_id(item.num_field<size_t>("id")),f_frame_id(item.num_field<size_t>("frame_id")),
+	f_highvoltage_id(item.num_field<size_t>("highvoltage_id")),
+	f_name(item["setname"]),f_description(item["setdescription"]){}
+	Setup::~Setup(){}
+	const size_t Setup::id() const{return f_id;}
+	const size_t Setup::frame_id() const{return f_frame_id;}
+	const size_t Setup::highvoltage_id() const{return f_highvoltage_id;}
+	const string& Setup::name() const{return f_name;}
+	const string& Setup::description() const{return f_description;}	
+	
 	Frame::Frame(const Frame& source)
 	:f_id(source.f_id),f_version(source.f_version),
 	f_description(source.f_description),f_status(source.f_status),
@@ -44,6 +59,8 @@ namespace JPetSetup {
 	const string& Frame::status() const{return f_status;}
 	const bool Frame::active() const{return f_active;}
 	Factory<Layer> Frame::CreateLayersFactory() const{return Factory<Layer>(f_data_source,{to_string(id())});}
+	Factory<Setup> Frame::CreateSetupFactory() const{return Factory<Setup>(f_data_source,{to_string(id())});}
+
 	
 	Frames::Frames(const shared_ptr< IDataSource > src):Factory<Frame>(src,{}){}
 	Frames::~Frames(){}

@@ -17,9 +17,11 @@ int main(){
 	for(const Frame&frame:Frames(src).GetList()){
 		cout << frame.id()<<": "<<frame.description()<<endl;
 		for(const Layer&layer:frame.CreateLayersFactory().GetList()){
-			cout<<"\t"<<layer.id()<<": "<<layer.name()<<"; r="<<layer.radius()<<endl;
+			cout<<"\tlayer "<<layer.id()<<": "<<layer.name()<<"; r="<<layer.radius()<<endl;
 			for(const Slot&slot:layer.CreateSlotsFactory().GetList())
 				cout <<"\t\t"<<slot.id()<<": "<<slot.name()<<endl;
 		}
+		for(const Setup&setup:frame.CreateSetupFactory().GetList())
+			cout<<"\tsetup "<<setup.id()<<": "<<setup.name()<<"; "<<setup.description()<<endl;
 	}
 }

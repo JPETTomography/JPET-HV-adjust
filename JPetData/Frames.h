@@ -51,8 +51,20 @@ namespace JPetSetup{
 	public:
 		Setup(const Setup&source);
 		virtual ~Setup();
+		const size_t id()const;
+		const size_t frame_id()const;
+		const size_t highvoltage_id()const;
+		const std::string&name()const;
+		const std::string&description()const;
 	protected:
+		friend class DataAccess::Factory<Setup>;
+		enum{type=DataAccess::data_setup};
+		Setup(const DataAccess::DataItem&item,const std::shared_ptr<DataAccess::IDataSource>src);
+		//DataAccess::RequestParameters params_to_insert()const; 
+		//DataAccess::RequestParameters params_to_delete()const;
 	private:
+		size_t f_id,f_frame_id,f_highvoltage_id;
+		std::string f_name,f_description;
 	};
 	class Frame{
 	public:
@@ -64,6 +76,7 @@ namespace JPetSetup{
 		const std::string&status()const;
 		const bool active()const;
 		DataAccess::Factory<Layer> CreateLayersFactory()const;
+		DataAccess::Factory<Setup> CreateSetupFactory()const;
 	protected:
 		friend class DataAccess::Factory<Frame>;
 		enum{type=DataAccess::data_frame};
