@@ -20,16 +20,16 @@ namespace DataAccess{
 		if(found!=f_data.end())
 			return found->second;
 		else
-			throw Exception<DataItem>("DataItem: field not found");
+			throw Exception<DataItem>("DataItem: field not found "+name);
 	}
 	const bool DataItem::flag(const string&name)const{return operator[](name)=="t";}
 
 	
 	DataSet::DataSet(const shared_ptr<IDataSource> source, const datatype type, const RequestParameters& getter_params)
-		:f_source(source),f_type(type){
-			for(const auto&item:getter_params)
-				f_update_params.push_back(item);
-			Update();
+	:f_source(source),f_type(type){
+		for(const auto&item:getter_params)
+			f_update_params.push_back(item);
+		Update();
 	}
 	DataSet::~DataSet(){}
 	bool DataSet::Update(){

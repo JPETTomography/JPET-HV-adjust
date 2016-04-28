@@ -5,11 +5,13 @@ using namespace std;
 using namespace DataAccess;
 namespace JPetSetup{
 	HVconfigEntry::HVconfigEntry(const HVconfigEntry& source)
-	:f_hvpm_id(source.f_hvpm_id),f_hvconfig_id(source.f_hvconfig_id),f_hv_value(source.f_hv_value){}
+	:f_id(source.f_id),f_hvpm_id(source.f_hvpm_id),
+	f_hvconfig_id(source.f_hvconfig_id),f_hv_value(source.f_hv_value){}
 	HVconfigEntry::HVconfigEntry(const size_t hvpm, const size_t hvconfig, double value)
-	:f_hvpm_id(hvpm),f_hvconfig_id(hvconfig),f_hv_value(value){}
+	:f_id(0),f_hvpm_id(hvpm),f_hvconfig_id(hvconfig),f_hv_value(value){}
 	HVconfigEntry::HVconfigEntry(const DataItem& item, const shared_ptr<IDataSource>)
-	:f_hvpm_id(item.num_field<size_t>("id")),f_hvconfig_id(item.num_field<size_t>("hvconfig_id")),
+	:f_id(item.num_field<size_t>("id")),
+	f_hvpm_id(item.num_field<size_t>("hvpm_id")),f_hvconfig_id(item.num_field<size_t>("hvconfig_id")),
 	f_hv_value(item.num_field<double>("voltageset")){}
 	HVconfigEntry::~HVconfigEntry(){}
 	const size_t HVconfigEntry::hvconfig_id() const{return f_hvconfig_id;}
@@ -20,7 +22,7 @@ namespace JPetSetup{
 	}
 	
 	HVconfig::HVconfig(const HVconfig& source)
-	:f_id(source.f_id),f_description(source.f_description),f_source(){}
+	:f_id(source.f_id),f_description(source.f_description),f_source(source.f_source){}
 	HVconfig::HVconfig(string&descr)
 	:f_id(0),f_description(descr){}
 	HVconfig::HVconfig(const DataItem& item, const shared_ptr<IDataSource>src)

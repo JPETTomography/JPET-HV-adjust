@@ -9,17 +9,18 @@ namespace JPetSetup{
 		HVconfigEntry(const HVconfigEntry&source);
 		HVconfigEntry(const size_t hvpm,const size_t hvconfig,double value);
 		virtual ~HVconfigEntry();
+		const size_t id()const;
 		const size_t HVPMConnection_id()const;
 		const size_t hvconfig_id()const;
 		const double HV()const;
 	protected:
 		friend class DataAccess::Factory<HVconfigEntry>;
-		enum{type=DataAccess::data_hvconfig};
+		enum{type=DataAccess::data_hvconfigentry};
 		HVconfigEntry(const DataAccess::DataItem&item,const std::shared_ptr<DataAccess::IDataSource>);
 		DataAccess::RequestParameters params_to_insert()const; 
 		//DataAccess::RequestParameters params_to_delete()const;
 	private:
-		size_t f_hvpm_id,f_hvconfig_id;
+		size_t f_id,f_hvpm_id,f_hvconfig_id;
 		double f_hv_value;
 	};
 	class HVconfig{

@@ -19,7 +19,8 @@ namespace Calibration {
 		return {to_string(id())};
 	}
 	
-	PhotomultiplierGains::PhotomultiplierGains(const shared_ptr<IDataSource> src, const size_t phm_id):Factory<PhotomultiplierGain>(src,{to_string(phm_id)}),f_phm_id(phm_id){}
+	PhotomultiplierGains::PhotomultiplierGains(const shared_ptr<IDataSource> src, const size_t phm_id)
+	:Factory<PhotomultiplierGain>(src,{to_string(phm_id)}),f_phm_id(phm_id){}
 	const size_t PhotomultiplierGains::PhotomultiplierID() const{return f_phm_id;}
 	PhotomultiplierGains::~PhotomultiplierGains(){}
 	

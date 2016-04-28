@@ -14,9 +14,9 @@ int main(){
 	cfg.username="postgres";
 	cfg.password="pass";
 	auto src=make_shared<PQData>(cfg);
-	HVconfigTable hv_table(src);
-	for(const HVconfig&config:hv_table.GetList()){
-		cout<<config.description()<<endl;
+	
+	for(const HVconfig&config:HVconfigTable(src).GetList()){
+		cout<<config.id()<<":"<<config.description()<<endl;
 		for(const HVconfigEntry&entry:config.CreateEntriesFactory().GetList())
 			cout<<" \t hvpm:" << entry.HVPMConnection_id()<<"; hv="<<entry.HV()<<endl;
 	}

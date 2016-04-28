@@ -17,52 +17,58 @@ namespace DataAccess{
 		f_work.commit();
 		f_connection.disconnect();
 	}
-	const bool PQData::Request(const RequestType request, const RequestParameters& params, vector<DataItem>&out){
+	const bool PQData::Request(const RequestType request, const RequestParameters&P, vector<DataItem>&out){
 		if(f_connection.is_open()){
-			string funcname="";
-			string tablename="";
-			string par_vals="";
+			string sql_request="";
 			switch(request.data){
 			case data_calibrationtype:
 				switch(request.operation){
-				case data_obtain: funcname="getcalibrationtypes"; break;
-				case data_insert: funcname="insert_calibrationtype"; break;
+				case data_obtain: sql_request="select * from getcalibrationtypes();"; break;
+				case data_insert: sql_request="select * from insert_calibrationtype("+P[0]+","+P[1]+","+P[2]+");"; break;
 				case data_remove: return false; break;
 				};
 			break;
 			case data_calibration_phmampl:
 				switch(request.operation){
-				case data_obtain: funcname="getcalibrations_phmampl_allphm"; break;
-				case data_insert: funcname="insert_calibration_phmampl"; break;
+				case data_obtain: sql_request="select * from getcalibrations_phmampl_allphm("+P[0]+");"; break;
+				case data_insert: sql_request="select * from insert_calibration_phmampl("+P[0]+","+P[1]+","+P[2]+");"; break;
 				case data_remove: return false; break;
 				};
 			break;
 			case data_calibration_phmampl_connected:
 				switch(request.operation){
-				case data_obtain: funcname="getcalibrations_phmampl_setupandphm"; break;
-				case data_insert: funcname="connect_calibration_phmampl"; break;
+				case data_obtain: sql_request="select * from getcalibrations_phmampl_setupandphm("+P[0]+");"; break;
+				case data_insert: sql_request="select * from connect_calibration_phmampl("+P[0]+","+P[1]+");"; break;
+				case data_remove: return false; break;
+				};
+			break;
+			case data_photomultiplier:
+				switch(request.operation){
+				case data_obtain: sql_request="select * from \"Photomultiplier\";"; break;
+				case data_insert: return false; break;
+				case data_remove: return false; break;
+				};
+			break;
+			case data_hvconfig:
+				switch(request.operation){
+				case data_obtain: sql_request="select * from \"HVConfig\";";break;
+				case data_insert: return false; break;
+				case data_remove: return false; break;
+				};
+			break;
+			case data_hvconfigentry:
+				switch(request.operation){
+				case data_obtain: sql_request="select * from \"HVConfigEntry\" where hvconfig_id="+P[0]+";";break;
+				case data_insert: return false; break;
 				case data_remove: return false; break;
 				};
 			break;
 			default:
 				return false;
 			}
-			result l_result;
-			if(funcname!=""){
-				if(par_vals!="")throw;
-				if(params.size()>0){
-					par_vals=params[0];
-					for(size_t i=1;i<params.size();i++)
-						par_vals+=","+params[i];
-				}
-				l_result=f_work.exec("SELECT * FROM "+funcname+"("+par_vals+");");
-			}else{
-				l_result=f_work.exec("SELECT * FROM "+tablename+" where "+par_vals+";");
-			}
-			for(const auto&item:l_result){
+			for(const auto&item:f_work.exec(sql_request)){
 				map<string,string> toinsert;
-				for(const auto&field:item)
-					if(field.size()>0)
+				for(const auto&field:item)if(field.size()>0)
 						toinsert[field.name()]=field.as<string>();
 				out.push_back(toinsert);
 			}

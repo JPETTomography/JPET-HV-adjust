@@ -12,9 +12,10 @@
 namespace DataAccess{
 	enum datatype{
 		data_calibrationtype,data_calibration_phmampl,data_calibration_phmampl_connected,
-		data_slot,data_layer,data_frame,data_setup,data_run,
 		data_photomultiplier,
-		data_highvoltage,data_hvchannel,data_hvpmconnection,data_hvconfigentry,data_hvconfig,
+		data_hvconfigentry,data_hvconfig,
+		data_slot,data_layer,data_frame,data_setup,data_run,
+		data_highvoltage,data_hvchannel,data_hvpmconnection,
 		
 		data_dummy
 	};
@@ -117,9 +118,8 @@ namespace DataAccess{
 			return FieldCondition<numt>(name,func);
 		}
 	public:
-		Factory(const std::shared_ptr<IDataSource> src,const RequestParameters&params){
-			m_data=std::make_shared<DataSet>(src,datatype(DataItemRepresenter::type),params);
-		}
+		Factory(const std::shared_ptr<IDataSource> src,const RequestParameters&params)
+		:m_data(new DataSet(src,datatype(DataItemRepresenter::type),params)),f_src(src){}
 		Factory(const std::shared_ptr<IDataSource> src,const RequestParameters&&params):Factory(src,params){}
 		Factory(const Factory&source):m_data(source.m_data),f_src(source.f_src){}
 		virtual ~Factory(){}
