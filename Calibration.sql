@@ -1,3 +1,92 @@
+CREATE OR REPLACE FUNCTION getphotomultipliersdata(IN p_run_id integer)
+  RETURNS TABLE(hvpmconnection_id integer, hvpmconnection_isrightside boolean, photomultiplier_id integer, photomultiplier_isactive boolean, photomultiplier_status character varying, photomultiplier_name character varying, photomultiplier_maxhv double precision, photomultiplier_description character varying, photomultiplier_producer character varying, photomultiplier_boughtdate timestamp without time zone, photomultiplier_serialnumber character varying, photomultiplier_takespositivevoltage boolean, pmmodel_id integer, pmmodel_name character varying, pmcalibration_id integer, pmcalibration_name character varying, pmcalibration_opthv real, pmcalibration_c2e_1 real, pmcalibration_c2e_2 real, pmcalibration_gainalpha real, pmcalibration_gainbeta real, user_id integer, user_name character varying, user_lastname character varying, user_login character varying, user_password character varying, user_isroot boolean, user_creationdate timestamp without time zone, user_lastlogindate timestamp without time zone, setup_id integer, run_id integer) AS
+$BODY$
+BEGIN
+  FOR 
+    hvpmconnection_id,
+    hvpmconnection_isrightside,
+
+    photomultiplier_id,
+    photomultiplier_isactive,
+    photomultiplier_status,
+    photomultiplier_name,
+    photomultiplier_maxhv,
+    photomultiplier_description,
+    photomultiplier_producer,
+    photomultiplier_boughtdate,
+    photomultiplier_serialnumber,
+    photomultiplier_takespositivevoltage,
+
+    pmmodel_id,
+    pmmodel_name,
+
+    user_id,
+    user_name,
+    user_lastname,
+    user_login,
+    user_password,
+    user_isroot,
+    user_creationdate,
+    user_lastlogindate,
+
+    setup_id,
+    run_id
+
+  IN
+
+      SELECT
+	"HVPMConnection".id AS hvpmconnection_id,
+	"HVPMConnection".isrightside AS hvpmconnection_isrightside,
+
+	"PhotoMultiplier".id AS photomultiplier_id,
+	"PhotoMultiplier".isactive AS photomultiplier_isactive,
+	"PhotoMultiplier".status AS photomultiplier_status,
+	"PhotoMultiplier".name AS photomultiplier_name,
+	"PhotoMultiplier".maxhv AS photomultiplier_maxhv,
+	"PhotoMultiplier".description AS photomultiplier_description,
+	"PhotoMultiplier".producer AS photomultiplier_producer,
+	"PhotoMultiplier".boughtdate AS photomultiplier_boughtdate,
+	"PhotoMultiplier".serialnumber AS photomultiplier_serialnumber,
+	"PhotoMultiplier".takespositivevoltage AS photomultiplier_takespositivevoltage,
+
+	"PhotoMultiplier".pmmodel_id AS pmmodel_id,
+	"PMModel".name AS pmmodel_name,
+
+	"PETUser".id AS user_id,
+	"PETUser".name AS user_name,
+	"PETUser".lastname AS user_lastname,
+	"PETUser".login AS user_login,
+	"PETUser".password AS user_password,
+	"PETUser".isroot AS user_isroot,
+	"PETUser".creationdate AS user_creationdate,
+	"PETUser".lastlogindate AS user_lastlogindate,
+	
+	"Setup".id AS setup_id,
+	"Run".id AS run_id
+
+      FROM "HVPMConnection", "PhotoMultiplier", "PMModel", "PETUser", "Run", "Setup"
+	WHERE
+	  "HVPMConnection".photomultiplier_id = "PhotoMultiplier".id
+	  AND
+	  "HVPMConnection".setup_id = "Setup".id
+	  AND
+	  "Run".setup_id = "Setup".id
+	  AND
+	  "PhotoMultiplier".creator_id = "PETUser".id
+	  AND
+	  "Run".id = p_run_id
+  LOOP
+    RETURN NEXT;
+  END LOOP;
+END
+$BODY$
+  LANGUAGE plpgsql STABLE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION getphotomultipliersdata(integer)
+  OWNER TO postgres;
+
+
 CREATE TABLE "CalibrationType" (
   id serial NOT NULL,
   name character varying(50),

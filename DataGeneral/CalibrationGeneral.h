@@ -17,10 +17,8 @@ namespace Calibration{
 		const std::string&formula()const;
 	protected:
 		friend class DataAccess::Factory<CalibrationType>;
-		CalibrationType();
-		CalibrationType(const DataAccess::DataItem&item);
 		enum{type=DataAccess::calibrationtype};
-		static const std::string keyfield();
+		CalibrationType(const DataAccess::DataItem&item);
 		const DataAccess::RequestParameters params_to_insert()const; 
 		const DataAccess::RequestParameters params_to_delete()const;
 	private:
@@ -67,7 +65,6 @@ namespace Calibration{
 		virtual ~CalibrationForEquipment();
 		const size_t id()const;
 	protected:
-		CalibrationForEquipment();
 		const size_t type_id()const;
 		const id_set&equipment_ids()const;
 	private:
@@ -83,7 +80,6 @@ namespace Calibration{
 		const size_t id()const;
 		const size_t run_id()const;
 	protected:
-		CalibrationForEquipmentAndRun();
 		const id_set&equipment_ids()const;
 	private:
 		size_t m_cal_id,m_run_id;

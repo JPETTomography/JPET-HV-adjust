@@ -61,7 +61,9 @@ namespace DataAccess{
 			result l_result=f_work.exec("SELECT * FROM "+funcname+"("+par_vals+");");
 			for(const auto&item:l_result){
 				map<string,string> toinsert;
-				for(const auto&field:item)toinsert[field.name()]=field.as<string >();
+				for(const auto&field:item)
+					if(field.size()>0)
+						toinsert[field.name()]=field.as<string>();
 				out.push_back(toinsert);
 			}
 			return true;

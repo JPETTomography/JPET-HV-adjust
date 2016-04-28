@@ -9,9 +9,6 @@ using namespace std;
 using namespace MathTemplates;
 using namespace DataAccess;
 namespace Calibration {
-	CalibrationType::CalibrationType()
-	:m_id(0),m_count(0),m_name(""),m_formula(""){}
-	const string CalibrationType::keyfield(){return "type_id";}
 	CalibrationType::CalibrationType(const DataItem& item)
 	:m_id(item.num_field<size_t>("type_id")),m_count(item.num_field<size_t>("param_count")),m_name(item["name"]),m_formula(item["formula"]){}
 	CalibrationType::CalibrationType(const string& n, const size_t count, const string& f)
@@ -37,7 +34,7 @@ namespace Calibration {
 	CalibrationTypes::CalibrationTypes(const shared_ptr<IDataSource> src):Factory<CalibrationType>(src,{}){}
 	CalibrationTypes::~CalibrationTypes(){}
 	
-	Calibration::Calibration::Calibration():m_name(""),m_formula(""),m_encoded_params(""){}
+	Calibration::Calibration():m_name(""),m_formula(""),m_encoded_params(""){}
 	Calibration::Calibration(const string&n,const size_t count,const string& f,const string&params)
 	:m_name(n),m_formula(f),m_encoded_params(params){
 		stringstream ss(params);
@@ -91,8 +88,6 @@ namespace Calibration {
 	}
 	double Calibration::operator()(const parameter_set&& X) const{return operator()(X);}
 	
-	CalibrationForEquipment::CalibrationForEquipment()
-	:Calibration(),m_cal_id(0),m_type_id(0){}
 	CalibrationForEquipment::CalibrationForEquipment(const id_set&eq_id,const DataItem&row,const field_set&field_names)
 	:Calibration(row, field_names),m_cal_id(row.num_field<size_t>(field_names[0])),m_type_id(row.num_field<size_t>(field_names[5])){for(const auto&item:eq_id)m_eq_id.push_back(item);}
 	CalibrationForEquipment::CalibrationForEquipment(const id_set&eq_id,const CalibrationType&type,const parameter_set&values)
@@ -104,8 +99,6 @@ namespace Calibration {
 	const size_t CalibrationForEquipment::type_id()const{return m_type_id;}
 	const id_set& CalibrationForEquipment::equipment_ids()const{return m_eq_id;}
 	
-	CalibrationForEquipmentAndRun::CalibrationForEquipmentAndRun()
-	:Calibration(),m_cal_id(0),m_run_id(0){}
 	CalibrationForEquipmentAndRun::CalibrationForEquipmentAndRun(const id_set&eq_id,size_t run_id,const DataItem&row,const field_set&field_names)
 	:Calibration(row, field_names),m_cal_id(row.num_field<size_t>(field_names[0])),m_run_id(run_id){for(const auto&item:eq_id)m_eq_id.push_back(item);}
 	CalibrationForEquipmentAndRun::CalibrationForEquipmentAndRun(const size_t cal_id, size_t run_id)

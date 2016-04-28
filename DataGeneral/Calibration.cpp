@@ -4,8 +4,6 @@
 using namespace std;
 using namespace DataAccess;
 namespace Calibration {
-	PhotomultiplierGain::PhotomultiplierGain()
-	:CalibrationForEquipment(){}
 	PhotomultiplierGain::PhotomultiplierGain(const DataItem& row)
 	:CalibrationForEquipment({row.num_field<size_t>("id_phm")},row,{"cal_id","name","param_count","formula","param_values","id_type"}){}
 	PhotomultiplierGain::PhotomultiplierGain(const size_t phm_id, const CalibrationType& type, const parameter_set& parameters)
@@ -14,7 +12,6 @@ namespace Calibration {
 	:CalibrationForEquipment(source){}
 	PhotomultiplierGain::~PhotomultiplierGain(){}
 	const size_t PhotomultiplierGain::phm_id() const{return equipment_ids()[0];}
-	const string PhotomultiplierGain::keyfield(){return "cal_id";}
 	const RequestParameters PhotomultiplierGain::params_to_insert() const{
 		if(id()>0) return {};
 		else return {to_string(phm_id()),to_string(type_id()),"'"+encoded_params()+"'"};
@@ -33,8 +30,6 @@ namespace Calibration {
 	
 	
 	
-	PhotomultiplierGain4Run::PhotomultiplierGain4Run()
-	:CalibrationForEquipmentAndRun(),f_key(0){}
 	PhotomultiplierGain4Run::PhotomultiplierGain4Run(const PhotomultiplierGain4Run& source)
 	:CalibrationForEquipmentAndRun(source),f_key(source.f_key){}
 	PhotomultiplierGain4Run::PhotomultiplierGain4Run(const DataItem& row)
@@ -42,7 +37,6 @@ namespace Calibration {
 	PhotomultiplierGain4Run::PhotomultiplierGain4Run(const size_t cal_id, size_t run_id)
 	:CalibrationForEquipmentAndRun(cal_id, run_id){}
 	PhotomultiplierGain4Run::~PhotomultiplierGain4Run(){}
-	const string PhotomultiplierGain4Run::keyfield(){return "id";}
 	const size_t PhotomultiplierGain4Run::phm_id() const{return equipment_ids()[0];}
 	const size_t PhotomultiplierGain4Run::connection_id() const{return f_key;}
 	const RequestParameters PhotomultiplierGain4Run::params_to_insert() const{

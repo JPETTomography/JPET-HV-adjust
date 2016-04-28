@@ -17,10 +17,8 @@ namespace JPetData{
 		const double&max_HV()const;
 	protected:
 		friend class DataAccess::Factory<PhotomultiplierData>;
-		PhotomultiplierData(const DataAccess::DataItem& row);
-		PhotomultiplierData();
 		enum{type=DataAccess::photomultiplierdata};
-		static const std::string keyfield();
+		PhotomultiplierData(const DataAccess::DataItem& row);
 	private:
 		size_t f_key,f_run_id,f_setup_id;
 		bool f_active;

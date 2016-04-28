@@ -13,10 +13,8 @@ namespace Calibration{
 		const size_t phm_id()const;
 	protected:
 		friend class DataAccess::Factory<PhotomultiplierGain>;
-		PhotomultiplierGain(const DataAccess::DataItem& row);
-		PhotomultiplierGain();
 		enum{type=DataAccess::calibration_phmampl};
-		static const std::string keyfield();
+		PhotomultiplierGain(const DataAccess::DataItem& row);
 		const DataAccess::RequestParameters params_to_insert()const; 
 		const DataAccess::RequestParameters params_to_delete()const;
 	};
@@ -38,10 +36,8 @@ namespace Calibration{
 		const size_t phm_id()const;
 	protected:
 		friend class DataAccess::Factory<PhotomultiplierGain4Run>;
-		PhotomultiplierGain4Run(const DataAccess::DataItem& row);
-		PhotomultiplierGain4Run();
 		enum{type=DataAccess::calibration_phmampl_connected};
-		static const std::string keyfield();
+		PhotomultiplierGain4Run(const DataAccess::DataItem& row);
 		const DataAccess::RequestParameters params_to_insert()const;
 		const DataAccess::RequestParameters params_to_delete()const;
 	private:

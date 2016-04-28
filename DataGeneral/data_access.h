@@ -36,6 +36,14 @@ namespace DataAccess{
 		}
 		template<typename numt>
 		const numt num_field(const std::string&&name)const{return num_field<numt>(name);}
+		template<typename numt>
+		const bool field_eq(const std::string&name,const numt value)const{
+			return num_field<numt>(name)==value;
+		}
+		template<typename numt>
+		const bool field_eq(const std::string&&name,const numt value)const{
+			return field_eq<numt>(name,value);
+		}
 	private:
 		std::map<std::string,std::string> f_data;
 	};
@@ -75,18 +83,10 @@ namespace DataAccess{
 	private:
 		DataAccess::DataSet m_data;
 	public:
-		Factory(const std::shared_ptr<IDataSource> src,const RequestParameters&&params)
+		Factory(const std::shared_ptr<IDataSource> src,const RequestParameters&params)
 		:m_data(src,datatype(DataItemRepresenter::type),params){}
 		virtual ~Factory(){}
 		const size_t size()const{return m_data.size();}
-		const DataItemRepresenter Get(const size_t id)const{
-			for(const auto&item:m_data){
-				std::istringstream str(item[DataItemRepresenter::keyfield()]);
-				size_t ID;str>>ID;
-				if(id==ID)return DataItemRepresenter(item);
-			}
-			return DataItemRepresenter();
-		}
 		const std::vector<DataItemRepresenter> GetList()const{
 			std::vector<DataItemRepresenter> res;
 			for(const auto&item:m_data)res.push_back(DataItemRepresenter(item));
@@ -102,7 +102,18 @@ namespace DataAccess{
 			if(params.size()>0)return m_data.Delete(params);
 			else return false;
 		}
-		bool Delete(const DataItemRepresenter&&item){return Delete(item);}
+	protected:
+		template<typename numt>
+		const std::vector<DataItemRepresenter> GetFieldEq(const std::string&name,const numt v)const{
+			std::vector<DataItemRepresenter> res;
+			for(const DataItem&item:m_data){
+				if(item.field_eq<numt>(name,v))
+					res.push_back(DataItemRepresenter(item));
+			}
+			return res;
+		}
+		template<typename numt>
+		const std::vector<DataItemRepresenter> GetFieldEq(const std::string&&name,const numt v)const{return GetFieldEq<numt>(name,v);}
 	};
 };
 #endif

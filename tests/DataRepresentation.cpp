@@ -12,26 +12,30 @@ using namespace MathTemplates;
 using namespace DataAccess;
 using namespace Calibration;
 using namespace JPetData;
+class CalibrationTypes_moc:public CalibrationTypes{
+public:
+    CalibrationTypes_moc(const shared_ptr< IDataSource > src):CalibrationTypes(src){}
+    virtual ~CalibrationTypes_moc(){}
+    const vector<CalibrationType> ByID(const size_t id){return GetFieldEq("type_id",id);}
+};
 TEST(CalibrationType,basetest){
-	CalibrationTypes typetable(make_shared<test_data_source>(true));
+	CalibrationTypes_moc typetable(make_shared<test_data_source>(true));
 	EXPECT_EQ(2,typetable.size());
 	EXPECT_EQ(2,typetable.GetList().size());
 	for(size_t id=1;id<=typetable.size();id++){
-		auto item=typetable.Get(id);
-		EXPECT_EQ(item.id(),id);
+		EXPECT_EQ(typetable.ByID(id).size(),1);
 	}
-	EXPECT_EQ(typetable.Get(0).id(),0);
-	EXPECT_EQ(typetable.Get(3).id(),0);
-	EXPECT_EQ(typetable.Get(4).id(),0);
-	EXPECT_EQ(typetable.Get(5).id(),0);
-	EXPECT_EQ(typetable.Get(6).id(),0);
+	EXPECT_EQ(typetable.ByID(0).size(),0);
+	EXPECT_EQ(typetable.ByID(3).size(),0);
+	EXPECT_EQ(typetable.ByID(4).size(),0);
+	EXPECT_EQ(typetable.ByID(5).size(),0);
+	EXPECT_EQ(typetable.ByID(6).size(),0);
 }
 TEST(CalibrationType,inserting){
 	auto src=make_shared<test_data_source>(true);
 	CalibrationTypes typetable(src);
 	EXPECT_EQ(2,typetable.size());
-	EXPECT_EQ(2,typetable.GetList().size());
-	EXPECT_EQ(false,typetable.Add(typetable.Get(1)));
+	EXPECT_EQ(false,typetable.Add(const_cast<CalibrationType&&>(typetable.GetList()[1])));
 	EXPECT_EQ(0,src->Count(DataAccess::data_insert));
 	EXPECT_EQ(true,typetable.Add(CalibrationType("new_element",1,"[0]+x")));
 	EXPECT_EQ(1,src->Count(DataAccess::data_insert));
@@ -42,7 +46,7 @@ TEST(CalibrationType,deleting){
 	EXPECT_EQ(2,typetable.size());
 	EXPECT_EQ(2,typetable.GetList().size());
 	EXPECT_EQ(1,src->Count(DataAccess::data_obtain));
-	EXPECT_EQ(true,typetable.Delete(typetable.Get(1)));
+	EXPECT_EQ(true,typetable.Delete(const_cast<CalibrationType&&>(typetable.GetList()[1])));
 	EXPECT_EQ(1,src->Count(DataAccess::data_remove));
 	EXPECT_EQ(false,typetable.Delete(CalibrationType("new_element",1,"[0]+x")));
 	EXPECT_EQ(1,src->Count(DataAccess::data_remove));
