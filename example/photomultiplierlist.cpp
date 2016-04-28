@@ -1,7 +1,7 @@
 // this file is distributed under 
 // MIT license
 #include <iostream>
-#include <DataGeneral/Photomultiplier.h>
+#include <JPetData/Photomultiplier.h>
 #include <Postgres/postgres_data.h>
 using namespace std;
 using namespace DataAccess;

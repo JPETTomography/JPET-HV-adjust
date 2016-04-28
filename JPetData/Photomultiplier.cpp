@@ -1,6 +1,6 @@
 // this file is distributed under 
 // MIT license
-#include <DataGeneral/Photomultiplier.h>
+#include <JPetData/Photomultiplier.h>
 using namespace std;
 using namespace DataAccess;
 namespace JPetData {

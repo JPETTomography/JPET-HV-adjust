@@ -4,8 +4,8 @@
 #include <gtest/gtest.h>
 #include <math_h/error.h>
 #include <DataGeneral/CalibrationGeneral.h>
-#include <DataGeneral/Calibration.h>
-#include <DataGeneral/Photomultiplier.h>
+#include <JPetData/Calibration.h>
+#include <JPetData/Photomultiplier.h>
 #include "test_data_source.h"
 using namespace std;
 using namespace MathTemplates;

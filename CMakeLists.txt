@@ -41,20 +41,25 @@ file(GLOB DATA DataGeneral/*.cpp)
 add_library(dataaccess ${DATA})
 target_link_libraries(dataaccess ${ROOT_LIBRARIES})
 
+file(GLOB JPETDATA JPetData/*.cpp)
+add_library(jpetdata ${JPETDATA})
+target_link_libraries(jpetdata dataaccess ${ROOT_LIBRARIES})
+
+
 file(GLOB PGInterface Postgres/*.cpp)
 add_library(pg_interface ${PGInterface})
 target_link_libraries(pg_interface ${PQXX_LIBRARIES})
 
 file(GLOB LOCAL_R local_routines/*.cpp)
 add_library(local_routines ${LOCAL_R})
-target_link_libraries(local_routines hvadjust dataaccess)
+target_link_libraries(local_routines hvadjust dataaccess jpetdata)
 
 
 file(GLOB EXAMPLES example/*.cpp)
 foreach(example ${EXAMPLES})
 	get_filename_component(ex_app ${example} NAME_WE)
 	add_executable(${ex_app} ${example})
-	target_link_libraries(${ex_app} hvadjust dataaccess pg_interface local_routines ${PQXX_LIBRARIES} ${ROOT_LIBRARIES})
+	target_link_libraries(${ex_app} hvadjust dataaccess jpetdata pg_interface local_routines ${PQXX_LIBRARIES} ${ROOT_LIBRARIES})
 endforeach()
 
 option(tests "Compile tests." OFF) 
@@ -63,5 +68,7 @@ if(tests)
 	find_package(GTest REQUIRED)
 	include_directories(${GTEST_INCLUDE_DIRS})
 	add_executable(test-all-libs-here.exe ${TESTS})
-	target_link_libraries(test-all-libs-here.exe hvadjust dataaccess ${ROOT_LIBRARIES} ${GTEST_BOTH_LIBRARIES})
+	target_link_libraries(test-all-libs-here.exe hvadjust dataaccess jpetdata ${ROOT_LIBRARIES} ${GTEST_BOTH_LIBRARIES})
 endif()
+
+add_subdirectory(JPetData)
