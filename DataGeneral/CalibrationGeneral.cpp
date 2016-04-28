@@ -23,12 +23,10 @@ namespace Calibration {
 	const string& CalibrationType::formula() const{return m_formula;}
 	CalibrationType::~CalibrationType(){}
 	RequestParameters CalibrationType::params_to_insert()const{
-		if(0==m_id)return {m_name,to_string(m_count),m_formula};
-		else return {};
+		return {m_name,to_string(m_count),m_formula};
 	}
 	RequestParameters CalibrationType::params_to_delete() const{
-		if(0==m_id)return {};
-		else return {to_string(m_id)};
+		return {to_string(m_id)};
 	}
 
 	CalibrationTypes::CalibrationTypes(const shared_ptr<IDataSource> src):Factory<CalibrationType>(src,{}){}

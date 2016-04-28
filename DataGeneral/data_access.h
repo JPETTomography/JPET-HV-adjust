@@ -28,7 +28,9 @@ namespace DataAccess{
 		DataItem(const DataItem&);
 		virtual ~DataItem();
 		const std::string&operator[](const std::string&name)const;
-		const std::string&operator[](const std::string&&name)const;
+		inline const std::string&operator[](const std::string&&name)const{return operator[](name);}
+		const bool flag(const std::string&name)const;
+		inline const bool flag(const std::string&&name)const{return flag(name);}
 		template<typename numt>
 		const numt num_field(const std::string&name)const{
 			numt res=0;
@@ -82,7 +84,7 @@ namespace DataAccess{
 	template<class DataItemRepresenter>
 	class Factory{
 	private:
-		DataAccess::DataSet m_data;
+		std::shared_ptr<DataSet> m_data;
 		std::shared_ptr<IDataSource> f_src;
 	protected:
 		virtual RequestParameters additional_add_parameters(){return RequestParameters();}
@@ -90,7 +92,7 @@ namespace DataAccess{
 		template<typename numt>
 		const std::vector<DataItemRepresenter> GetFieldEq(const std::string&name,const numt v)const{
 			std::vector<DataItemRepresenter> res;
-			for(const DataItem&item:m_data){
+			for(const DataItem&item: *m_data){
 				if(item.field_eq<numt>(name,v))
 					res.push_back(DataItemRepresenter(item,f_src));
 			}
@@ -99,13 +101,16 @@ namespace DataAccess{
 		template<typename numt>
 		const std::vector<DataItemRepresenter> GetFieldEq(const std::string&&name,const numt v)const{return GetFieldEq<numt>(name,v);}
 	public:
-		Factory(const std::shared_ptr<IDataSource> src,const RequestParameters&params)
-		:m_data(src,datatype(DataItemRepresenter::type),params){}
+		Factory(const std::shared_ptr<IDataSource> src,const RequestParameters&params){
+			m_data=std::make_shared<DataSet>(src,datatype(DataItemRepresenter::type),params);
+		}
+		Factory(const std::shared_ptr<IDataSource> src,const RequestParameters&&params):Factory(src,params){}
+		Factory(const Factory&source):m_data(source.m_data),f_src(source.f_src){}
 		virtual ~Factory(){}
-		const size_t size()const{return m_data.size();}
+		const size_t size()const{return m_data->size();}
 		const std::vector<DataItemRepresenter> GetList()const{
 			std::vector<DataItemRepresenter> res;
-			for(const auto&item:m_data)
+			for(const auto&item: *m_data)
 				res.push_back(DataItemRepresenter(item,f_src));
 			return res;
 		}
@@ -113,13 +118,13 @@ namespace DataAccess{
 			auto params=item.params_to_insert();
 			for(const auto&item:additional_add_parameters())
 				params.push_back(item);
-			return m_data.Insert(params);
+			return m_data->Insert(params);
 		}
 		bool Delete(const DataItemRepresenter&item){
 			auto params=item.params_to_delete();
 			for(const auto&item:additional_delete_parameters())
 				params.push_back(item);
-			return m_data.Delete(params);
+			return m_data->Delete(params);
 		}
 	};
 };

@@ -64,10 +64,14 @@ namespace JPetSetup{
 		//DataAccess::RequestParameters params_to_delete()const;
 	private:
 		size_t f_id,f_version;
-		std::string f_dercription,f_status;
+		std::string f_description,f_status;
 		bool f_active;
 		const std::shared_ptr<DataAccess::IDataSource> f_data_source;
 	};
-	
+	class Frames:public DataAccess::Factory<Frame>{
+	public:
+		Frames(const std::shared_ptr< DataAccess::IDataSource > src);
+		virtual ~Frames();
+	};
 };
 #endif

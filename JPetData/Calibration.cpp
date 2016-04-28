@@ -13,12 +13,10 @@ namespace Calibration {
 	PhotomultiplierGain::~PhotomultiplierGain(){}
 	const size_t PhotomultiplierGain::phm_id() const{return equipment_ids()[0];}
 	RequestParameters PhotomultiplierGain::params_to_insert() const{
-		if(id()>0) return {};
-		else return {to_string(phm_id()),to_string(type_id()),"'"+encoded_params()+"'"};
+		return {to_string(phm_id()),to_string(type_id()),"'"+encoded_params()+"'"};
 	}
 	RequestParameters PhotomultiplierGain::params_to_delete() const{
-		if(id()>0)return {to_string(id())};
-		else return {};
+		return {to_string(id())};
 	}
 	
 	PhotomultiplierGains::PhotomultiplierGains(const shared_ptr<IDataSource> src, const size_t phm_id):Factory<PhotomultiplierGain>(src,{to_string(phm_id)}),f_phm_id(phm_id){}
@@ -40,12 +38,10 @@ namespace Calibration {
 	const size_t PhotomultiplierGain4Run::phm_id() const{return equipment_ids()[0];}
 	const size_t PhotomultiplierGain4Run::connection_id() const{return f_key;}
 	RequestParameters PhotomultiplierGain4Run::params_to_insert() const{
-		if(f_key>0)return {};
-		else return {to_string(id()),to_string(run_id())};
+		return {to_string(id()),to_string(run_id())};
 	}
 	RequestParameters PhotomultiplierGain4Run::params_to_delete() const{
-		if(f_key>0)return {to_string(f_key)};
-		else return {};
+		return {to_string(f_key)};
 	}
 	
 	PhotomultiplierGains4Run::PhotomultiplierGains4Run(const shared_ptr< IDataSource > src, const size_t run_id)
