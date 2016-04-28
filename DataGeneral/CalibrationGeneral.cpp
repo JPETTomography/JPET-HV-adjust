@@ -9,7 +9,7 @@ using namespace std;
 using namespace MathTemplates;
 using namespace DataAccess;
 namespace Calibration {
-	CalibrationType::CalibrationType(const DataItem& item)
+	CalibrationType::CalibrationType(const DataItem& item,const std::shared_ptr<DataAccess::IDataSource>)
 	:m_id(item.num_field<size_t>("type_id")),m_count(item.num_field<size_t>("param_count")),m_name(item["name"]),m_formula(item["formula"]){}
 	CalibrationType::CalibrationType(const string& n, const size_t count, const string& f)
 	:m_id(0),m_count(count),m_name(n),m_formula(f){}
@@ -22,11 +22,11 @@ namespace Calibration {
 	const size_t CalibrationType::param_count()const{return m_count;}
 	const string& CalibrationType::formula() const{return m_formula;}
 	CalibrationType::~CalibrationType(){}
-	const RequestParameters CalibrationType::params_to_insert()const{
+	RequestParameters CalibrationType::params_to_insert()const{
 		if(0==m_id)return {m_name,to_string(m_count),m_formula};
 		else return {};
 	}
-	const RequestParameters CalibrationType::params_to_delete() const{
+	RequestParameters CalibrationType::params_to_delete() const{
 		if(0==m_id)return {};
 		else return {to_string(m_id)};
 	}

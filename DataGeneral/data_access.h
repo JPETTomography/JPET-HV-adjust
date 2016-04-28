@@ -10,11 +10,12 @@
 #include <sstream>
 namespace DataAccess{
 	enum datatype{
-		dummy,
-		calibrationtype,
-		calibration_phmampl,
-		calibration_phmampl_connected,
-		photomultiplierdata
+		data_calibrationtype,data_calibration_phmampl,data_calibration_phmampl_connected,
+		data_slot,data_layer,data_frame,data_setup,data_run,
+		data_photomultiplier,
+		data_highvoltage,data_hvchannel,data_hvpmconnection,data_hvconfigentry,data_hvconfig,
+		
+		data_dummy
 	};
 	enum operationtype{data_obtain,data_insert,data_remove};
 	struct RequestType{
@@ -82,6 +83,21 @@ namespace DataAccess{
 	class Factory{
 	private:
 		DataAccess::DataSet m_data;
+		std::shared_ptr<IDataSource> f_src;
+	protected:
+		virtual RequestParameters additional_add_parameters(){return RequestParameters();}
+		virtual RequestParameters additional_delete_parameters(){return RequestParameters();}
+		template<typename numt>
+		const std::vector<DataItemRepresenter> GetFieldEq(const std::string&name,const numt v)const{
+			std::vector<DataItemRepresenter> res;
+			for(const DataItem&item:m_data){
+				if(item.field_eq<numt>(name,v))
+					res.push_back(DataItemRepresenter(item,f_src));
+			}
+			return res;
+		}
+		template<typename numt>
+		const std::vector<DataItemRepresenter> GetFieldEq(const std::string&&name,const numt v)const{return GetFieldEq<numt>(name,v);}
 	public:
 		Factory(const std::shared_ptr<IDataSource> src,const RequestParameters&params)
 		:m_data(src,datatype(DataItemRepresenter::type),params){}
@@ -89,31 +105,22 @@ namespace DataAccess{
 		const size_t size()const{return m_data.size();}
 		const std::vector<DataItemRepresenter> GetList()const{
 			std::vector<DataItemRepresenter> res;
-			for(const auto&item:m_data)res.push_back(DataItemRepresenter(item));
+			for(const auto&item:m_data)
+				res.push_back(DataItemRepresenter(item,f_src));
 			return res;
 		}
 		bool Add(const DataItemRepresenter&&item){
 			auto params=item.params_to_insert();
-			if(params.size()>0)return m_data.Insert(params);
-			else return false;
+			for(const auto&item:additional_add_parameters())
+				params.push_back(item);
+			return m_data.Insert(params);
 		}
 		bool Delete(const DataItemRepresenter&item){
 			auto params=item.params_to_delete();
-			if(params.size()>0)return m_data.Delete(params);
-			else return false;
+			for(const auto&item:additional_delete_parameters())
+				params.push_back(item);
+			return m_data.Delete(params);
 		}
-	protected:
-		template<typename numt>
-		const std::vector<DataItemRepresenter> GetFieldEq(const std::string&name,const numt v)const{
-			std::vector<DataItemRepresenter> res;
-			for(const DataItem&item:m_data){
-				if(item.field_eq<numt>(name,v))
-					res.push_back(DataItemRepresenter(item));
-			}
-			return res;
-		}
-		template<typename numt>
-		const std::vector<DataItemRepresenter> GetFieldEq(const std::string&&name,const numt v)const{return GetFieldEq<numt>(name,v);}
 	};
 };
 #endif

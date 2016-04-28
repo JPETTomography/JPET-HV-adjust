@@ -10,7 +10,7 @@ using namespace MathTemplates;
 using namespace DataAccess;
 TEST(DataSet,basetest){
 	auto src=make_shared<test_data_source>(true);
-	DataSet test(src,dummy,{});
+	DataSet test(src,data_dummy,{});
 	EXPECT_EQ(2,test.size());
 	EXPECT_EQ(1,src->Count(DataAccess::data_obtain));
 	EXPECT_EQ(0,src->Count(DataAccess::data_insert));

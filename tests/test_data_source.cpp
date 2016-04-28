@@ -10,7 +10,7 @@ test_data_source::~test_data_source(){}
 const bool test_data_source::Request(const RequestType request, const RequestParameters& params, vector< DataItem >& output){
 	if(!f_valid)return false;
 	switch(request.data){
-		case dummy:{
+		case data_dummy:{
 			map<string,string> item;
 			item["field1"]="value1";
 			item["field2"]="value2";
@@ -19,7 +19,7 @@ const bool test_data_source::Request(const RequestType request, const RequestPar
 			item["field2"]="value4";
 			output.push_back(DataItem(item));
 		}break;
-		case calibrationtype:{
+		case data_calibrationtype:{
 			map<string,string> item;
 			item["type_id"]="1";
 			item["name"]="linear";
@@ -32,7 +32,7 @@ const bool test_data_source::Request(const RequestType request, const RequestPar
 			item["formula"]="[0]+[1]*x+[2]*x*x";
 			output.push_back(DataItem(item));
 		}break;
-		case calibration_phmampl:{
+		case data_calibration_phmampl:{
 			map<string,string> item;
 			item["cal_id"]="1";
 			item["id_type"]="2";
@@ -51,7 +51,7 @@ const bool test_data_source::Request(const RequestType request, const RequestPar
 			item["param_values"]="2 2 2 ";
 			output.push_back(DataItem(item));
 		};break;
-		case calibration_phmampl_connected:{
+		case data_calibration_phmampl_connected:{
 			map<string,string> item;
 			item["id"]="1";
 			item["cal_id"]="1";
@@ -71,8 +71,6 @@ const bool test_data_source::Request(const RequestType request, const RequestPar
 			item["formula"]="[0]+[1]*x+[2]*x*x";
 			item["param_values"]="2 2 2 ";
 			output.push_back(DataItem(item));
-		};break;
-		case photomultiplierdata:{
 		};break;
 	}
 	f_counters[request.operation]++;

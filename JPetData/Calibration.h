@@ -13,10 +13,10 @@ namespace Calibration{
 		const size_t phm_id()const;
 	protected:
 		friend class DataAccess::Factory<PhotomultiplierGain>;
-		enum{type=DataAccess::calibration_phmampl};
-		PhotomultiplierGain(const DataAccess::DataItem& row);
-		const DataAccess::RequestParameters params_to_insert()const; 
-		const DataAccess::RequestParameters params_to_delete()const;
+		enum{type=DataAccess::data_calibration_phmampl};
+		PhotomultiplierGain(const DataAccess::DataItem& row,const std::shared_ptr<DataAccess::IDataSource>);
+		DataAccess::RequestParameters params_to_insert()const; 
+		DataAccess::RequestParameters params_to_delete()const;
 	};
 	class PhotomultiplierGains:public DataAccess::Factory<PhotomultiplierGain>{
 	public:
@@ -36,10 +36,10 @@ namespace Calibration{
 		const size_t phm_id()const;
 	protected:
 		friend class DataAccess::Factory<PhotomultiplierGain4Run>;
-		enum{type=DataAccess::calibration_phmampl_connected};
-		PhotomultiplierGain4Run(const DataAccess::DataItem& row);
-		const DataAccess::RequestParameters params_to_insert()const;
-		const DataAccess::RequestParameters params_to_delete()const;
+		enum{type=DataAccess::data_calibration_phmampl_connected};
+		PhotomultiplierGain4Run(const DataAccess::DataItem& row,const std::shared_ptr<DataAccess::IDataSource>);
+		DataAccess::RequestParameters params_to_insert()const;
+		DataAccess::RequestParameters params_to_delete()const;
 	private:
 		size_t f_key;
 	};

@@ -17,10 +17,10 @@ namespace Calibration{
 		const std::string&formula()const;
 	protected:
 		friend class DataAccess::Factory<CalibrationType>;
-		enum{type=DataAccess::calibrationtype};
-		CalibrationType(const DataAccess::DataItem&item);
-		const DataAccess::RequestParameters params_to_insert()const; 
-		const DataAccess::RequestParameters params_to_delete()const;
+		enum{type=DataAccess::data_calibrationtype};
+		CalibrationType(const DataAccess::DataItem&item,const std::shared_ptr<DataAccess::IDataSource>);
+		DataAccess::RequestParameters params_to_insert()const; 
+		DataAccess::RequestParameters params_to_delete()const;
 	private:
 		size_t m_id,m_count;
 		std::string m_name,m_formula;
