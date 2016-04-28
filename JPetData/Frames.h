@@ -47,6 +47,13 @@ namespace JPetSetup{
 		const std::shared_ptr<DataAccess::IDataSource> f_data_source;
 	};
 	
+	class Setup{
+	public:
+		Setup(const Setup&source);
+		virtual ~Setup();
+	protected:
+	private:
+	};
 	class Frame{
 	public:
 		Frame(const Frame&source);

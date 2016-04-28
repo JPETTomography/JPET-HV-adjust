@@ -63,6 +63,30 @@ namespace DataAccess{
 				case data_remove: return false; break;
 				};
 			break;
+			case data_frame:
+				switch(request.operation){
+				case data_obtain: sql_request="select * from \"Frame\";";break;
+				case data_insert: return false; break;
+				case data_remove: return false; break;
+				};
+			break;
+			case data_layer:
+				switch(request.operation){
+				case data_obtain: sql_request="select * from \"Layer\" where frame_id="+P[0]+";";break;
+				case data_insert: return false; break;
+				case data_remove: return false; break;
+				};
+			break;
+			case data_slot:
+				switch(request.operation){
+				case data_obtain: sql_request="select * from \"Slot\" where layer_id="+P[0]+";";break;
+				case data_insert: return false; break;
+				case data_remove: return false; break;
+				};
+			break;
+							
+					
+					
 			default:
 				return false;
 			}
