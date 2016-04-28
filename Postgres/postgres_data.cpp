@@ -44,7 +44,7 @@ namespace DataAccess{
 			break;
 			case data_photomultiplier:
 				switch(request.operation){
-				case data_obtain: sql_request="select * from \"Photomultiplier\";"; break;
+				case data_obtain: sql_request="select * from \"PhotoMultiplier\";"; break;
 				case data_insert: return false; break;
 				case data_remove: return false; break;
 				};
@@ -91,9 +91,14 @@ namespace DataAccess{
 				case data_remove: return false; break;
 				};
 			break;
-				
-				
-				
+			case data_hvpmconnection:
+				switch(request.operation){
+				case data_obtain: sql_request="select * from \"HVPMConnection\";";break;
+				case data_insert: return false; break;
+				case data_remove: return false; break;
+				};
+			break;
+			
 			default:
 				return false;
 			}
