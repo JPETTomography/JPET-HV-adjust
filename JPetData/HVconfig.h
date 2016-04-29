@@ -9,7 +9,6 @@ namespace JPetSetup{
 		HVconfigEntry(const HVconfigEntry&source);
 		HVconfigEntry(const size_t hvpm,double value);
 		virtual ~HVconfigEntry();
-		const size_t id()const;
 		const size_t HVPMConnection_id()const;
 		const size_t hvconfig_id()const;
 		const double HV()const;
@@ -20,13 +19,14 @@ namespace JPetSetup{
 		DataAccess::RequestParameters params_to_insert()const; 
 		//DataAccess::RequestParameters params_to_delete()const;
 	private:
-		size_t f_id,f_hvpm_id,f_hvconfig_id;
+		size_t f_hvpm_id,f_hvconfig_id;
 		double f_hv_value;
 	};
 	class HVconfig{
 	public:
 		HVconfig(const HVconfig&source);
-		HVconfig(std::string&descr);
+		HVconfig(const size_t newid,const std::string&descr);
+		HVconfig(const size_t newid,const std::string&&descr):HVconfig(newid,descr){}
 		virtual ~HVconfig();
 		const size_t id()const;
 		const std::string&description()const;

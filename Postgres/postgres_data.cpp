@@ -52,14 +52,14 @@ namespace DataAccess{
 			case data_hvconfig:
 				switch(request.operation){
 				case data_obtain: sql_request="select * from \"HVConfig\";";break;
-				case data_insert: sql_request="insert into \"HVConfig\" (description)values("+P[0]+")"; break;
+				case data_insert: sql_request="insert into \"HVConfig\" (id,description)values("+P[0]+","+P[1]+")"; break;
 				case data_remove: return false; break;
 				};
 			break;
 			case data_hvconfigentry:
 				switch(request.operation){
 				case data_obtain: sql_request="select * from \"HVConfigEntry\" where hvconfig_id="+P[0]+";";break;
-				case data_insert: sql_request="insert into \"HVConfigEntry\" (hvpm_id,voltageset,hvconfig_id)values("+P[0]+","+P[1]+","+P[2]+")"; break;
+				case data_insert: sql_request="insert into \"HVConfigEntry\" (id,voltageset,hvconfig_id)values("+P[0]+","+P[1]+","+P[2]+")"; break;
 				case data_remove: return false; break;
 				};
 			break;
