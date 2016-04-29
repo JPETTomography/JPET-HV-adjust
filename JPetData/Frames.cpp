@@ -64,4 +64,10 @@ namespace JPetSetup {
 	
 	Frames::Frames(const shared_ptr< IDataSource > src):Factory<Frame>(src,{}){}
 	Frames::~Frames(){}
+	const Frame Frames::ByID(const size_t id) const{
+		auto vec=GetFieldEq("id",id);
+		if(vec.size()>0)return vec[0];
+		throw;
+	}
+
 };

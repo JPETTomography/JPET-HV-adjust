@@ -16,11 +16,12 @@ namespace DataAccess{
 	}
 	DataItem::~DataItem(){}
 	const string& DataItem::operator[](const string&name)const{
+		static string empty="";
 		auto found=f_data.find(name);
 		if(found!=f_data.end())
 			return found->second;
 		else
-			throw Exception<DataItem>("DataItem: field not found "+name);
+			return empty;
 	}
 	const bool DataItem::flag(const string&name)const{return operator[](name)=="t";}
 

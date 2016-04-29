@@ -93,6 +93,7 @@ namespace JPetSetup{
 	public:
 		Frames(const std::shared_ptr< DataAccess::IDataSource > src);
 		virtual ~Frames();
+		const Frame ByID(const size_t id)const;
 	};
 };
 #endif
