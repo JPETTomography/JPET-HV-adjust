@@ -7,8 +7,8 @@ namespace JPetSetup{
 	HVconfigEntry::HVconfigEntry(const HVconfigEntry& source)
 	:f_id(source.f_id),f_hvpm_id(source.f_hvpm_id),
 	f_hvconfig_id(source.f_hvconfig_id),f_hv_value(source.f_hv_value){}
-	HVconfigEntry::HVconfigEntry(const size_t hvpm, const size_t hvconfig, double value)
-	:f_id(0),f_hvpm_id(hvpm),f_hvconfig_id(hvconfig),f_hv_value(value){}
+	HVconfigEntry::HVconfigEntry(const size_t hvpm, double value)
+	:f_id(0),f_hvpm_id(hvpm),f_hvconfig_id(0),f_hv_value(value){}
 	HVconfigEntry::HVconfigEntry(const DataItem& item, const shared_ptr<IDataSource>)
 	:f_id(item.num_field<size_t>("id")),
 	f_hvpm_id(item.num_field<size_t>("hvpm_id")),f_hvconfig_id(item.num_field<size_t>("hvconfig_id")),
@@ -18,7 +18,7 @@ namespace JPetSetup{
 	const size_t HVconfigEntry::HVPMConnection_id() const{return f_hvpm_id;}
 	const double HVconfigEntry::HV() const{return f_hv_value;}
 	RequestParameters HVconfigEntry::params_to_insert() const{
-		return {to_string(HVPMConnection_id()),to_string(hvconfig_id()),to_string(HV())};
+		return {to_string(HVPMConnection_id()),to_string(HV())};
 	}
 	
 	HVconfig::HVconfig(const HVconfig& source)

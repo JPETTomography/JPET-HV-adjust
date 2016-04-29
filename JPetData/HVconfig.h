@@ -7,7 +7,7 @@ namespace JPetSetup{
 	class HVconfigEntry{
 	public:
 		HVconfigEntry(const HVconfigEntry&source);
-		HVconfigEntry(const size_t hvpm,const size_t hvconfig,double value);
+		HVconfigEntry(const size_t hvpm,double value);
 		virtual ~HVconfigEntry();
 		const size_t id()const;
 		const size_t HVPMConnection_id()const;

@@ -44,6 +44,7 @@ namespace DataAccess{
 		vector<DataItem> tmp;
 		return f_source->Request({.data=f_type,.operation=data_remove},par,tmp)&&Update();
 	}
+	const RequestParameters& DataSet::getter_params() const{return f_update_params;}
 	const size_t DataSet::size() const{return f_data.size();}
 	DataSet::const_iterator DataSet::begin() const{return f_data.begin();}
 	DataSet::const_iterator DataSet::cbegin() const{return f_data.cbegin();}

@@ -73,6 +73,8 @@ namespace DataAccess{
 		
 		bool Insert(const RequestParameters&par);
 		bool Delete(const RequestParameters&par);
+		
+		const RequestParameters&getter_params()const;
 	private:
 		DataSet(const DataSet&){}
 		DataSet&operator=(const DataSet&){return *this;}
@@ -89,7 +91,7 @@ namespace DataAccess{
 		std::shared_ptr<DataSet> m_data;
 		std::shared_ptr<IDataSource> f_src;
 	protected:
-		virtual RequestParameters additional_add_parameters(){return RequestParameters();}
+		virtual RequestParameters additional_add_parameters(){return m_data->getter_params();}
 		virtual RequestParameters additional_delete_parameters(){return RequestParameters();}
 		template<typename numt>
 		const std::vector<DataItemRepresenter> GetFieldEq(const std::string&name,const numt v)const{
