@@ -46,6 +46,7 @@ namespace JPetSetup{
 	public:
 		HVconfigTable(const std::shared_ptr< DataAccess::IDataSource > src);
 		virtual ~HVconfigTable();
+		const HVconfig Last()const;
 	};
 	
 	

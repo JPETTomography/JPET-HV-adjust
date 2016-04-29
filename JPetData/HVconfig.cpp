@@ -36,6 +36,12 @@ namespace JPetSetup{
 	}
 	HVconfigTable::HVconfigTable(const shared_ptr<IDataSource>src):Factory<JPetSetup::HVconfig>(src,{}){}
 	HVconfigTable::~HVconfigTable(){}
+	const HVconfig HVconfigTable::Last() const{
+		size_t max_id=0;
+		FieldCondition<size_t>("id",[&max_id](const size_t i){if(i>max_id)max_id=i;return false;});
+		return GetFieldEq("id",max_id)[0];
+	}
+
 	
 	
 	HVChannel::HVChannel(const HVChannel& source)
