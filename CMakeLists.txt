@@ -70,5 +70,3 @@ if(tests)
 	add_executable(test-all-libs-here.exe ${TESTS})
 	target_link_libraries(test-all-libs-here.exe hvadjust dataaccess jpetdata ${ROOT_LIBRARIES} ${GTEST_BOTH_LIBRARIES})
 endif()
-
-add_subdirectory(JPetData)
