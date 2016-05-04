@@ -49,7 +49,7 @@ int main(int argc, char** argv) {
 	
 	vector<double> read_hv_values;
 	ifstream file;
-	file.open(string(argv[2]));
+	file.open(string(argv[1]));
 	if(file){
 		cout<<"reading file"<<endl;
 		double hv=0;
@@ -64,8 +64,9 @@ int main(int argc, char** argv) {
 	for(size_t i=0;compare&&(i<previousitems.size());i++)
 		compare&=(previousitems[i].HV()==read_hv_values[i]);
 	
-	if(compare)cout<<"The configuration has not changed"<<endl;
-	else{
+	if(compare){
+		cout<<"The configuration has not changed"<<endl;
+	}else{
 		hv_configs.Add(HVconfig(previous.id()+1,"newly created config"));
 		auto next=hv_configs.Last();
 		if(next.id()<=previous.id())
