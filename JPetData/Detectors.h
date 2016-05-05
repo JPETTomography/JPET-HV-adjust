@@ -28,7 +28,7 @@ namespace JPetSetup{
 	public:
 		Photomultipliers(const std::shared_ptr<DataAccess::IDataSource> src);
 		virtual ~Photomultipliers();
-		const Photomultiplier ByID(const size_t id);
+		const Photomultiplier ByID(const size_t id)const;
 	};
 };
 #endif

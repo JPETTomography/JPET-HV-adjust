@@ -19,7 +19,7 @@ namespace JPetSetup {
 	Photomultipliers::Photomultipliers(const shared_ptr<IDataSource> src)
 	:Factory< JPetSetup::Photomultiplier >(src, {}){}
 	Photomultipliers::~Photomultipliers(){}
-	const Photomultiplier Photomultipliers::ByID(const size_t id){
+	const Photomultiplier Photomultipliers::ByID(const size_t id)const{
 		auto vec=GetFieldEq("id",id);
 		if(vec.size()>0)return vec[0];
 		throw;
