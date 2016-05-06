@@ -17,7 +17,18 @@ namespace DataAccess{
 		f_work.commit();
 		f_connection.disconnect();
 	}
-	const bool PQData::Request(const RequestType request, const RequestParameters&P, vector<DataItem>&out){
+	string ReplaceAll(const string&source, const string& from, const string& to) {
+		string str=source;
+		size_t start_pos = 0;
+		while((start_pos = str.find(from, start_pos)) != string::npos) {
+			str.replace(start_pos, from.length(), to);
+			start_pos += to.length();
+		}
+		return str;
+	}
+	const bool PQData::Request(const RequestType request, const RequestParameters&Par, vector<DataItem>&out){
+		RequestParameters P;
+		for(const string&s:Par)P.push_back(ReplaceAll(s,",","."));
 		if(f_connection.is_open()){
 			string sql_request="";
 			switch(request.data){
