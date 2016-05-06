@@ -20,6 +20,9 @@ namespace JPetSetup{
 	RequestParameters HVconfigEntry::params_to_insert() const{
 		return {to_string(HVPMConnection_id()),to_string(HV())};
 	}
+	RequestParameters HVconfigEntry::params_to_delete() const{
+		return {to_string(id())};
+	}
 	
 	HVconfig::HVconfig(const HVconfig& source)
 	:f_id(source.f_id),f_description(source.f_description),f_source(source.f_source){}

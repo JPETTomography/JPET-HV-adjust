@@ -18,7 +18,7 @@ namespace JPetSetup{
 		enum{type=DataAccess::data_hvconfigentry};
 		HVconfigEntry(const DataAccess::DataItem&item,const std::shared_ptr<DataAccess::IDataSource>);
 		DataAccess::RequestParameters params_to_insert()const; 
-		//DataAccess::RequestParameters params_to_delete()const;
+		DataAccess::RequestParameters params_to_delete()const;
 	private:
 		size_t f_id,f_hvpm_id,f_hvconfig_id;
 		double f_hv_value;

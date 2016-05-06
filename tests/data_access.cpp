@@ -19,9 +19,10 @@ TEST(DataSet,basetest){
 	EXPECT_EQ("value2",test[0]["field2"]);
 	EXPECT_EQ("value3",test[1]["field1"]);
 	EXPECT_EQ("value4",test[1]["field2"]);
-	EXPECT_THROW(test[0]["field3"],Exception<DataItem>);
-	EXPECT_THROW(test[1]["field3"],Exception<DataItem>);
+	EXPECT_EQ("",test[0]["field3"]);
+	EXPECT_EQ("",test[1]["field3"]);
 	EXPECT_THROW(test[2]["field1"],Exception<DataSet>);
+	EXPECT_THROW(test[2]["field3"],Exception<DataSet>);
 	test.Insert({});
 	EXPECT_EQ(2,src->Count(DataAccess::data_obtain));
 	EXPECT_EQ(1,src->Count(DataAccess::data_insert));
