@@ -2,7 +2,9 @@
 // MIT license
 #ifndef _______POSTGRESS_DATA_H___________
 #	define _______POSTGRESS_DATA_H___________
+#include <memory>
 #include <pqxx/pqxx>
+#include <pqxx/nontransaction>
 #include <DataGeneral/data_access.h>
 namespace DataAccess{
 	struct DBConfigData{
@@ -17,9 +19,12 @@ namespace DataAccess{
 		PQData(const DBConfigData&cfg);
 		virtual ~PQData();
 		virtual const bool Request(const RequestType request, const RequestParameters&params,std::vector<DataItem>&)override;
+		const bool changed()const;
+		void Commit();
 	private:
 		pqxx::connection f_connection;
-		pqxx::work f_work;
+		pqxx::nontransaction f_work;
+		bool f_changed;
 	};
 };
 #endif

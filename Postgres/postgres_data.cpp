@@ -12,10 +12,16 @@ namespace DataAccess{
 		" password="+cfg.password+
 		" host="+cfg.hostname+
 		" port="+cfg.port
-	),f_work(f_connection){}
+	),f_work(f_connection),f_changed(false){
+		f_work.exec("begin;");
+	}
 	PQData::~PQData(){
-		f_work.commit();
 		f_connection.disconnect();
+	}
+	const bool PQData::changed() const{return f_changed;}
+	void PQData::Commit(){
+		f_work.exec("commit;");
+		f_changed=false;
 	}
 	string ReplaceAll(const string&source, const string& from, const string& to) {
 		string str=source;
@@ -28,6 +34,7 @@ namespace DataAccess{
 	}
 	const bool PQData::Request(const RequestType request, const RequestParameters&Par, vector<DataItem>&out){
 		RequestParameters P;
+		out.clear();
 		for(const string&s:Par)P.push_back(ReplaceAll(s,",","."));
 		if(f_connection.is_open()){
 			string sql_request="";
@@ -113,13 +120,21 @@ namespace DataAccess{
 			default:
 				return false;
 			}
-			for(const auto&item:f_work.exec(sql_request)){
-				map<string,string> toinsert;
-				for(const auto&field:item)if(field.size()>0)
-						toinsert[field.name()]=field.as<string>();
-				out.push_back(toinsert);
+			f_work.exec("savepoint v_savepnt;");
+			try{
+				for(const auto&item:f_work.exec(sql_request)){
+					map<string,string> toinsert;
+					for(const auto&field:item)if(field.size()>0)
+							toinsert[field.name()]=field.as<string>();
+					out.push_back(toinsert);
+				}
+				f_changed=true;
+				return true;
+			}catch(const pqxx::sql_error& e){
+				f_work.exec("rollback to saveppoint v_savepnt");
+				out.clear();
+				return false;
 			}
-			return true;
 		}
 		return false;
 	}
