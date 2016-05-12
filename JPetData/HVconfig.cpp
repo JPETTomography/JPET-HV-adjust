@@ -88,17 +88,19 @@ namespace JPetSetup{
 	HVPMConnection::HVPMConnection(const HVPMConnection& source)
 	:f_id(source.f_id),f_hvchannel_id(source.f_hvchannel_id),
 	f_photomultiplier_id(source.f_photomultiplier_id),f_setup_id(source.f_setup_id),
-	f_slot_id(source.f_slot_id){}
+	f_slot_id(source.f_slot_id),f_side(source.f_side){}
 	HVPMConnection::HVPMConnection(const DataItem& item, const shared_ptr< IDataSource >)
 	:f_id(item.num_field<size_t>("id")),f_hvchannel_id(item.num_field<size_t>("hvchannel_id")),
 	f_photomultiplier_id(item.num_field<size_t>("photomultiplier_id")),f_setup_id(item.num_field<size_t>("setup_id")),
-	f_slot_id(item.num_field<size_t>("slot_id")){}
+	f_slot_id(item.num_field<size_t>("slot_id")),f_side(item.flag("isrightside")?side_right:side_left){}
 	HVPMConnection::~HVPMConnection(){}
 	const size_t HVPMConnection::id() const{return f_id;}
 	const size_t HVPMConnection::hvchannel_id() const{return f_hvchannel_id;}
 	const size_t HVPMConnection::photomultiplier_id() const{return f_photomultiplier_id;}
 	const size_t HVPMConnection::setup_id() const{return f_setup_id;}
 	const size_t HVPMConnection::slot_id() const{return f_slot_id;}
+	const JPET_side HVPMConnection::side() const{return f_side;}
+
 	
 	HVPMConnections::HVPMConnections(const shared_ptr<IDataSource> source)
 	:Factory< JPetSetup::HVPMConnection >(source,{}){}

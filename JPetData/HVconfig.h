@@ -102,6 +102,7 @@ namespace JPetSetup{
 		
 	};
 	
+	enum JPET_side{side_left,side_right};
 	class HVPMConnection{
 	public:
 		HVPMConnection(const HVPMConnection&source);
@@ -111,6 +112,7 @@ namespace JPetSetup{
 		const size_t photomultiplier_id()const;
 		const size_t setup_id()const;
 		const size_t slot_id()const;
+		const JPET_side side()const;
 	protected:
 		friend class DataAccess::Factory<HVPMConnection>;
 		enum{type=DataAccess::data_hvpmconnection};
@@ -119,6 +121,7 @@ namespace JPetSetup{
 		//DataAccess::RequestParameters params_to_delete()const;
 	private:
 		size_t f_id,f_hvchannel_id,f_photomultiplier_id,f_setup_id,f_slot_id;
+		JPET_side f_side;
 	};
 	class HVPMConnections:public DataAccess::Factory<HVPMConnection>{
 	public:
