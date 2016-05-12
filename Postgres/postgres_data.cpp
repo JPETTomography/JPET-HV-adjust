@@ -128,7 +128,7 @@ namespace DataAccess{
 							toinsert[field.name()]=field.as<string>();
 					out.push_back(toinsert);
 				}
-				f_changed=true;
+				if(data_obtain!=request.operation)f_changed=true;
 				return true;
 			}catch(const pqxx::sql_error& e){
 				f_work.exec("rollback to saveppoint v_savepnt");
