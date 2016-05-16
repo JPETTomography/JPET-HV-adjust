@@ -26,7 +26,8 @@ namespace HVAdjust{
 	const HVTable::Item& HVTable::operator[](const size_t index)const{return f_items[index];}
 	bool HVTable::SetHV(const size_t index, const double hv){
 		if(index>=size())return false;
-		if(hv>f_items[index].phm.max_hv())return false;
+		if(hv*f_items[index].phm.max_hv()<0)return false;
+		if(hv/f_items[index].phm.max_hv()>1.0)return false;
 		vector<HVconfigEntry> tmp;
 		auto entries=f_config.CreateEntriesFactory();
 		for(const HVconfigEntry&entry:entries.GetList())
