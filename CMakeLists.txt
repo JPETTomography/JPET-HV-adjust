@@ -45,21 +45,16 @@ file(GLOB HV HV/*.cpp)
 add_library(hvadjust ${HV})
 target_link_libraries(hvadjust jpetdata dataaccess)
 
-
 file(GLOB PGInterface Postgres/*.cpp)
 add_library(pg_interface ${PGInterface})
 target_link_libraries(pg_interface ${PQXX_LIBRARIES})
-
-file(GLOB LOCAL_R local_routines/*.cpp)
-add_library(local_routines ${LOCAL_R})
-target_link_libraries(local_routines hvadjust dataaccess jpetdata)
 
 
 file(GLOB EXAMPLES example/*.cpp)
 foreach(example ${EXAMPLES})
 	get_filename_component(ex_app ${example} NAME_WE)
 	add_executable(${ex_app} ${example})
-	target_link_libraries(${ex_app} hvadjust dataaccess jpetdata pg_interface local_routines ${PQXX_LIBRARIES})
+	target_link_libraries(${ex_app} hvadjust dataaccess jpetdata pg_interface ${PQXX_LIBRARIES})
 endforeach()
 
 option(tests "Compile tests." OFF) 
