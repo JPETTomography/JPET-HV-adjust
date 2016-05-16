@@ -15,7 +15,7 @@ namespace HVAdjust{
 	class HVTable{
 	public:
 		HVTable(
-			const DataAccess::Factory<JPetSetup::HVconfigEntry>&entries,
+			const JPetSetup::HVconfig&config,
 			const JPetSetup::Setup&setup,const JPetSetup::Frame&frame,
 			const std::shared_ptr<DataAccess::IDataSource> src
 		);
@@ -32,7 +32,7 @@ namespace HVAdjust{
 		bool SetHV(const size_t index, const double hv);
 	private:
 		void update();
-		DataAccess::Factory<JPetSetup::HVconfigEntry> f_entries;
+		JPetSetup::HVconfig f_config;
 		JPetSetup::Setup f_setup;
 		JPetSetup::Frame f_frame;
 		JPetSetup::HVPMConnections f_phms;

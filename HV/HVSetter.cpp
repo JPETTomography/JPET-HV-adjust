@@ -5,15 +5,12 @@ using namespace std;
 using namespace DataAccess;
 using namespace JPetSetup;
 namespace HVAdjust{
-	HVTable::HVTable(
-		const Factory<HVconfigEntry>&entries,
-		const Setup& setup,const Frame& frame,
-		const shared_ptr<IDataSource>src
-	):f_entries(entries),f_setup(setup),f_frame(frame),f_phms(src),f_photomultipliers(src){}
+	HVTable::HVTable(const HVconfig&config,const Setup& setup,const Frame& frame,const shared_ptr<IDataSource>src)
+	:f_config(config),f_setup(setup),f_frame(frame),f_phms(src),f_photomultipliers(src){}
 	HVTable::~HVTable(){}
 	void HVTable::update(){
 		f_items.clear();
-		auto f_entries_cache=f_entries.GetList();
+		auto f_entries_cache=f_config.CreateEntriesFactory().GetList();
 		for(const Layer& layer:f_frame.CreateLayersFactory().GetList())
 			for(const Slot&slot:layer.CreateSlotsFactory().GetList())
 				for(const HVPMConnection&conn:f_phms.BySlotID(slot.id()))
@@ -31,11 +28,12 @@ namespace HVAdjust{
 		if(index>=size())return false;
 		if(hv>f_items[index].phm.max_hv())return false;
 		vector<HVconfigEntry> tmp;
-		for(const HVconfigEntry&entry:f_entries.GetList())
+		auto entries=f_config.CreateEntriesFactory();
+		for(const HVconfigEntry&entry:entries.GetList())
 			if(entry.HVPMConnection_id()==f_items[index].hvpm.id())
 				tmp.push_back(entry);
-		for(auto&item:tmp)f_entries.Delete(item);
-		auto res=f_entries.Add(HVconfigEntry(f_items[index].hvpm.id(),hv));
+		for(auto&item:tmp)if(!entries.Delete(item))return false;
+		auto res=entries.Add(HVconfigEntry(f_items[index].hvpm.id(),hv));
 		update();
 		return res;
 	}
