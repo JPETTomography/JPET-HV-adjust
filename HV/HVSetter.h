@@ -35,7 +35,7 @@ namespace HVAdjust{
 		JPetSetup::HVconfig f_config;
 		JPetSetup::Setup f_setup;
 		JPetSetup::Frame f_frame;
-		JPetSetup::HVPMConnections f_phms;
+		JPetSetup::HVPMConnections f_pmhv_conn;
 		JPetSetup::Photomultipliers f_photomultipliers;
 		std::vector<Item> f_items;
 	};

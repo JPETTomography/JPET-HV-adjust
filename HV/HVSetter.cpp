@@ -6,14 +6,14 @@ using namespace DataAccess;
 using namespace JPetSetup;
 namespace HVAdjust{
 	HVTable::HVTable(const HVconfig&config,const Setup& setup,const Frame& frame,const shared_ptr<IDataSource>src)
-	:f_config(config),f_setup(setup),f_frame(frame),f_phms(src),f_photomultipliers(src){}
+	:f_config(config),f_setup(setup),f_frame(frame),f_pmhv_conn(src),f_photomultipliers(src){update();}
 	HVTable::~HVTable(){}
 	void HVTable::update(){
 		f_items.clear();
 		auto f_entries_cache=f_config.CreateEntriesFactory().GetList();
 		for(const Layer& layer:f_frame.CreateLayersFactory().GetList())
 			for(const Slot&slot:layer.CreateSlotsFactory().GetList())
-				for(const HVPMConnection&conn:f_phms.BySlotID(slot.id()))
+				for(const HVPMConnection&conn:f_pmhv_conn.BySlotID(slot.id()))
 					if(conn.setup_id()==f_setup.id()){
 						HVconfigEntry hventry(conn.id(),0.0);
 						for(const HVconfigEntry&item:f_entries_cache)
