@@ -52,7 +52,7 @@ namespace Calibration{
 		Calibration(const std::string& n,const size_t count,const std::string& f,const std::string&params);
 		std::string m_name,m_formula,m_encoded_params;
 		parameter_set m_params;
-		TFormula*m_tformula;
+		//TFormula*m_tformula;
 		double*buf;
 		void init_formula();
 		void deinit_formula();

@@ -1,9 +1,10 @@
 // this file is distributed under 
 // MIT license
-#include <math_h/error.h>
 #include <iostream>
+#include <iterator>
 #include <sstream>
-#include <TFormula.h>
+#include <math_h/error.h>
+//#include <TFormula.h>
 #include <JPetData/CalibrationGeneral.h>
 using namespace std;
 using namespace MathTemplates;
@@ -71,18 +72,19 @@ namespace Calibration {
 	const vector<double>&Calibration::params() const{return m_params;}
 	const string& Calibration::encoded_params() const{return m_encoded_params;}
 	void Calibration::init_formula(){
-		buf=new double[m_params.size()];
-		for(size_t i=0;i<m_params.size();i++)buf[i]=m_params[i];
-		m_tformula= new TFormula(formula().c_str(),formula().c_str());
+		//buf=new double[m_params.size()];
+		//for(size_t i=0;i<m_params.size();i++)buf[i]=m_params[i];
+		//m_tformula= new TFormula(formula().c_str(),formula().c_str());
 	}
 	void Calibration::deinit_formula(){
-		delete[] buf;
-		delete m_tformula;
+		//delete[] buf;
+		//delete m_tformula;
 	}
 	double Calibration::operator()(const parameter_set& X) const{
-		double x[X.size()];
-		for(size_t i=0,n=X.size();i<n;i++)x[i]=X[i];
-		return m_tformula->EvalPar(x,buf);
+		//double x[X.size()];
+		//for(size_t i=0,n=X.size();i<n;i++)x[i]=X[i];
+		//return m_tformula->EvalPar(x,buf);
+		return 0.0;
 	}
 	double Calibration::operator()(const parameter_set&& X) const{return operator()(X);}
 	
