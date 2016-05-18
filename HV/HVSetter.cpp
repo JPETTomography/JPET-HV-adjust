@@ -1,5 +1,6 @@
 // this file is distributed under 
 // MIT license
+#include <math.h>
 #include <HV/HVSetter.h>
 using namespace std;
 using namespace DataAccess;
@@ -15,7 +16,7 @@ namespace HVAdjust{
 			for(const Slot&slot:layer.CreateSlotsFactory().GetList())
 				for(const HVPMConnection&conn:f_pmhv_conn.BySlotID(slot.id()))
 					if(conn.setup_id()==f_setup.id()){
-						HVconfigEntry hventry(conn.id(),0.0);
+						HVconfigEntry hventry(conn.id(),nan(""));
 						for(const HVconfigEntry&item:f_entries_cache)
 							if(item.HVPMConnection_id()==conn.id())
 								hventry=item;
