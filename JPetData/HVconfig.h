@@ -7,6 +7,7 @@ namespace JPetSetup{
 	class HVconfigEntry{
 	public:
 		HVconfigEntry(const HVconfigEntry&source);
+		HVconfigEntry&operator=(const HVconfigEntry&source);
 		HVconfigEntry(const size_t hvpm,double value);
 		virtual ~HVconfigEntry();
 		const size_t id()const;
@@ -26,6 +27,7 @@ namespace JPetSetup{
 	class HVconfig{
 	public:
 		HVconfig(const HVconfig&source);
+		HVconfig&operator=(const HVconfig&source);
 		HVconfig(const size_t newid,const std::string&descr);
 		HVconfig(const size_t newid,const std::string&&descr):HVconfig(newid,descr){}
 		virtual ~HVconfig();
@@ -55,6 +57,7 @@ namespace JPetSetup{
 	class HVChannel{
 	public:
 		HVChannel(const HVChannel&source);
+		HVChannel&operator=(const HVChannel&source);
 		virtual ~HVChannel();
 		const size_t id()const;
 		const size_t highvoltage_id()const;
@@ -79,6 +82,7 @@ namespace JPetSetup{
 	class HighVoltage{
 	public:
 		HighVoltage(const HighVoltage&source);
+		HighVoltage&operator=(const HighVoltage&source);
 		virtual ~HighVoltage();
 		const size_t id()const;
 		const std::string&description()const;
@@ -106,6 +110,7 @@ namespace JPetSetup{
 	class HVPMConnection{
 	public:
 		HVPMConnection(const HVPMConnection&source);
+		HVPMConnection&operator=(const HVPMConnection&source);
 		virtual ~HVPMConnection();
 		const size_t id()const;
 		const size_t hvchannel_id()const;

@@ -7,6 +7,7 @@ namespace JPetSetup{
 	class Photomultiplier{
 	public:
 		Photomultiplier(const Photomultiplier&source);
+		Photomultiplier&operator=(const Photomultiplier&source);
 		virtual ~Photomultiplier();
 		const size_t id()const;
 		const std::string&name()const;

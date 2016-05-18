@@ -7,6 +7,13 @@ namespace JPetSetup{
 	HVconfigEntry::HVconfigEntry(const HVconfigEntry& source)
 	:f_id(source.f_id),f_hvpm_id(source.f_hvpm_id),
 	f_hvconfig_id(source.f_hvconfig_id),f_hv_value(source.f_hv_value){}
+	HVconfigEntry& HVconfigEntry::operator=(const HVconfigEntry& source){
+		f_id=source.f_id;
+		f_hvpm_id=source.f_hvpm_id;
+		f_hvconfig_id=source.f_hvconfig_id;
+		f_hv_value=source.f_hv_value;
+		return *this;
+	}
 	HVconfigEntry::HVconfigEntry(const size_t hvpm, double value)
 	:f_id(0),f_hvpm_id(hvpm),f_hvconfig_id(0),f_hv_value(value){}
 	HVconfigEntry::HVconfigEntry(const DataItem& item, const shared_ptr<IDataSource>)
@@ -26,6 +33,12 @@ namespace JPetSetup{
 	
 	HVconfig::HVconfig(const HVconfig& source)
 	:f_id(source.f_id),f_description(source.f_description),f_source(source.f_source){}
+	HVconfig& HVconfig::operator=(const HVconfig& source){
+		f_id=source.f_id;
+		f_description=source.f_description;
+		f_source=source.f_source;
+		return *this;
+	}
 	HVconfig::HVconfig(const size_t _id, const string&descr)
 	:f_id(_id),f_description(descr){}
 	HVconfig::HVconfig(const DataItem& item, const shared_ptr<IDataSource>src)
@@ -52,6 +65,17 @@ namespace JPetSetup{
 	f_idx(source.f_idx),f_status(source.f_status),
 	f_givespositive_hv(source.f_givespositive_hv),
 	f_minv(source.f_minv),f_maxv(source.f_maxv),f_maxi(source.f_maxi){}
+	HVChannel& HVChannel::operator=(const HVChannel& source){
+		f_id=source.f_id;
+		f_highvoltage_id=source.f_highvoltage_id;
+		f_idx=source.f_idx;
+		f_status=source.f_status;
+		f_givespositive_hv=source.f_givespositive_hv;
+		f_minv=source.f_minv;
+		f_maxv=source.f_maxv;
+		f_maxi=source.f_maxi;
+		return *this;
+	}
 	HVChannel::HVChannel(const DataItem& item, const shared_ptr< IDataSource > src)
 	:f_id(item.num_field<size_t>("id")),f_highvoltage_id(item.num_field<size_t>("highvoltage_id")),
 	f_idx(item.num_field<size_t>("channelidx")),f_status(item["status"]),
@@ -70,6 +94,13 @@ namespace JPetSetup{
 	HighVoltage::HighVoltage(const HighVoltage& source)
 	:f_id(source.f_id),f_description(source.f_description),
 	f_status(source.f_status),f_data_source(source.f_data_source){}
+	HighVoltage& HighVoltage::operator=(const HighVoltage& source){
+		f_id=source.f_id;
+		f_description=source.f_description;
+		f_status=source.f_status;
+		f_data_source=source.f_data_source;
+		return *this;
+	}
 	HighVoltage::HighVoltage(const DataItem& item, const shared_ptr< IDataSource > src)
 	:f_id(item.num_field<size_t>("id")),f_description(item["description"]),
 	f_status(item["status"]),f_data_source(src){}
@@ -89,6 +120,15 @@ namespace JPetSetup{
 	:f_id(source.f_id),f_hvchannel_id(source.f_hvchannel_id),
 	f_photomultiplier_id(source.f_photomultiplier_id),f_setup_id(source.f_setup_id),
 	f_slot_id(source.f_slot_id),f_side(source.f_side){}
+	HVPMConnection& HVPMConnection::operator=(const HVPMConnection& source){
+		f_id=source.f_id;
+		f_hvchannel_id=source.f_hvchannel_id;
+		f_photomultiplier_id=source.f_photomultiplier_id;
+		f_setup_id=source.f_setup_id;
+		f_slot_id=source.f_slot_id;
+		f_side=source.f_side;
+		return *this;
+	}
 	HVPMConnection::HVPMConnection(const DataItem& item, const shared_ptr< IDataSource >)
 	:f_id(item.num_field<size_t>("id")),f_hvchannel_id(item.num_field<size_t>("hvchannel_id")),
 	f_photomultiplier_id(item.num_field<size_t>("photomultiplier_id")),f_setup_id(item.num_field<size_t>("setup_id")),

@@ -6,6 +6,32 @@ using namespace std;
 using namespace DataAccess;
 using namespace JPetSetup;
 namespace HVAdjust{
+	HVTable::Item::Item(const Layer&l, const Slot&s, const HVPMConnection&h, const Photomultiplier&p, const HVconfigEntry&e)
+	:layer(l),slot(s),hvpm(h),phm(p),entry(e){}
+	HVTable::Item::Item(const HVTable::Item& source)
+	:layer(source.layer),slot(source.slot),hvpm(source.hvpm),phm(source.phm),entry(source.entry){}
+	HVTable::Item& HVTable::Item::operator=(const HVTable::Item& source){
+		layer=source.layer;
+		slot=source.slot;
+		hvpm=source.hvpm;
+		phm=source.phm;
+		entry=source.entry;
+		return *this;
+	}
+	const bool HVTable::Item::operator<(const HVTable::Item& second) const{
+		if(hvpm.side() <second.hvpm.side())return true;
+		if(layer.name()<second.layer.name())return true;
+		if(slot.name() <second.slot.name())return true;
+		return false;
+	}
+	const bool HVTable::Item::operator>(const HVTable::Item& second) const{
+		if(hvpm.side() >second.hvpm.side())return true;
+		if(layer.name()>second.layer.name())return true;
+		if(slot.name() >second.slot.name())return true;
+		return false;
+	}
+
+	
 	HVTable::HVTable(const HVconfig&config,const Setup& setup,const Frame& frame,const shared_ptr<IDataSource>src)
 	:f_config(config),f_setup(setup),f_frame(frame),f_pmhv_conn(src),f_photomultipliers(src){update();}
 	HVTable::~HVTable(){}
@@ -20,11 +46,7 @@ namespace HVAdjust{
 						for(const HVconfigEntry&item:f_entries_cache)
 							if(item.HVPMConnection_id()==conn.id())
 								hventry=item;
-						f_items.push_back({
-							.layer=layer,.slot=slot,.hvpm=conn,
-							.phm=f_photomultipliers.ByID(conn.photomultiplier_id()),
-							.entry=hventry
-						});
+						f_items<<Item(layer,slot,conn,f_photomultipliers.ByID(conn.photomultiplier_id()),hventry);
 					}
 	}
 	const size_t HVTable::size()const{return f_items.size();}

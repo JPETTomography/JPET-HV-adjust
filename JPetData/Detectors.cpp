@@ -7,6 +7,14 @@ namespace JPetSetup {
 	Photomultiplier::Photomultiplier(const Photomultiplier& source)
 	:f_id(source.f_id),f_name(source.f_name),f_status(source.f_status),
 	f_description(source.f_description),f_max_hv(source.f_max_hv){}
+	Photomultiplier& Photomultiplier::operator=(const Photomultiplier& source){
+		f_id=source.f_id;
+		f_name=source.f_name;
+		f_status=source.f_status;
+		f_description=source.f_description;
+		f_max_hv=source.f_max_hv;
+		return *this;
+	}
 	Photomultiplier::Photomultiplier(const DataItem&item,const shared_ptr<IDataSource>)
 	:f_id(item.num_field<size_t>("id")),f_name(item["name"]),f_status(item["status"]),
 	f_description(item["description"]),f_max_hv(item.num_field<double>("maxhv")){}

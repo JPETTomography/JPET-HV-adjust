@@ -7,6 +7,7 @@ namespace JPetSetup{
 	class Slot{
 	public:
 		Slot(const Slot&source);
+		Slot&operator=(const Slot&source);
 		virtual ~Slot();
 		const size_t id()const;
 		const size_t layer_id()const;
@@ -26,6 +27,7 @@ namespace JPetSetup{
 	class Layer{
 	public:
 		Layer(const Layer&source);
+		Layer&operator=(const Layer&source);
 		virtual ~Layer();
 		const size_t id()const;
 		const size_t frame_id()const;
@@ -44,12 +46,13 @@ namespace JPetSetup{
 		std::string f_name;
 		double f_radius;
 		bool f_active;
-		const std::shared_ptr<DataAccess::IDataSource> f_data_source;
+		std::shared_ptr<DataAccess::IDataSource> f_data_source;
 	};
 	
 	class Setup{
 	public:
 		Setup(const Setup&source);
+		Setup&operator=(const Setup&source);
 		virtual ~Setup();
 		const size_t id()const;
 		const size_t frame_id()const;
@@ -69,6 +72,7 @@ namespace JPetSetup{
 	class Frame{
 	public:
 		Frame(const Frame&source);
+		Frame&operator=(const Frame&source);
 		virtual ~Frame();
 		const size_t id()const;
 		const size_t version()const;
@@ -87,11 +91,11 @@ namespace JPetSetup{
 		size_t f_id,f_version;
 		std::string f_description,f_status;
 		bool f_active;
-		const std::shared_ptr<DataAccess::IDataSource> f_data_source;
+		std::shared_ptr<DataAccess::IDataSource> f_data_source;
 	};
 	class Frames:public DataAccess::Factory<Frame>{
 	public:
-		Frames(const std::shared_ptr< DataAccess::IDataSource > src);
+		Frames(const std::shared_ptr<DataAccess::IDataSource> src);
 		virtual ~Frames();
 		const Frame ByID(const size_t id)const;
 	};

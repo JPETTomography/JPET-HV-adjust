@@ -3,6 +3,7 @@
 #ifndef ___________________HV_____SETTER_H___________
 #	define ___________________HV_____SETTER_H___________
 #include <memory>
+#include <math_h/chains.h>
 #include <JPetData/HVconfig.h>
 #include <JPetData/Frames.h>
 #include <JPetData/Detectors.h>
@@ -26,9 +27,14 @@ namespace HVAdjust{
 			JPetSetup::HVPMConnection hvpm;
 			JPetSetup::Photomultiplier phm;
 			JPetSetup::HVconfigEntry entry;
+			Item(const JPetSetup::Layer&,const JPetSetup::Slot&,const JPetSetup::HVPMConnection&,const JPetSetup::Photomultiplier&,const JPetSetup::HVconfigEntry&);
+			Item(const Item&source);
+			Item&operator=(const Item&source);
+			const bool operator>(const Item&second)const;
+			const bool operator<(const Item&second)const;
 		};
 		const size_t size()const;
-		typedef std::vector<Item>::const_iterator const_iterator;
+		typedef MathTemplates::SortedChain<Item>::const_iterator const_iterator;
 		const_iterator begin()const;
 		const_iterator cbegin()const;
 		const_iterator end() const;
@@ -42,7 +48,7 @@ namespace HVAdjust{
 		JPetSetup::Frame f_frame;
 		JPetSetup::HVPMConnections f_pmhv_conn;
 		JPetSetup::Photomultipliers f_photomultipliers;
-		std::vector<Item> f_items;
+		MathTemplates::SortedChain<Item> f_items;
 	};
 }
 #endif

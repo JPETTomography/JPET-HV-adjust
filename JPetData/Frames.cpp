@@ -6,6 +6,13 @@ using namespace DataAccess;
 namespace JPetSetup {
 	Slot::Slot(const Slot& source)
 	:f_id(source.f_id),f_layer_id(source.f_layer_id),f_name(source.f_name),f_active(source.f_active){}
+	Slot& Slot::operator=(const Slot& source){
+		f_id=source.f_id;
+		f_layer_id=source.f_layer_id;
+		f_name=source.f_name;
+		f_active=source.f_active;
+		return *this;
+	}
 	Slot::Slot(const DataItem& item, const shared_ptr<IDataSource>)
 	:f_id(item.num_field<size_t>("id")),f_layer_id(item.num_field<size_t>("layer_id")),
 	f_name(item["name"]),f_active(item.flag("isactive")){}
@@ -18,6 +25,15 @@ namespace JPetSetup {
 	Layer::Layer(const Layer& source)
 	:f_id(source.f_id),f_frame_id(source.f_frame_id),f_name(source.f_name),
 	f_radius(source.f_radius),f_active(source.f_active),f_data_source(source.f_data_source){}
+	Layer& Layer::operator=(const Layer& source){
+		f_id=source.f_id;
+		f_frame_id=source.f_frame_id;
+		f_name=source.f_name;
+		f_radius=source.f_radius;
+		f_active=source.f_active;
+		f_data_source=source.f_data_source;
+		return *this;
+	}
 	Layer::Layer(const DataItem& item, const shared_ptr< IDataSource > src)
 	:f_id(item.num_field<size_t>("id")),f_frame_id(item.num_field<size_t>("frame_id")),f_name(item["name"]),
 	f_radius(item.num_field<double>("radius")),f_active(item.flag("isactive")),f_data_source(src){}
@@ -33,6 +49,14 @@ namespace JPetSetup {
 	Setup::Setup(const Setup& source)
 	:f_id(source.f_id),f_frame_id(source.f_frame_id),f_highvoltage_id(source.f_highvoltage_id),
 	f_name(source.f_name),f_description(source.f_description){}
+	Setup& Setup::operator=(const Setup& source){
+		f_id=source.f_id;
+		f_frame_id=source.f_frame_id;
+		f_highvoltage_id=source.f_highvoltage_id;
+		f_name=source.f_name;
+		f_description=source.f_description;
+		return *this;
+	}
 	Setup::Setup(const DataItem& item, const shared_ptr< IDataSource > src)
 	:f_id(item.num_field<size_t>("id")),f_frame_id(item.num_field<size_t>("frame_id")),
 	f_highvoltage_id(item.num_field<size_t>("highvoltage_id")),
@@ -48,6 +72,15 @@ namespace JPetSetup {
 	:f_id(source.f_id),f_version(source.f_version),
 	f_description(source.f_description),f_status(source.f_status),
 	f_active(source.f_active),f_data_source(source.f_data_source){}
+	Frame& Frame::operator=(const Frame& source){
+		f_id=source.f_id;
+		f_version=source.f_version;
+		f_description=source.f_description;
+		f_status=source.f_status;
+		f_active=source.f_active;
+		f_data_source=source.f_data_source;
+		return *this;
+	}
 	Frame::Frame(const DataItem& item, const shared_ptr< IDataSource > src)
 	:f_id(item.num_field<size_t>("id")),f_version(item.num_field<size_t>("version")),
 	f_description(item["description"]),f_status(item["status"]),
