@@ -20,13 +20,17 @@ namespace HVAdjust{
 	}
 	const bool HVTable::Item::operator<(const HVTable::Item& second) const{
 		if(hvpm.side() <second.hvpm.side())return true;
+		if(hvpm.side() >second.hvpm.side())return false;
 		if(layer.name()<second.layer.name())return true;
+		if(layer.name()>second.layer.name())return false;
 		if(slot.name() <second.slot.name())return true;
 		return false;
 	}
 	const bool HVTable::Item::operator>(const HVTable::Item& second) const{
 		if(hvpm.side() >second.hvpm.side())return true;
+		if(hvpm.side() <second.hvpm.side())return false;
 		if(layer.name()>second.layer.name())return true;
+		if(layer.name()<second.layer.name())return false;
 		if(slot.name() >second.slot.name())return true;
 		return false;
 	}
