@@ -28,8 +28,8 @@ namespace JPetSetup{
 	public:
 		HVconfig(const HVconfig&source);
 		HVconfig&operator=(const HVconfig&source);
-		HVconfig(const size_t newid,const std::string&descr);
-		HVconfig(const size_t newid,const std::string&&descr):HVconfig(newid,descr){}
+		HVconfig(const std::string&descr);
+		HVconfig(const std::string&&descr):HVconfig(descr){}
 		virtual ~HVconfig();
 		const size_t id()const;
 		const std::string&description()const;
@@ -39,7 +39,7 @@ namespace JPetSetup{
 		enum{type=DataAccess::data_hvconfig};
 		HVconfig(const DataAccess::DataItem&item,const std::shared_ptr<DataAccess::IDataSource>);
 		DataAccess::RequestParameters params_to_insert()const; 
-		//DataAccess::RequestParameters params_to_delete()const;
+		DataAccess::RequestParameters params_to_delete()const;
 	private:
 		size_t f_id;
 		std::string f_description;

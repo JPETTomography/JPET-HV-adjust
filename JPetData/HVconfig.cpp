@@ -39,14 +39,15 @@ namespace JPetSetup{
 		f_source=source.f_source;
 		return *this;
 	}
-	HVconfig::HVconfig(const size_t _id, const string&descr)
-	:f_id(_id),f_description(descr){}
+	HVconfig::HVconfig(const string&descr)
+	:f_id(0),f_description(descr){}
 	HVconfig::HVconfig(const DataItem& item, const shared_ptr<IDataSource>src)
 	:f_id(item.num_field<size_t>("id")),f_description(item["description"]),f_source(src){}
 	HVconfig::~HVconfig(){}
 	const size_t HVconfig::id() const{return f_id;}
 	const string& HVconfig::description() const{f_description;}
-	RequestParameters HVconfig::params_to_insert() const{return {to_string(id()),"'"+description()+"'"};}
+	RequestParameters HVconfig::params_to_insert() const{return {"'"+description()+"'"};}
+	RequestParameters HVconfig::params_to_delete() const{return {to_string(f_id)};}
 	Factory<HVconfigEntry> HVconfig::CreateEntriesFactory() const{
 		return Factory<HVconfigEntry>(f_source,{to_string(id())});
 	}
