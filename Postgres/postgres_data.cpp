@@ -120,8 +120,6 @@ namespace DataAccess{
 			default:
 				return false;
 			}
-			f_work.exec("savepoint v_savepnt;");
-			try{
 				for(const auto&item:f_work.exec(sql_request)){
 					map<string,string> toinsert;
 					for(const auto&field:item)if(field.size()>0)
@@ -130,11 +128,6 @@ namespace DataAccess{
 				}
 				if(data_obtain!=request.operation)f_changed=true;
 				return true;
-			}catch(const pqxx::sql_error& e){
-				f_work.exec("rollback to saveppoint v_savepnt");
-				out.clear();
-				return false;
-			}
 		}
 		return false;
 	}
