@@ -28,6 +28,11 @@ namespace HVAdjust{
 			JPetSetup::HVconfigEntry entry;
 		};
 		const size_t size()const;
+		typedef std::vector<Item>::const_iterator const_iterator;
+		const_iterator begin()const;
+		const_iterator cbegin()const;
+		const_iterator end() const;
+		const_iterator cend() const;
 		const Item&operator[](const size_t index)const;
 		bool SetHV(const size_t index, const double hv);
 	private:

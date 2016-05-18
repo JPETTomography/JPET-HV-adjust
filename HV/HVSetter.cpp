@@ -19,21 +19,31 @@ namespace HVAdjust{
 						for(const HVconfigEntry&item:f_entries_cache)
 							if(item.HVPMConnection_id()==conn.id())
 								hventry=item;
-						f_items.push_back({.layer=layer,.slot=slot,.hvpm=conn,.phm=f_photomultipliers.ByID(conn.photomultiplier_id()),.entry=hventry});
+						f_items.push_back({
+							.layer=layer,.slot=slot,.hvpm=conn,
+							.phm=f_photomultipliers.ByID(conn.photomultiplier_id()),
+							.entry=hventry
+						});
 					}
 	}
 	const size_t HVTable::size()const{return f_items.size();}
+	HVTable::const_iterator HVTable::begin() const{return f_items.begin();}
+	HVTable::const_iterator HVTable::cbegin() const{return f_items.cbegin();}
+	HVTable::const_iterator HVTable::end() const{return f_items.end();}
+	HVTable::const_iterator HVTable::cend() const{return f_items.cend();}
 	const HVTable::Item& HVTable::operator[](const size_t index)const{return f_items[index];}
 	bool HVTable::SetHV(const size_t index, const double hv){
 		if(index>=size())return false;
-		if(hv*f_items[index].phm.max_hv()<0)return false;
+		if(hv*f_items[index].phm.max_hv()<0.0)return false;
 		if(hv/f_items[index].phm.max_hv()>1.0)return false;
 		vector<HVconfigEntry> tmp;
 		auto entries=f_config.CreateEntriesFactory();
 		for(const HVconfigEntry&entry:entries.GetList())
 			if(entry.HVPMConnection_id()==f_items[index].hvpm.id())
 				tmp.push_back(entry);
-		for(auto&item:tmp)if(!entries.Delete(item))return false;
+		for(auto&item:tmp)
+			if(!entries.Delete(item))
+				return false;
 		auto res=entries.Add(HVconfigEntry(f_items[index].hvpm.id(),hv));
 		update();
 		return res;
