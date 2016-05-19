@@ -48,8 +48,8 @@ namespace JPetSetup{
 	HVconfig::~HVconfig(){}
 	const size_t HVconfig::id() const{return f_id;}
 	const size_t HVconfig::setup_id() const{return f_setup_id;}
-	const string& HVconfig::description() const{f_description;}
-	RequestParameters HVconfig::params_to_insert() const{return {to_string(f_setup_id),"'"+description()+"'"};}
+	const string& HVconfig::description() const{return f_description;}
+	RequestParameters HVconfig::params_to_insert() const{return {to_string(f_setup_id),"'"+f_description+"'"};}
 	RequestParameters HVconfig::params_to_delete() const{return {to_string(f_id)};}
 	Factory<HVconfigEntry> HVconfig::CreateEntriesFactory() const{
 		return Factory<HVconfigEntry>(f_source,{to_string(id())});
