@@ -32,33 +32,30 @@ namespace JPetSetup{
 	}
 	
 	HVconfig::HVconfig(const HVconfig& source)
-	:f_id(source.f_id),f_description(source.f_description),f_source(source.f_source){}
+	:f_id(source.f_id),f_setup_id(source.f_setup_id),
+	f_description(source.f_description),f_source(source.f_source){}
 	HVconfig& HVconfig::operator=(const HVconfig& source){
 		f_id=source.f_id;
+		f_setup_id=source.f_setup_id;
 		f_description=source.f_description;
 		f_source=source.f_source;
 		return *this;
 	}
-	HVconfig::HVconfig(const string&descr)
-	:f_id(0),f_description(descr){}
+	HVconfig::HVconfig(const size_t setup_id,const string&descr)
+	:f_id(0),f_setup_id(setup_id),f_description(descr){}
 	HVconfig::HVconfig(const DataItem& item, const shared_ptr<IDataSource>src)
 	:f_id(item.num_field<size_t>("id")),f_description(item["description"]),f_source(src){}
 	HVconfig::~HVconfig(){}
 	const size_t HVconfig::id() const{return f_id;}
+	const size_t HVconfig::setup_id() const{return f_setup_id;}
 	const string& HVconfig::description() const{f_description;}
-	RequestParameters HVconfig::params_to_insert() const{return {"'"+description()+"'"};}
+	RequestParameters HVconfig::params_to_insert() const{return {to_string(f_setup_id),"'"+description()+"'"};}
 	RequestParameters HVconfig::params_to_delete() const{return {to_string(f_id)};}
 	Factory<HVconfigEntry> HVconfig::CreateEntriesFactory() const{
 		return Factory<HVconfigEntry>(f_source,{to_string(id())});
 	}
-	HVconfigTable::HVconfigTable(const shared_ptr<IDataSource>src):Factory<JPetSetup::HVconfig>(src,{}){}
+	HVconfigTable::HVconfigTable(const shared_ptr<IDataSource>src,const size_t setup_id):Factory<JPetSetup::HVconfig>(src,{to_string(setup_id)}){}
 	HVconfigTable::~HVconfigTable(){}
-	const HVconfig HVconfigTable::Last() const{
-		size_t max_id=0;
-		FieldCondition<size_t>("id",[&max_id](const size_t i){if(i>max_id)max_id=i;return false;});
-		return GetFieldEq("id",max_id)[0];
-	}
-
 	
 	
 	HVChannel::HVChannel(const HVChannel& source)

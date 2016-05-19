@@ -1,4 +1,19 @@
 DROP TABLE "HVConfigEntry";
+DROP TABLE "HVConfig";
+
+CREATE TABLE "HVConfig"
+(
+  id serial NOT NULL,
+  setup_id integer NOT NULL,
+  description character varying(255) NOT NULL,
+  CONSTRAINT "HVConfig_pkey" PRIMARY KEY (id),
+  CONSTRAINT fk_hvconfigtosetup FOREIGN KEY (setup_id)
+      REFERENCES "Setup" (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+ALTER TABLE "HVConfig"
+  OWNER TO postgres;
+  
 CREATE TABLE "HVConfigEntry"
 (
   id serial NOT NULL,

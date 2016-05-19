@@ -28,10 +28,11 @@ namespace JPetSetup{
 	public:
 		HVconfig(const HVconfig&source);
 		HVconfig&operator=(const HVconfig&source);
-		HVconfig(const std::string&descr);
-		HVconfig(const std::string&&descr):HVconfig(descr){}
+		HVconfig(const size_t setup_id,const std::string&descr);
+		HVconfig(const size_t setup_id,const std::string&&descr):HVconfig(setup_id,descr){}
 		virtual ~HVconfig();
 		const size_t id()const;
+		const size_t setup_id()const;
 		const std::string&description()const;
 		DataAccess::Factory<HVconfigEntry> CreateEntriesFactory()const;
 	protected:
@@ -41,15 +42,14 @@ namespace JPetSetup{
 		DataAccess::RequestParameters params_to_insert()const; 
 		DataAccess::RequestParameters params_to_delete()const;
 	private:
-		size_t f_id;
+		size_t f_id, f_setup_id;
 		std::string f_description;
 		std::shared_ptr<DataAccess::IDataSource> f_source;
 	};
 	class HVconfigTable:public DataAccess::Factory<HVconfig>{
 	public:
-		HVconfigTable(const std::shared_ptr< DataAccess::IDataSource > src);
+		HVconfigTable(const std::shared_ptr<DataAccess::IDataSource> src,const size_t setup_id);
 		virtual ~HVconfigTable();
-		const HVconfig Last()const;
 	};
 	
 	

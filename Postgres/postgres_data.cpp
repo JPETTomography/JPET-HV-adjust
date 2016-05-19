@@ -70,7 +70,7 @@ namespace DataAccess{
 			case data_hvconfig:
 				switch(request.operation){
 				case data_obtain: sql_request="select * from \"HVConfig\";";break;
-				case data_insert: sql_request="insert into \"HVConfig\" (description)values("+P[0]+");"; break;
+				case data_insert: sql_request="insert into \"HVConfig\" (setup_id,description)values("+P[0]+","+P[1]+");"; break;
 				case data_remove: sql_request="delete from \"HVConfig\" where id="+P[0]+";"; break;
 				};
 			break;

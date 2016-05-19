@@ -15,7 +15,7 @@ int main(){
 	cfg.password="pass";
 	auto src=make_shared<PQData>(cfg);
 	
-	for(const HVconfig&config:HVconfigTable(src).GetList()){
+	for(const HVconfig&config:HVconfigTable(src,1).GetList()){
 		cout<<config.id()<<":"<<config.description()<<endl;
 		for(const HVconfigEntry&entry:config.CreateEntriesFactory().GetList())
 			cout<<" \t hvpm:" << entry.HVPMConnection_id()<<"; hv="<<entry.HV()<<endl;
