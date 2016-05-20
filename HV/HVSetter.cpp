@@ -63,16 +63,27 @@ namespace HVAdjust{
 		if(index>=size())return false;
 		if(hv*f_items[index].phm.max_hv()<0.0)return false;
 		if(hv/f_items[index].phm.max_hv()>1.0)return false;
-		vector<HVconfigEntry> tmp;
-		auto entries=f_config.CreateEntriesFactory();
-		for(const HVconfigEntry&entry:entries.GetList())
-			if(entry.HVPMConnection_id()==f_items[index].hvpm.id())
-				tmp.push_back(entry);
-		for(auto&item:tmp)
-			if(!entries.Delete(item))
-				return false;
-		auto res=entries.Add(HVconfigEntry(f_items[index].hvpm.id(),hv));
+		bool res=false;
+		{
+			vector<HVconfigEntry> tmp;
+			auto entries=f_config.CreateEntriesFactory();
+			for(const HVconfigEntry&entry:entries.GetList())
+				if(entry.HVPMConnection_id()==f_items[index].hvpm.id())
+					tmp.push_back(entry);
+			for(auto&item:tmp)
+				if(!entries.Delete(item))
+					return false;
+			res=entries.Add(HVconfigEntry(f_items[index].hvpm.id(),hv));
+		}
 		update();
 		return res;
+	}
+	void HVTable::clear(){
+		{
+			auto entries=f_config.CreateEntriesFactory();
+			for(const HVconfigEntry&entry:entries.GetList())
+				entries.Delete(entry);
+		}
+		update();
 	}
 }

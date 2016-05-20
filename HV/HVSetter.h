@@ -40,7 +40,8 @@ namespace HVAdjust{
 		const_iterator end() const;
 		const_iterator cend() const;
 		const Item&operator[](const size_t index)const;
-		bool SetHV(const size_t index, const double hv);
+		bool SetHV(const size_t index,const double hv);
+		void clear();
 	private:
 		void update();
 		JPetSetup::HVconfig f_config;
