@@ -116,7 +116,20 @@ namespace DataAccess{
 				case data_remove: return false; break;
 				};
 			break;
-			
+			case data_highvoltage:
+				switch(request.operation){
+				case data_obtain: sql_request="select * from \"HighVoltage\";";break;
+				case data_insert: return false; break;
+				case data_remove: return false; break;
+				};
+			break;
+			case data_hvchannel:
+				switch(request.operation){
+				case data_obtain: sql_request="select * from \"HVChannel\";";break;
+				case data_insert: return false; break;
+				case data_remove: return false; break;
+				};
+			break;
 			default:
 				return false;
 			}
