@@ -22,20 +22,19 @@ namespace HVAdjust{
 			JPetSetup::Slot slot;
 			JPetSetup::HVPMConnection hvpm;
 			JPetSetup::Photomultiplier phm;
-			JPetSetup::HVconfigEntry entry;
-			Item(const JPetSetup::Layer&,const JPetSetup::Slot&,const JPetSetup::HVPMConnection&,const JPetSetup::Photomultiplier&,const JPetSetup::HVconfigEntry&);
+			JPetSetup::HVChannel hvchannel;
+			Item(
+				const JPetSetup::Layer&,const JPetSetup::Slot&,
+				const JPetSetup::HVPMConnection&,const JPetSetup::Photomultiplier&,
+				const JPetSetup::HVChannel&
+    			);
 			Item(const Item&source);
 			Item&operator=(const Item&source);
 			const bool operator>(const Item&second)const;
 			const bool operator<(const Item&second)const;
 		};
-		const size_t size()const;
-		typedef MathTemplates::SortedChain<Item>::const_iterator const_iterator;
-		const_iterator begin()const;
-		const_iterator cbegin()const;
-		const_iterator end() const;
-		const_iterator cend() const;
-		const Item&operator[](const size_t index)const;
+		const MathTemplates::SortedChain<Item>&SlotInfo()const;
+		const std::vector<JPetSetup::HVconfigEntry>&HVConfigEntries()const;
 		bool SetHV(const size_t index,const double hv);
 		void clear();
 	private:
@@ -47,6 +46,7 @@ namespace HVAdjust{
 		JPetSetup::HVPMConnections f_pmhv_conn;
 		JPetSetup::Photomultipliers f_photomultipliers;
 		MathTemplates::SortedChain<Item> f_items;
+		std::vector<JPetSetup::HVconfigEntry> f_hv_values;
 	};
 }
 #endif
