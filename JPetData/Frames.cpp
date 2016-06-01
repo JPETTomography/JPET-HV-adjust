@@ -94,7 +94,7 @@ namespace JPetSetup {
 	const bool Frame::active() const{return f_active;}
 	Factory<Layer> Frame::CreateLayersFactory() const{return Factory<Layer>(f_data_source,{to_string(id())});}
 	Factory<Setup> Frame::CreateSetupFactory() const{return Factory<Setup>(f_data_source,{to_string(id())});}
-
+	const shared_ptr< IDataSource > Frame::DataSource() const{return f_data_source;}
 	
 	Frames::Frames(const shared_ptr< IDataSource > src):Factory<Frame>(src,{}){}
 	Frames::~Frames(){}

@@ -81,6 +81,7 @@ namespace JPetSetup{
 		const bool active()const;
 		DataAccess::Factory<Layer> CreateLayersFactory()const;
 		DataAccess::Factory<Setup> CreateSetupFactory()const;
+		const std::shared_ptr<DataAccess::IDataSource> DataSource()const;
 	protected:
 		friend class DataAccess::Factory<Frame>;
 		enum{type=DataAccess::data_frame};
