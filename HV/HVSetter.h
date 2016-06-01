@@ -8,16 +8,12 @@
 #include <JPetData/Frames.h>
 #include <JPetData/Detectors.h>
 namespace HVAdjust{
-	class IHVSetter{
-	public:
-		virtual ~IHVSetter(){}
-		virtual bool SetHV(const size_t channel,const double hv)=0;
-	};
 	class HVTable{
 	public:
 		HVTable(
 			const JPetSetup::HVconfig&config,
 			const JPetSetup::Setup&setup,const JPetSetup::Frame&frame,
+			const JPetSetup::HighVoltage&hv_hardware,
 			const std::shared_ptr<DataAccess::IDataSource> src
 		);
 		virtual ~HVTable();
@@ -47,6 +43,7 @@ namespace HVAdjust{
 		JPetSetup::HVconfig f_config;
 		JPetSetup::Setup f_setup;
 		JPetSetup::Frame f_frame;
+		JPetSetup::HighVoltage f_hv_hardware;
 		JPetSetup::HVPMConnections f_pmhv_conn;
 		JPetSetup::Photomultipliers f_photomultipliers;
 		MathTemplates::SortedChain<Item> f_items;

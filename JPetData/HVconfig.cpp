@@ -1,5 +1,6 @@
 // this file is distributed under 
 // MIT license
+#include <math_h/error.h>
 #include <JPetData/HVconfig.h>
 using namespace std;
 using namespace DataAccess;
@@ -109,10 +110,15 @@ namespace JPetSetup{
 	Factory<HVChannel> HighVoltage::CreateChannelsFactory() const{
 		return Factory<HVChannel>(f_data_source,{to_string(id())});
 	}
-
+	
 	HighVoltageTable::HighVoltageTable(std::shared_ptr<DataAccess::IDataSource>source)
 	:Factory<HighVoltage>(source,{}){}
 	HighVoltageTable::~HighVoltageTable(){}
+	const HighVoltage HighVoltageTable::ByID(const size_t id) const{
+		auto vec=GetFieldEq("id",id);
+		if(vec.size()>0)return vec[0];
+		throw MathTemplates::Exception<HighVoltageTable>("HighVoltage not found");
+	}
 	
 	HVPMConnection::HVPMConnection(const HVPMConnection& source)
 	:f_id(source.f_id),f_hvchannel_id(source.f_hvchannel_id),

@@ -49,7 +49,6 @@ file(GLOB PGInterface Postgres/*.cpp)
 add_library(pg_interface ${PGInterface})
 target_link_libraries(pg_interface ${PQXX_LIBRARIES})
 
-
 file(GLOB EXAMPLES example/*.cpp)
 foreach(example ${EXAMPLES})
 	get_filename_component(ex_app ${example} NAME_WE)

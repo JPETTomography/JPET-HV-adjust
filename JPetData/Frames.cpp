@@ -1,5 +1,6 @@
 // this file is distributed under 
 // MIT license
+#include <math_h/error.h>
 #include <JPetData/Frames.h>
 using namespace std;
 using namespace DataAccess;
@@ -100,7 +101,7 @@ namespace JPetSetup {
 	const Frame Frames::ByID(const size_t id) const{
 		auto vec=GetFieldEq("id",id);
 		if(vec.size()>0)return vec[0];
-		throw;
+		throw MathTemplates::Exception<Frames>("frame not found");
 	}
 
 };

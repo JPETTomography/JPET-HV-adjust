@@ -36,8 +36,11 @@ namespace HVAdjust{
 	}
 
 	
-	HVTable::HVTable(const HVconfig&config,const Setup& setup,const Frame& frame,const shared_ptr<IDataSource>src)
-	:f_config(config),f_setup(setup),f_frame(frame),f_pmhv_conn(src),f_photomultipliers(src){update();}
+	HVTable::HVTable(const HVconfig&config,const Setup& setup,const Frame& frame,const HighVoltage&hv_hardware,const shared_ptr<IDataSource>src)
+	:f_config(config),f_setup(setup),f_frame(frame),f_hv_hardware(hv_hardware),f_pmhv_conn(src),f_photomultipliers(src){
+		
+		update();
+	}
 	HVTable::~HVTable(){}
 	void HVTable::update(){
 		f_items.clear();

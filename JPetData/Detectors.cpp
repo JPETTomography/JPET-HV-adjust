@@ -1,5 +1,6 @@
 // this file is distributed under 
 // MIT license
+#include <math_h/error.h>
 #include <JPetData/Detectors.h>
 using namespace std;
 using namespace DataAccess;
@@ -25,11 +26,11 @@ namespace JPetSetup {
 	const string& Photomultiplier::status() const{return f_status;}
 	const double Photomultiplier::max_hv() const{return f_max_hv;}
 	Photomultipliers::Photomultipliers(const shared_ptr<IDataSource> src)
-	:Factory< JPetSetup::Photomultiplier >(src, {}){}
+	:Factory<JPetSetup::Photomultiplier>(src, {}){}
 	Photomultipliers::~Photomultipliers(){}
 	const Photomultiplier Photomultipliers::ByID(const size_t id)const{
 		auto vec=GetFieldEq("id",id);
 		if(vec.size()>0)return vec[0];
-		throw;
+		throw MathTemplates::Exception<Photomultipliers>("Photomultiplier not found");
 	}
 };

@@ -103,7 +103,7 @@ namespace JPetSetup{
 	public:
 		HighVoltageTable(std::shared_ptr<DataAccess::IDataSource>source);
 		virtual ~HighVoltageTable();
-		
+		const HighVoltage ByID(const size_t id)const;
 	};
 	
 	enum JPET_side{side_left,side_right};
