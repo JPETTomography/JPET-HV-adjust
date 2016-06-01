@@ -31,6 +31,6 @@ namespace JPetSetup {
 	const Photomultiplier Photomultipliers::ByID(const size_t id)const{
 		auto vec=GetFieldEq("id",id);
 		if(vec.size()>0)return vec[0];
-		throw MathTemplates::Exception<Photomultipliers>("Photomultiplier not found");
+		throw MathTemplates::Exception<Photomultipliers>("Photomultiplier not found id="+to_string(id));
 	}
 };

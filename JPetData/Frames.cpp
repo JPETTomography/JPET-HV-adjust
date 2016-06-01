@@ -101,7 +101,7 @@ namespace JPetSetup {
 	const Frame Frames::ByID(const size_t id) const{
 		auto vec=GetFieldEq("id",id);
 		if(vec.size()>0)return vec[0];
-		throw MathTemplates::Exception<Frames>("frame not found");
+		throw MathTemplates::Exception<Frames>("frame not found id="+to_string(id));
 	}
 
 };

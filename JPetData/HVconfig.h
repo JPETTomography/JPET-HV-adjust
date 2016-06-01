@@ -132,7 +132,7 @@ namespace JPetSetup{
 	public:
 		HVPMConnections(const std::shared_ptr<DataAccess::IDataSource> source);
 		virtual ~HVPMConnections();
-		const std::vector<HVPMConnection> ByID(const size_t id)const;
+		const HVPMConnection ByID(const size_t id)const;
 		const std::vector<HVPMConnection> ByHVChannelID(const size_t id)const;
 		const std::vector<HVPMConnection> ByPhotomultiplierID(const size_t id)const;
 		const std::vector<HVPMConnection> BySetupID(const size_t id)const;

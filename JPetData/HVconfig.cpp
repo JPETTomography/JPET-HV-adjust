@@ -117,7 +117,7 @@ namespace JPetSetup{
 	const HighVoltage HighVoltageTable::ByID(const size_t id) const{
 		auto vec=GetFieldEq("id",id);
 		if(vec.size()>0)return vec[0];
-		throw MathTemplates::Exception<HighVoltageTable>("HighVoltage not found");
+		throw MathTemplates::Exception<HighVoltageTable>("HighVoltage not found id="+to_string(id));
 	}
 	
 	HVPMConnection::HVPMConnection(const HVPMConnection& source)
@@ -149,7 +149,11 @@ namespace JPetSetup{
 	HVPMConnections::HVPMConnections(const shared_ptr<IDataSource> source)
 	:Factory< JPetSetup::HVPMConnection >(source,{}){}
 	HVPMConnections::~HVPMConnections(){}
-	const vector<HVPMConnection> HVPMConnections::ByID(const size_t id) const{return GetFieldEq("id",id);}
+	const HVPMConnection HVPMConnections::ByID(const size_t id) const{
+		auto vec=GetFieldEq("id",id);
+		if(vec.size()>0)return vec[0];
+		throw MathTemplates::Exception<HVPMConnections>("HVPM connection not found id="+to_string(id));
+	}
 	const vector<HVPMConnection> HVPMConnections::ByHVChannelID(const size_t id) const{return GetFieldEq("hvchannel_id",id);}
 	const vector<HVPMConnection> HVPMConnections::ByPhotomultiplierID(const size_t id) const{return GetFieldEq("photomultiplier_id",id);}
 	const vector<HVPMConnection> HVPMConnections::BySetupID(const size_t id) const{return GetFieldEq("setup_id",id);}
