@@ -125,6 +125,7 @@ namespace DataAccess{
 		Factory(const std::shared_ptr<IDataSource> src,const RequestParameters&&params):Factory(src,params){}
 		Factory(const Factory&source):m_data(source.m_data),f_src(source.f_src){}
 		virtual ~Factory(){}
+		const std::shared_ptr<IDataSource>DataSource()const{return f_src;}
 		const size_t size()const{return m_data->size();}
 		const std::vector<DataItemRepresenter> GetList()const{
 			std::vector<DataItemRepresenter> res;
