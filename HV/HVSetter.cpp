@@ -49,7 +49,6 @@ namespace HVAdjust{
 		if(config.setup_id()!=setup.id())throw Exception<HVTable>("HVconfig does not match Setup");
 		if(setup.highvoltage_id()!=hv_hardware.id())throw Exception<HVTable>("Setup does not match HighVoltage");
 		read();
-		update();
 	}
 	HVTable::~HVTable(){}
 	void HVTable::read(){
@@ -66,6 +65,8 @@ namespace HVAdjust{
 									f_photomultipliers.ByID(conn.photomultiplier_id()),
 									channel
 								);
+		update();
+		read_hardware();
 	}
 	void HVTable::update(){
 		f_hv_values.clear();
@@ -124,6 +125,5 @@ namespace HVAdjust{
 				entries.Delete(entry);
 		}
 		read();
-		update();
 	}
 }
