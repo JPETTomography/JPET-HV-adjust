@@ -8,13 +8,20 @@
 #include <JPetData/Frames.h>
 #include <JPetData/Detectors.h>
 namespace HVAdjust{
+	class IHVSetter{
+	public:
+		virtual ~IHVSetter(){}
+		virtual double GetHV(size_t channel_no)const=0;
+		virtual bool SetHV(size_t channel_no,double hv)=0;
+	};
 	class HVTable{
 	public:
 		HVTable(
 			const JPetSetup::HVconfig&config,
 			const JPetSetup::Setup&setup,const JPetSetup::Frame&frame,
 			const JPetSetup::HighVoltage&hv_hardware,
-			const std::shared_ptr<DataAccess::IDataSource> src
+			const std::shared_ptr<DataAccess::IDataSource> src,
+			const std::shared_ptr<IHVSetter> hardware
 		);
 		virtual ~HVTable();
 		struct Item{
@@ -35,10 +42,14 @@ namespace HVAdjust{
 		};
 		const MathTemplates::SortedChain<Item>&SlotInfo()const;
 		const std::vector<JPetSetup::HVconfigEntry>&HVConfigEntries()const;
+		const std::vector<double>&HardwareHV()const;
 		bool SetHV(const size_t index,const double hv);
+		void SynchroHardwarewithDB();
 		void clear();
 	private:
+		void read();
 		void update();
+		void read_hardware();
 		JPetSetup::HVconfig f_config;
 		JPetSetup::Setup f_setup;
 		JPetSetup::Frame f_frame;
@@ -47,6 +58,8 @@ namespace HVAdjust{
 		JPetSetup::Photomultipliers f_photomultipliers;
 		MathTemplates::SortedChain<Item> f_items;
 		std::vector<JPetSetup::HVconfigEntry> f_hv_values;
+		std::vector<double> f_hv_from_hw;
+		std::shared_ptr<IHVSetter> f_hardware;
 	};
 }
 #endif

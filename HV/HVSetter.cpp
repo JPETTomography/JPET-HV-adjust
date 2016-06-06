@@ -38,12 +38,23 @@ namespace HVAdjust{
 	}
 
 	
-	HVTable::HVTable(const HVconfig&config,const Setup& setup,const Frame& frame,const HighVoltage&hv_hardware,const shared_ptr<IDataSource>src)
-	:f_config(config),f_setup(setup),f_frame(frame),f_hv_hardware(hv_hardware),f_pmhv_conn(src),f_photomultipliers(src){
+	HVTable::HVTable(
+		const HVconfig&config,const Setup& setup,const Frame& frame,
+		const HighVoltage&hv_hardware,const shared_ptr<IDataSource>src,
+		const shared_ptr<IHVSetter>hw
+	):f_config(config),f_setup(setup),f_frame(frame),
+	f_hv_hardware(hv_hardware),f_pmhv_conn(src),
+	f_photomultipliers(src),f_hardware(hw){
 		if(setup.frame_id()!=frame.id())throw Exception<HVTable>("Frame does not match Setup");
 		if(config.setup_id()!=setup.id())throw Exception<HVTable>("HVconfig does not match Setup");
 		if(setup.highvoltage_id()!=hv_hardware.id())throw Exception<HVTable>("Setup does not match HighVoltage");
+		read();
+		update();
+	}
+	HVTable::~HVTable(){}
+	void HVTable::read(){
 		auto hvchannels_cache = f_hv_hardware.CreateChannelsFactory().GetList();
+		f_items.clear();
 		for(const Layer& layer:f_frame.CreateLayersFactory().GetList())
 			for(const Slot&slot:layer.CreateSlotsFactory().GetList())
 				for(const HVPMConnection&conn:f_pmhv_conn.BySlotID(slot.id()))
@@ -55,9 +66,7 @@ namespace HVAdjust{
 									f_photomultipliers.ByID(conn.photomultiplier_id()),
 									channel
 								);
-		update();
 	}
-	HVTable::~HVTable(){}
 	void HVTable::update(){
 		f_hv_values.clear();
 		auto entries_cache=f_config.CreateEntriesFactory().GetList();
@@ -69,11 +78,19 @@ namespace HVAdjust{
 			f_hv_values.push_back(Entry);
 		}
 	}
+	void HVTable::read_hardware(){
+		f_hv_from_hw.clear();
+		for(const Item&item:SlotInfo())
+			f_hv_from_hw.push_back(f_hardware->GetHV(item.hvchannel.idx()));
+	}
 	const SortedChain<HVTable::Item>& HVTable::SlotInfo() const{
 		return f_items;
 	}
 	const vector<HVconfigEntry>& HVTable::HVConfigEntries() const{
 		return f_hv_values;
+	}
+	const vector<double>& HVTable::HardwareHV() const{
+		return f_hv_from_hw;
 	}
 	bool HVTable::SetHV(const size_t index, const double hv){
 		if(index>=f_items.size())return false;
@@ -94,12 +111,19 @@ namespace HVAdjust{
 		update();
 		return res;
 	}
+	void HVTable::SynchroHardwarewithDB(){
+		for(size_t i=0; i<SlotInfo().size();i++)
+			if(isfinite(HVConfigEntries()[i].HV()))
+				f_hardware->SetHV(SlotInfo()[i].hvchannel.idx(),HVConfigEntries()[i].HV());
+		read_hardware();
+	}
 	void HVTable::clear(){
 		{
 			auto entries=f_config.CreateEntriesFactory();
 			for(const HVconfigEntry&entry:entries.GetList())
 				entries.Delete(entry);
 		}
+		read();
 		update();
 	}
 }
