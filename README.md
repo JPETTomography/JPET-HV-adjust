@@ -12,3 +12,7 @@ Directories
 
 	HV - library for providing HV management in frames of previously described libraries
 
+Environment variables
+=====================
+
+	HVLIBDIR - HV directory from Silvermedia software source repository
