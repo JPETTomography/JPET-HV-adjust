@@ -1,11 +1,8 @@
+#include "math.h"
 #include "test_data_source.h"
 using namespace std;
 using namespace DataAccess;
-test_data_source::test_data_source(const bool valid):f_valid(valid){
-	f_counters[data_obtain]=0;
-	f_counters[data_insert]=0;
-	f_counters[data_remove]=0;
-}
+test_data_source::test_data_source(const bool valid):f_valid(valid){ResetCounters();}
 test_data_source::~test_data_source(){}
 const bool test_data_source::Request(const RequestType request, const RequestParameters& params, vector< DataItem >& output){
 	if(!f_valid)return false;
@@ -216,6 +213,7 @@ const bool test_data_source::Request(const RequestType request, const RequestPar
 			map<string,string> item;
 			item["id"]="1";
 			item["frame_id"]="2";
+			item["highvoltage_id"]="1";
 			output.push_back(DataItem(item));
 		};break;
 		case data_hvpmconnection:{
@@ -302,3 +300,34 @@ const bool test_data_source::Request(const RequestType request, const RequestPar
 	return true;
 }
 const size_t test_data_source::Count(const operationtype type)const{return f_counters.find(type)->second;}
+void test_data_source::ResetCounters(){
+	f_counters[data_obtain]=0;
+	f_counters[data_insert]=0;
+	f_counters[data_remove]=0;
+}
+
+
+
+test_hv_setter::test_hv_setter(){}
+test_hv_setter::~test_hv_setter(){}
+size_t test_hv_setter::GetCount(size_t channel_no) const{
+	if(f_data.find(channel_no)!=f_data.end())
+		return f_data.find(channel_no)->second.first;
+	else 
+		return 0;
+}
+double test_hv_setter::GetHV(size_t channel_no) const{
+	if(f_data.find(channel_no)!=f_data.end())
+		return f_data.find(channel_no)->second.second;
+	else 
+		return INFINITY;
+}
+bool test_hv_setter::SetHV(size_t channel_no, double hv){
+	if(f_data.find(channel_no)!=f_data.end()){
+		f_data[channel_no].first++;
+		f_data[channel_no].second=hv;
+	}else f_data[channel_no]=make_pair(channel_no,hv);
+}
+
+
+
