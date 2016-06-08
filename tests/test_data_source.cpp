@@ -137,36 +137,42 @@ const bool test_data_source::Request(const RequestType request, const RequestPar
 		};break;
 		case data_slot:{
 			map<string,string> item;
-			item["id"]="1";
-			item["layer_id"]="1";
-			item["name"]="1";
-			item["isactive"]="t";
-			output.push_back(DataItem(item));
-			item["id"]="2";
-			item["layer_id"]="1";
-			item["name"]="2";
-			item["isactive"]="t";
-			output.push_back(DataItem(item));
-			item["id"]="3";
-			item["layer_id"]="2";
-			item["name"]="1";
-			item["isactive"]="t";
-			output.push_back(DataItem(item));
-			item["id"]="4";
-			item["layer_id"]="2";
-			item["name"]="2";
-			item["isactive"]="t";
-			output.push_back(DataItem(item));
-			item["id"]="5";
-			item["layer_id"]="3";
-			item["name"]="1";
-			item["isactive"]="t";
-			output.push_back(DataItem(item));
-			item["id"]="6";
-			item["layer_id"]="3";
-			item["name"]="2";
-			item["isactive"]="t";
-			output.push_back(DataItem(item));
+			if(params[0]=="1"){
+				item["id"]="1";
+				item["layer_id"]="1";
+				item["name"]="1";
+				item["isactive"]="t";
+				output.push_back(DataItem(item));
+				item["id"]="2";
+				item["layer_id"]="1";
+				item["name"]="2";
+				item["isactive"]="t";
+			}
+			if(params[0]=="2"){
+				output.push_back(DataItem(item));
+				item["id"]="3";
+				item["layer_id"]="2";
+				item["name"]="1";
+				item["isactive"]="t";
+				output.push_back(DataItem(item));
+				item["id"]="4";
+				item["layer_id"]="2";
+				item["name"]="2";
+				item["isactive"]="t";
+				output.push_back(DataItem(item));
+			}
+			if(params[0]=="3"){
+				item["id"]="5";
+				item["layer_id"]="3";
+				item["name"]="1";
+				item["isactive"]="t";
+				output.push_back(DataItem(item));
+				item["id"]="6";
+				item["layer_id"]="3";
+				item["name"]="2";
+				item["isactive"]="t";
+				output.push_back(DataItem(item));
+			}
 		};break;
 		case data_highvoltage:{
 			map<string,string> item;
@@ -175,7 +181,7 @@ const bool test_data_source::Request(const RequestType request, const RequestPar
 			item["status"]="";
 			output.push_back(DataItem(item));
 		};break;
-		case data_hvchannel:{
+		case data_hvchannel:if(params[0]=="1"){
 			map<string,string> item;
 			item["highvoltage_id"]="1";
 			item["status"]="";
@@ -209,7 +215,7 @@ const bool test_data_source::Request(const RequestType request, const RequestPar
 			item["channelidx"]="8";
 			output.push_back(DataItem(item));
 		};break;
-		case data_setup:{
+		case data_setup:if(params[0]=="2"){
 			map<string,string> item;
 			item["id"]="1";
 			item["frame_id"]="2";
@@ -262,14 +268,14 @@ const bool test_data_source::Request(const RequestType request, const RequestPar
 			item["photomultiplier_id"]="8";
 			output.push_back(DataItem(item));
 		};break;
-		case data_hvconfig:{
+		case data_hvconfig:if(params[0]=="1"){
 			map<string,string> item;
 			item["id"]="1";
 			item["setup_id"]="1";
 			item["description"]="";
 			output.push_back(DataItem(item));
 		};break;
-		case data_hvconfigentry:{
+		case data_hvconfigentry:if(params[0]=="1"){
 			map<string,string> item;
 			item["voltageset"]="500";
 			item["hvconfig_id"]="1";
