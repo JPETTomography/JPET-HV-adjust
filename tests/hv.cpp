@@ -1,5 +1,6 @@
 // this file is distributed under 
 // MIT license
+#include <math.h>
 #include <gtest/gtest.h>
 #include <JPetData/Frames.h>
 #include <JPetData/Detectors.h>
@@ -18,8 +19,20 @@ TEST(HVTable,base){
 	auto setup=frame.CreateSetupFactory().SelectAll()[0];
 	auto config=HVconfigTable(data_source,setup.id()).SelectAll()[0];
 	auto hv_record=HighVoltageTable(data_source).ByID(setup.highvoltage_id());
+	data_source->ResetCounters();
 	HVTable table(config,setup,frame,hv_record,data_source,hv_source);
+	EXPECT_EQ(8,data_source->Count(DataAccess::data_obtain));//8 because of two layers in the frame
+	for(const double&hv:table.HardwareHV())
+		EXPECT_EQ(INFINITY,hv);
 	EXPECT_EQ(table.SlotInfo().size(),8);
 	EXPECT_EQ(table.HVConfigEntries().size(),8);
 	EXPECT_EQ(table.HardwareHV().size(),8);
+	table.SynchroHardwarewithDB();
+	size_t count=0;
+	for(const double&hv:table.HardwareHV())
+		if(isfinite(hv)){
+			EXPECT_EQ(500,hv);
+			count++;
+		}
+	EXPECT_EQ(5,count);
 }

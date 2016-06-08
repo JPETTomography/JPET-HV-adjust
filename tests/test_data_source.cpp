@@ -286,9 +286,6 @@ const bool test_data_source::Request(const RequestType request, const RequestPar
 			item["id"]="2";
 			item["hvpm_id"]="2";
 			output.push_back(DataItem(item));
-			item["id"]="3";
-			item["hvpm_id"]="1";
-			output.push_back(DataItem(item));
 			item["id"]="4";
 			item["hvpm_id"]="4";
 			output.push_back(DataItem(item));
