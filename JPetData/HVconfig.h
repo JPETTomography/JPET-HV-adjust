@@ -2,7 +2,7 @@
 // MIT license
 #ifndef _______HV_____CONFIG______H___________
 #	define _______HV_____CONFIG______H___________
-#include <DataGeneral/data_access.h>
+#include <JPetData/data_access.h>
 namespace JPetSetup{
 	class HVconfigEntry{
 	public:

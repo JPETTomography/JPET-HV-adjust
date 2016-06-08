@@ -52,10 +52,10 @@ namespace HVAdjust{
 	}
 	HVTable::~HVTable(){}
 	void HVTable::read(){
-		auto hvchannels_cache = f_hv_hardware.CreateChannelsFactory().GetList();
+		auto hvchannels_cache = f_hv_hardware.CreateChannelsFactory().SelectAll();
 		f_items.clear();
-		for(const Layer& layer:f_frame.CreateLayersFactory().GetList())
-			for(const Slot&slot:layer.CreateSlotsFactory().GetList())
+		for(const Layer& layer:f_frame.CreateLayersFactory().SelectAll())
+			for(const Slot&slot:layer.CreateSlotsFactory().SelectAll())
 				for(const HVPMConnection&conn:f_pmhv_conn.BySlotID(slot.id()))
 					if(conn.setup_id()==f_setup.id())
 						for(const HVChannel&channel:hvchannels_cache)
@@ -70,7 +70,7 @@ namespace HVAdjust{
 	}
 	void HVTable::update(){
 		f_hv_values.clear();
-		auto entries_cache=f_config.CreateEntriesFactory().GetList();
+		auto entries_cache=f_config.CreateEntriesFactory().SelectAll();
 		for(const Item&item:f_items){
 			HVconfigEntry Entry(item.hvpm.id(),INFINITY);
 			for(const HVconfigEntry&entry:entries_cache)
@@ -101,7 +101,7 @@ namespace HVAdjust{
 		{
 			vector<HVconfigEntry> tmp;
 			auto entries=f_config.CreateEntriesFactory();
-			for(const HVconfigEntry&entry:entries.GetList())
+			for(const HVconfigEntry&entry:entries.SelectAll())
 				if(entry.HVPMConnection_id()==f_items[index].hvpm.id())
 					tmp.push_back(entry);
 			for(auto&item:tmp)
@@ -121,7 +121,7 @@ namespace HVAdjust{
 	void HVTable::clear(){
 		{
 			auto entries=f_config.CreateEntriesFactory();
-			for(const HVconfigEntry&entry:entries.GetList())
+			for(const HVconfigEntry&entry:entries.SelectAll())
 				entries.Delete(entry);
 		}
 		read();

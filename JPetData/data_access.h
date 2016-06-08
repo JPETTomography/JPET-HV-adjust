@@ -93,32 +93,6 @@ namespace DataAccess{
 	protected:
 		virtual RequestParameters additional_add_parameters(){return m_data->getter_params();}
 		virtual RequestParameters additional_delete_parameters(){return RequestParameters();}
-		template<typename numt>
-		const std::vector<DataItemRepresenter> GetFieldEq(const std::string&name,const numt v)const{
-			std::vector<DataItemRepresenter> res;
-			for(const DataItem&item: *m_data){
-				if(item.field_eq<numt>(name,v))
-					res.push_back(DataItemRepresenter(item,f_src));
-			}
-			return res;
-		}
-		template<typename numt>
-		const std::vector<DataItemRepresenter> GetFieldEq(const std::string&&name,const numt v)const{
-			return GetFieldEq<numt>(name,v);
-		}
-		template<typename numt>
-		const std::vector<DataItemRepresenter> FieldCondition(const std::string&name,const std::function<bool(numt)>func)const{
-			std::vector<DataItemRepresenter> res;
-			for(const DataItem&item: *m_data){
-				if(func(item.num_field<numt>(name)))
-					res.push_back(DataItemRepresenter(item,f_src));
-			}
-			return res;
-		}
-		template<typename numt>
-		const std::vector<DataItemRepresenter> FieldCondition(const std::string&&name,const std::function<bool(numt)>func)const{
-			return FieldCondition<numt>(name,func);
-		}
 	public:
 		Factory(const std::shared_ptr<IDataSource> src,const RequestParameters&params)
 		:m_data(new DataSet(src,datatype(DataItemRepresenter::type),params)),f_src(src){}
@@ -126,12 +100,16 @@ namespace DataAccess{
 		Factory(const Factory&source):m_data(source.m_data),f_src(source.f_src){}
 		virtual ~Factory(){}
 		const std::shared_ptr<IDataSource>DataSource()const{return f_src;}
-		const size_t size()const{return m_data->size();}
-		const std::vector<DataItemRepresenter> GetList()const{
+		const size_t DataRowsCount()const{return m_data->size();}
+		const std::vector<DataItemRepresenter> Select(std::function<bool(const DataItem&)>condition)const{
 			std::vector<DataItemRepresenter> res;
-			for(const auto&item: *m_data)
-				res.push_back(DataItemRepresenter(item,f_src));
+			for(const DataItem&item: *m_data)
+				if(condition(item))
+					res.push_back(DataItemRepresenter(item,f_src));
 			return res;
+		}
+		const std::vector<DataItemRepresenter> SelectAll()const{
+			return Select([this](const DataItem&){return true;});
 		}
 		bool Add(const DataItemRepresenter&&item){
 			auto params=item.params_to_insert();

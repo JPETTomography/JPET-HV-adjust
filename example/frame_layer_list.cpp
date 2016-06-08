@@ -18,11 +18,11 @@ int main(){
 	auto src=make_shared<PQData>(cfg);
 	Photomultipliers phm_table(src);
 	HVPMConnections connections(src);
-	for(const Frame&frame:Frames(src).GetList()){
+	for(const Frame&frame:Frames(src).SelectAll()){
 		cout << frame.id()<<": "<<frame.description()<<endl;
-		for(const Layer&layer:frame.CreateLayersFactory().GetList()){
+		for(const Layer&layer:frame.CreateLayersFactory().SelectAll()){
 			cout<<"\tlayer "<<layer.id()<<": "<<layer.name()<<"; r="<<layer.radius()<<endl;
-			for(const Slot&slot:layer.CreateSlotsFactory().GetList()){
+			for(const Slot&slot:layer.CreateSlotsFactory().SelectAll()){
 				cout <<"\t\tslot "<<slot.id()<<": "<<slot.name()<<endl;
 				for(const HVPMConnection&con:connections.BySlotID(slot.id())){
 					Photomultiplier phm=phm_table.ByID(con.photomultiplier_id());
@@ -30,7 +30,7 @@ int main(){
 				}
 			}
 		}
-		for(const Setup&setup:frame.CreateSetupFactory().GetList())
+		for(const Setup&setup:frame.CreateSetupFactory().SelectAll())
 			cout<<"\tsetup "<<setup.id()<<": "<<setup.name()<<"; "<<setup.description()<<endl;
 	}
 }

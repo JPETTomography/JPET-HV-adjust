@@ -67,7 +67,7 @@ namespace JPetSetup {
 	const size_t Setup::frame_id() const{return f_frame_id;}
 	const size_t Setup::highvoltage_id() const{return f_highvoltage_id;}
 	const string& Setup::name() const{return f_name;}
-	const string& Setup::description() const{return f_description;}	
+	const string& Setup::description() const{return f_description;}
 	
 	Frame::Frame(const Frame& source)
 	:f_id(source.f_id),f_version(source.f_version),
@@ -99,9 +99,8 @@ namespace JPetSetup {
 	Frames::Frames(const shared_ptr< IDataSource > src):Factory<Frame>(src,{}){}
 	Frames::~Frames(){}
 	const Frame Frames::ByID(const size_t id) const{
-		auto vec=GetFieldEq("id",id);
+		auto vec=Select([id](const DataItem&row){return row.num_field<size_t>("id")==id;});
 		if(vec.size()>0)return vec[0];
 		throw MathTemplates::Exception<Frames>("frame not found id="+to_string(id));
 	}
-
 };

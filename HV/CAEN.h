@@ -2,17 +2,17 @@
 // MIT license
 #ifndef ____________HV___CAEN_H__________
 #	define ____________HV___CAEN_H__________
-#include <functional>
-#include <vector>
 #include "HVSetter.h"
+class libhv;
 namespace Hardware{
-	class AbstractCAEN:public HVAdjust::IHVSetter{
-	protected:
-		AbstractCAEN(const int handle);
+	class CAEN:public HVAdjust::IHVSetter{
 	public:
-		virtual ~AbstractCAEN();
+		CAEN(const std::string connstr);
+		virtual ~CAEN();
+		virtual double GetHV(size_t channel_no)const override;
+		virtual bool SetHV(size_t channel_no,double hv)override;
 	private:
-		int f_handle;
+		libhv* f_handle;
 	};
 }
 #endif

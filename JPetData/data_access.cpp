@@ -2,7 +2,7 @@
 // MIT license
 #include <sstream>
 #include <math_h/error.h>
-#include <DataGeneral/data_access.h>
+#include <JPetData/data_access.h>
 using namespace std;
 using namespace MathTemplates;
 namespace DataAccess{

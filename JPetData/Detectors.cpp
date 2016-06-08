@@ -29,7 +29,7 @@ namespace JPetSetup {
 	:Factory<JPetSetup::Photomultiplier>(src, {}){}
 	Photomultipliers::~Photomultipliers(){}
 	const Photomultiplier Photomultipliers::ByID(const size_t id)const{
-		auto vec=GetFieldEq("id",id);
+		auto vec=Select([id](const DataItem&row){return row.num_field<size_t>("id")==id;});
 		if(vec.size()>0)return vec[0];
 		throw MathTemplates::Exception<Photomultipliers>("Photomultiplier not found id="+to_string(id));
 	}

@@ -115,7 +115,7 @@ namespace JPetSetup{
 	:Factory<HighVoltage>(source,{}){}
 	HighVoltageTable::~HighVoltageTable(){}
 	const HighVoltage HighVoltageTable::ByID(const size_t id) const{
-		auto vec=GetFieldEq("id",id);
+		auto vec=Select([id](const DataItem&row){return row.num_field<size_t>("id")==id;});
 		if(vec.size()>0)return vec[0];
 		throw MathTemplates::Exception<HighVoltageTable>("HighVoltage not found id="+to_string(id));
 	}
@@ -150,12 +150,20 @@ namespace JPetSetup{
 	:Factory< JPetSetup::HVPMConnection >(source,{}){}
 	HVPMConnections::~HVPMConnections(){}
 	const HVPMConnection HVPMConnections::ByID(const size_t id) const{
-		auto vec=GetFieldEq("id",id);
+		auto vec=Select([id](const DataItem&row){return row.num_field<size_t>("id")==id;});
 		if(vec.size()>0)return vec[0];
 		throw MathTemplates::Exception<HVPMConnections>("HVPM connection not found id="+to_string(id));
 	}
-	const vector<HVPMConnection> HVPMConnections::ByHVChannelID(const size_t id) const{return GetFieldEq("hvchannel_id",id);}
-	const vector<HVPMConnection> HVPMConnections::ByPhotomultiplierID(const size_t id) const{return GetFieldEq("photomultiplier_id",id);}
-	const vector<HVPMConnection> HVPMConnections::BySetupID(const size_t id) const{return GetFieldEq("setup_id",id);}
-	const vector<HVPMConnection> HVPMConnections::BySlotID(const size_t id) const{return GetFieldEq("slot_id",id);}
+	const vector<HVPMConnection> HVPMConnections::ByHVChannelID(const size_t id) const{
+		return Select([id](const DataItem&row){return row.num_field<size_t>("hvchannel_id")==id;});
+	}
+	const vector<HVPMConnection> HVPMConnections::ByPhotomultiplierID(const size_t id) const{
+		return Select([id](const DataItem&row){return row.num_field<size_t>("photomultiplier_id")==id;});
+	}
+	const vector<HVPMConnection> HVPMConnections::BySetupID(const size_t id) const{
+		return Select([id](const DataItem&row){return row.num_field<size_t>("setup_id")==id;});
+	}
+	const vector<HVPMConnection> HVPMConnections::BySlotID(const size_t id) const{
+		return Select([id](const DataItem&row){return row.num_field<size_t>("slot_id")==id;});
+	}
 };

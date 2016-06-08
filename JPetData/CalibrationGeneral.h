@@ -2,7 +2,7 @@
 // MIT license
 #ifndef ______DATA_CALIBRATION_H________
 #	define ______DATA_CALIBRATION_H________
-#include <DataGeneral/data_access.h>
+#include <JPetData/data_access.h>
 class TFormula;
 namespace Calibration{
 	class CalibrationType{

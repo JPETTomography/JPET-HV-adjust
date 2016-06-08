@@ -5,7 +5,7 @@
 #include <memory>
 #include <pqxx/pqxx>
 #include <pqxx/nontransaction>
-#include <DataGeneral/data_access.h>
+#include <JPetData/data_access.h>
 namespace DataAccess{
 	struct DBConfigData{
 		std::string db_name;

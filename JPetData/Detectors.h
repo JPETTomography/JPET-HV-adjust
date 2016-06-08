@@ -2,7 +2,7 @@
 // MIT license
 #ifndef ______DETECTORS_H______
 #	define ______DETECTORS_H______
-#include <DataGeneral/data_access.h>
+#include <JPetData/data_access.h>
 namespace JPetSetup{
 	class Photomultiplier{
 	public:

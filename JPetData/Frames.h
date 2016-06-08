@@ -2,7 +2,7 @@
 // MIT license
 #ifndef _______F_R_A_M_E_S____H_________
 #	define _______F_R_A_M_E_S____H_________
-#include <DataGeneral/data_access.h>
+#include <JPetData/data_access.h>
 namespace JPetSetup{
 	class Slot{
 	public:
