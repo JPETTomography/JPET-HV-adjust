@@ -10,6 +10,7 @@ namespace Hardware{
 		CAEN(const std::string connstr);
 		virtual ~CAEN();
 		virtual double GetHV(size_t channel_no)const override;
+		virtual double GetCurent(size_t channel_no)const override;
 		virtual bool SetHV(size_t channel_no,double hv)override;
 	private:
 		libhv* f_handle;

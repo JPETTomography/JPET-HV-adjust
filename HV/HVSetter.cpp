@@ -80,9 +80,12 @@ namespace HVAdjust{
 		}
 	}
 	void HVTable::read_hardware(){
+		f_i_from_hw.clear();
 		f_hv_from_hw.clear();
-		for(const Item&item:SlotInfo())
+		for(const Item&item:SlotInfo()){
 			f_hv_from_hw.push_back(f_hardware->GetHV(item.hvchannel.idx()));
+			f_i_from_hw.push_back(f_hardware->GetCurent(item.hvchannel.idx()));
+		}
 	}
 	const SortedChain<HVTable::Item>& HVTable::SlotInfo() const{
 		return f_items;
@@ -92,6 +95,9 @@ namespace HVAdjust{
 	}
 	const vector<double>& HVTable::HardwareHV() const{
 		return f_hv_from_hw;
+	}
+	const vector< double >& HVTable::HardwareCurent() const{
+		return f_i_from_hw;
 	}
 	bool HVTable::SetHV(const size_t index, const double hv){
 		if(index>=f_items.size())return false;

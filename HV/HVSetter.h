@@ -12,6 +12,7 @@ namespace HVAdjust{
 	public:
 		virtual ~IHVSetter(){}
 		virtual double GetHV(size_t channel_no)const=0;
+		virtual double GetCurent(size_t channel_no)const=0;
 		virtual bool SetHV(size_t channel_no,double hv)=0;
 	};
 	class HVTable{
@@ -43,13 +44,14 @@ namespace HVAdjust{
 		const MathTemplates::SortedChain<Item>&SlotInfo()const;
 		const std::vector<JPetSetup::HVconfigEntry>&HVConfigEntries()const;
 		const std::vector<double>&HardwareHV()const;
+		const std::vector<double>&HardwareCurent()const;
 		bool SetHV(const size_t index,const double hv);
 		void SynchroHardwarewithDB();
+		void read_hardware();
 		void clear();
 	private:
 		void read();
 		void update();
-		void read_hardware();
 		JPetSetup::HVconfig f_config;
 		JPetSetup::Setup f_setup;
 		JPetSetup::Frame f_frame;
@@ -59,6 +61,7 @@ namespace HVAdjust{
 		MathTemplates::SortedChain<Item> f_items;
 		std::vector<JPetSetup::HVconfigEntry> f_hv_values;
 		std::vector<double> f_hv_from_hw;
+		std::vector<double> f_i_from_hw;
 		std::shared_ptr<IHVSetter> f_hardware;
 	};
 }

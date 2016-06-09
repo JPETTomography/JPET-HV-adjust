@@ -325,6 +325,12 @@ double test_hv_setter::GetHV(size_t channel_no) const{
 	else 
 		return INFINITY;
 }
+double test_hv_setter::GetCurent(size_t channel_no) const{
+	if(f_data.find(channel_no)!=f_data.end())
+		return 200.0;
+	else 
+		return INFINITY;
+}
 bool test_hv_setter::SetHV(size_t channel_no, double hv){
 	if(f_data.find(channel_no)!=f_data.end()){
 		f_data[channel_no].first++;

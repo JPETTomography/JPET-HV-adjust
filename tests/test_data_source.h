@@ -22,6 +22,7 @@ public:
 	virtual ~test_hv_setter();
 	size_t GetCount(size_t channel_no)const;
 	virtual double GetHV(size_t channel_no)const override;
+	virtual double GetCurent(size_t channel_no)const override;
 	virtual bool SetHV(size_t channel_no,double hv)override;
 	
 };
