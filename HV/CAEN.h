@@ -2,6 +2,7 @@
 // MIT license
 #ifndef ____________HV___CAEN_H__________
 #	define ____________HV___CAEN_H__________
+#include <vector>
 #include "HVSetter.h"
 class libhv;
 namespace Hardware{
@@ -14,6 +15,7 @@ namespace Hardware{
 		virtual bool SetHV(size_t channel_no,double hv)override;
 	private:
 		libhv* f_handle;
+		size_t f_count;
 	};
 }
 #endif
