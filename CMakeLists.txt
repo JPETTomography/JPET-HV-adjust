@@ -7,7 +7,7 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 add_subdirectory(math_h)
 include_directories(math_h/include)
-include_directories(.)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 file(GLOB JPETDATA JPetData/*.cpp)
 add_library(jpetdata ${JPETDATA})
