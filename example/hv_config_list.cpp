@@ -7,7 +7,7 @@ using namespace std;
 using namespace DataAccess;
 using namespace JPetSetup;
 int main(){
-	auto src=make_shared<PQData>(DBConfigData("host=127.0.0.1;database=postgres;login=postgres;pwd=pass"));
+	auto src=make_shared<PQData>("host=127.0.0.1 dbname=postgres user=postgres password=pass");
 	
 	for(const HVconfig&config:HVconfigTable(src,1).SelectAll()){
 		cout<<config.id()<<":"<<config.description()<<endl;

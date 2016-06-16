@@ -7,19 +7,10 @@
 #include <pqxx/nontransaction>
 #include <JPetData/data_access.h>
 namespace DataAccess{
-	struct DBConfigData{
-		std::string db_name;
-		std::string username;
-		std::string password;
-		std::string hostname;
-		std::string port;
-		DBConfigData(const std::string&connstr);
-		DBConfigData(const std::string&&connstr):DBConfigData(connstr){}
-	};
 	class PQData:public IDataSource{
 	public:
-		PQData(const DBConfigData&cfg);
-		PQData(const DBConfigData&&cfg):PQData(cfg){}
+		PQData(const std::string&connstr);
+		PQData(const std::string&&connstr):PQData(connstr){}
 		virtual ~PQData();
 		virtual const bool Request(const RequestType request, const RequestParameters&params,std::vector<DataItem>&)override;
 		const bool changed()const;

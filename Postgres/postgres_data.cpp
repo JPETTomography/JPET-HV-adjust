@@ -6,30 +6,8 @@
 using namespace std;
 using namespace pqxx;
 namespace DataAccess{
-	DBConfigData::DBConfigData(const string& connstr):port("5432"){
-		stringstream str(connstr);
-		string token;
-		while(getline(str,token,';')){
-			stringstream itemstr(token);
-			string field,value;
-			if(getline(itemstr,field,'=')&&getline(itemstr,value)){
-				if(field=="host")hostname=value;
-				if(field=="port")port=value;
-				if(field=="login")username=value;
-				if(field=="pwd")password=value;
-				if(field=="database")db_name=value;
-			}
-		}
-	}
-	
-	PQData::PQData(const DBConfigData& cfg)
-	:f_connection(
-		"dbname="+cfg.db_name+
-		" user="+cfg.username+
-		" password="+cfg.password+
-		" host="+cfg.hostname+
-		" port="+cfg.port
-	),f_work(f_connection),f_changed(false){
+	PQData::PQData(const string&conn)
+	:f_connection(conn),f_work(f_connection),f_changed(false){
 		f_work.exec("begin;");
 	}
 	PQData::~PQData(){
