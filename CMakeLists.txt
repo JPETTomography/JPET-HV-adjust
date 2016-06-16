@@ -3,23 +3,12 @@ project(HV-adjust)
 set(CMAKE_CXX_FLAGS "-pthread -std=gnu++11")
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
-
-
 add_subdirectory(math_h)
 include_directories(math_h/include)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 file(GLOB JPETDATA JPetData/*.cpp)
 add_library(jpetdata ${JPETDATA})
-target_link_libraries(jpetdata)
-
-link_directories($ENV{HVLIBDIR}/libsy4527)
-include_directories($ENV{HVLIBDIR}/libsy4527)
-link_directories($ENV{HVLIBDIR}/libhv)
-include_directories($ENV{HVLIBDIR}/libhv)
-file(GLOB HV HV/*.cpp)
-add_library(hvadjust ${HV})
-target_link_libraries(hvadjust jpetdata hv CAENComm CAENVME caenhvwrapper dl)
 
 option(tests "Compile tests." OFF) 
 if(tests)
@@ -27,7 +16,17 @@ if(tests)
 	find_package(GTest REQUIRED)
 	include_directories(${GTEST_INCLUDE_DIRS})
 	add_executable(test-all-libs-here.exe ${TESTS})
-	target_link_libraries(test-all-libs-here.exe jpetdata hvadjust ${GTEST_BOTH_LIBRARIES})
+	target_link_libraries(test-all-libs-here.exe jpetdata ${GTEST_BOTH_LIBRARIES})
+endif()
+
+if(NOT $ENV{HVLIBDIR} STREQUAL "")
+	link_directories($ENV{HVLIBDIR}/libsy4527)
+	include_directories($ENV{HVLIBDIR}/libsy4527)
+	link_directories($ENV{HVLIBDIR}/libhv)
+	include_directories($ENV{HVLIBDIR}/libhv)
+	file(GLOB HV HV/*.cpp)
+	add_library(hvadjust ${HV})
+	target_link_libraries(hvadjust jpetdata hv CAENComm CAENVME caenhvwrapper dl)
 endif()
 
 find_package(PQXX REQUIRED)

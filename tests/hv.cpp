@@ -6,7 +6,7 @@
 #include <JPetData/Detectors.h>
 #include <JPetData/HVconfig.h>
 #include <Postgres/postgres_data.h>
-#include <HV/HVSetter.h>
+#include <JPetData/HVSetter.h>
 #include "test_data_source.h"
 using namespace std;
 using namespace DataAccess;

@@ -1,7 +1,7 @@
 #ifndef ____TESTSOURCE_H__________
 #	define ____TESTSOURCE_H__________
 #include <JPetData/data_access.h>
-#include <HV/HVSetter.h>
+#include <JPetData/HVSetter.h>
 class test_data_source:public DataAccess::IDataSource{
 private:
 	bool f_valid;

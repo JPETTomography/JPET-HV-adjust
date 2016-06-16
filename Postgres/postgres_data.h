@@ -13,10 +13,13 @@ namespace DataAccess{
 		std::string password;
 		std::string hostname;
 		std::string port;
+		DBConfigData(const std::string&connstr);
+		DBConfigData(const std::string&&connstr):DBConfigData(connstr){}
 	};
 	class PQData:public IDataSource{
 	public:
 		PQData(const DBConfigData&cfg);
+		PQData(const DBConfigData&&cfg):PQData(cfg){}
 		virtual ~PQData();
 		virtual const bool Request(const RequestType request, const RequestParameters&params,std::vector<DataItem>&)override;
 		const bool changed()const;

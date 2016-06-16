@@ -3,7 +3,7 @@
 #ifndef ____________HV___CAEN_H__________
 #	define ____________HV___CAEN_H__________
 #include <vector>
-#include "HVSetter.h"
+#include <JPetData/HVSetter.h>
 class libhv;
 namespace Hardware{
 	class CAEN:public HVAdjust::IHVSetter{

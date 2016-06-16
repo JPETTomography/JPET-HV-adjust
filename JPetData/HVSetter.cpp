@@ -2,7 +2,7 @@
 // MIT license
 #include <math.h>
 #include <math_h/error.h>
-#include <HV/HVSetter.h>
+#include <JPetData/HVSetter.h>
 using namespace std;
 using namespace DataAccess;
 using namespace JPetSetup;

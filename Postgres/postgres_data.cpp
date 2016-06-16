@@ -1,10 +1,27 @@
 // this file is distributed under 
 // MIT license
-#include <iostream>
+#include <list>
+#include <sstream>
 #include <Postgres/postgres_data.h>
 using namespace std;
 using namespace pqxx;
 namespace DataAccess{
+	DBConfigData::DBConfigData(const string& connstr):port("5432"){
+		stringstream str(connstr);
+		string token;
+		while(getline(str,token,';')){
+			stringstream itemstr(token);
+			string field,value;
+			if(getline(itemstr,field,'=')&&getline(itemstr,value)){
+				if(field=="host")hostname=value;
+				if(field=="port")port=value;
+				if(field=="login")username=value;
+				if(field=="pwd")password=value;
+				if(field=="database")db_name=value;
+			}
+		}
+	}
+	
 	PQData::PQData(const DBConfigData& cfg)
 	:f_connection(
 		"dbname="+cfg.db_name+
