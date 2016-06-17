@@ -22,11 +22,11 @@ namespace Hardware{
 				f_count+=channelsCounts[i];
 			delete channelsCounts;
 		}
-		
 	}
 	CAEN::~CAEN(){
 		delete f_handle;
 	}
+	const size_t CAEN::size() const{return f_count;}
 	double CAEN::GetCurent(size_t channel_no) const{
 		if(channel_no>f_count)
 			throw MathTemplates::Exception<CAEN>("Channel range check error");
