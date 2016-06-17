@@ -41,6 +41,9 @@ namespace Hardware{
 		if(channel_no>f_count)
 			throw MathTemplates::Exception<CAEN>("Channel range check error");
 		//ToDo: check maximum HV in the hardware
+		if(hv>1300)return false;
+		if(hv<-1300)return false;
+		//
 		return LIBHV_setVoltage(f_handle,channel_no,hv);
 	}
 
