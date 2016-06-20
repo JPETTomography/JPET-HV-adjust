@@ -27,7 +27,9 @@ TEST(HVTable,base){
 	EXPECT_EQ(table.SlotInfo().size(),8);
 	EXPECT_EQ(table.HVConfigEntries().size(),8);
 	EXPECT_EQ(table.HardwareHV().size(),8);
+	EXPECT_EQ(hv_source->UpdatesCount(),1);
 	table.SynchroHardwarewithDB();
+	EXPECT_EQ(hv_source->UpdatesCount(),2);
 	size_t count=0;
 	for(const double&hv:table.HardwareHV())
 		if(isfinite(hv)){
@@ -35,4 +37,6 @@ TEST(HVTable,base){
 			count++;
 		}
 	EXPECT_EQ(5,count);
+	table.SwitchOffHardware();
+	EXPECT_EQ(hv_source->UpdatesCount(),3);
 }

@@ -344,6 +344,9 @@ bool test_hv_setter::SetHV(size_t channel_no, double hv){
 void test_hv_setter::UpdateRequest(){
 	f_update_counter++;
 }
+const size_t test_hv_setter::UpdatesCount() const{
+	return f_update_counter;
+}
 
 
 
