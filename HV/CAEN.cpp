@@ -66,7 +66,7 @@ namespace Hardware{
 	}
 
 	bool CAEN::IsOn(size_t idx) const{
-		return false;
+		return string(f_status_cache[idx2index(idx)]->getStatus())=="ON";
 	}
 	double CAEN::GetHV(size_t idx) const{
 		return f_status_cache[idx2index(idx)]->getVMon();
