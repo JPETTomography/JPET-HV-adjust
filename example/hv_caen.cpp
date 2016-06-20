@@ -25,7 +25,7 @@ int main(int argc,char**argv){
 	CAEN hv(constr);
 	cout<<"========"<<endl;
 	for(size_t idx=800;idx<832;idx++)
-		cout<<idx<<"\t"<<hv.IsOn(idx)<<"\t"<<hv.GetHV(idx)<<endl;
+		cout<<idx<<"\t"<<hv[hv.idx2index(idx)]->getChannelName()<<"\t"<<hv.IsOn(idx)<<"\t"<<hv.GetHV(idx)<<endl;
 	for(size_t idx=800;idx<832;idx++){
 		hv.turnOn(idx);
 		hv.SetHV(idx,500);
