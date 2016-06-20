@@ -1,5 +1,7 @@
 // this file is distributed under 
 // MIT license
+#include <string>
+#include <sstream>
 #include <connectionstring.h>
 #include <libhv_global.h>
 #include <math_h/error.h>
@@ -26,34 +28,41 @@ namespace Hardware{
 		f_status_cache=new ChanelStatus*[f_count];
 		for(size_t i=0;i<f_count;i++)
 			f_status_cache[i]=new ChanelStatus();
-		LIBHV_getStatusForAll(f_handle,f_status_cache,f_count);
+		f_idx_cache=new size_t[f_count];
+		UpdateRequest();
 	}
 	CAEN::~CAEN(){
 		for(size_t i=0;i<f_count;i++)
 			delete f_status_cache[i];
 		delete[] f_status_cache;
+		delete[] f_idx_cache;
 		delete f_handle;
-	}
-	const size_t CAEN::ChannelCount() const{return f_count;}
-	ChanelStatus* CAEN::operator[](const size_t channel_no)const{
-		if(channel_no>=f_count)
-			throw Exception<CAEN>("Range check error");
-		return f_status_cache[channel_no];
 	}
 	void CAEN::UpdateRequest(){
 		LIBHV_getStatusForAll(f_handle,f_status_cache,f_count);
+		for(size_t i=0;i<f_count;i++){
+			string idx_msg(f_status_cache[i]->getChannelName());
+			idx_msg=idx_msg.substr(2,4);
+			stringstream str(idx_msg);
+			str>>f_idx_cache[i];
+		}
 	}
-	double CAEN::GetHV(size_t channel_no) const{
-		if(channel_no>=f_count)
+	const size_t CAEN::ChannelCount() const{return f_count;}
+	ChanelStatus* CAEN::operator[](const size_t index)const{
+		if(index>=f_count)
 			throw Exception<CAEN>("Range check error");
-		return f_status_cache[channel_no]->getVMon();
+		return f_status_cache[index];
 	}
-	bool CAEN::IsOn(size_t channel_no) const{
-		if(channel_no>=f_count)
+	const size_t CAEN::index2idx(const size_t index) const{
+		if(index>=f_count)
 			throw Exception<CAEN>("Range check error");
-		return f_status_cache[channel_no]->getRamp();
+		return f_idx_cache[index];
 	}
-	bool CAEN::SetHV(size_t channel_no, double hv){}
-	void CAEN::turnOn(size_t channel_no){}
-	void CAEN::turnOff(size_t channel_no){}
+	const size_t CAEN::idx2index(const size_t idx) const{}
+
+	bool CAEN::IsOn(size_t idx) const{}
+	double CAEN::GetHV(size_t idx) const{}
+	void CAEN::turnOn(size_t idx){}
+	void CAEN::turnOff(size_t idx){}
+	void CAEN::SetHV(size_t idx, double hv){}
 }

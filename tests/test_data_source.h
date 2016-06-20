@@ -26,7 +26,7 @@ public:
 	virtual double GetHV(size_t channel_no)const override;
 	virtual void turnOn(size_t channel_no) override;
 	virtual void turnOff(size_t channel_no) override;
-	virtual bool SetHV(size_t channel_no,double hv) override;
+	virtual void SetHV(size_t channel_no,double hv) override;
 	const size_t UpdatesCount()const;
 };
 

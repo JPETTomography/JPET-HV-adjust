@@ -336,7 +336,7 @@ void test_hv_setter::turnOff(size_t channel_no){
 	}else f_data[channel_no]=make_pair(false,INFINITY);
 }
 
-bool test_hv_setter::SetHV(size_t channel_no, double hv){
+void test_hv_setter::SetHV(size_t channel_no, double hv){
 	if(f_data.find(channel_no)!=f_data.end()){
 		f_data[channel_no].second=hv;
 	}else f_data[channel_no]=make_pair(false,hv);

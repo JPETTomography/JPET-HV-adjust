@@ -16,7 +16,7 @@ namespace HVAdjust{
 		virtual double GetHV(size_t channel_no)const=0;
 		virtual void turnOn(size_t channel_no)=0;
 		virtual void turnOff(size_t channel_no)=0;
-		virtual bool SetHV(size_t channel_no,double hv)=0;
+		virtual void SetHV(size_t channel_no,double hv)=0;
 	};
 	class HVTable{
 	public:

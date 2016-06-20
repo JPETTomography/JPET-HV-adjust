@@ -12,17 +12,20 @@ namespace Hardware{
 		CAEN(const std::string connstr);
 		virtual ~CAEN();
 		virtual void UpdateRequest()override;
-		virtual bool IsOn(size_t channel_no)const override;
-		virtual double GetHV(size_t channel_no)const override;
-		virtual void turnOn(size_t channel_no)override;
-		virtual void turnOff(size_t channel_no)override;
-		virtual bool SetHV(size_t channel_no,double hv)override;
+		virtual bool IsOn(size_t idx)const override;
+		virtual double GetHV(size_t idx)const override;
+		virtual void turnOn(size_t idx)override;
+		virtual void turnOff(size_t idx)override;
+		virtual void SetHV(size_t idx,double hv)override;
 
 		const size_t ChannelCount()const;
-		ChanelStatus*operator[](const size_t channel_no)const;
+		ChanelStatus*operator[](const size_t index)const;
+		const size_t idx2index(const size_t idx)const;
+		const size_t index2idx(const size_t index)const;
 	private:
 		libhv* f_handle;
 		ChanelStatus** f_status_cache;
+		size_t* f_idx_cache;
 		size_t f_count;
 	};
 }
