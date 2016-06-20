@@ -24,8 +24,19 @@ int main(int argc,char**argv){
 	}
 	CAEN hv(constr);
 	cout<<"========"<<endl;
-	cout<<hv.ChannelCount()<<" channels"<<endl;
-	for(size_t i=0;i<hv.ChannelCount();i++)
-		cout<<hv[i]->getChannelName()<<"\t"<<hv.index2idx(i)<<endl;
+	for(size_t idx=800;idx<832;idx++){
+		hv.turnOn(idx);
+		hv.SetHV(idx,500);
+	}
+	for(size_t c=1000000;c>1;c--);
+	for(size_t idx=800;idx<832;idx++)
+		cout<<idx<<"\t"<<hv.IsOn(idx)<<"\t"<<hv.GetHV(idx)<<endl;
+	for(size_t c=1000000;c>1;c--);
+	for(size_t idx=800;idx<832;idx++){
+		hv.turnOff(idx);
+	}
+	for(size_t c=1000000;c>1;c--);
+	for(size_t idx=800;idx<832;idx++)
+		cout<<idx<<"\t"<<hv.IsOn(idx)<<"\t"<<hv.GetHV(idx)<<endl;
 	cout<<"========"<<endl;
 }

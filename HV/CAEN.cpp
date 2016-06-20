@@ -58,11 +58,26 @@ namespace Hardware{
 			throw Exception<CAEN>("Range check error");
 		return f_idx_cache[index];
 	}
-	const size_t CAEN::idx2index(const size_t idx) const{}
+	const size_t CAEN::idx2index(const size_t idx) const{
+		for(size_t i=0;i<f_count;i++)
+			if(f_idx_cache[i]==idx)
+				return i;
+		throw Exception<CAEN>("IDX not found");
+	}
 
-	bool CAEN::IsOn(size_t idx) const{}
-	double CAEN::GetHV(size_t idx) const{}
-	void CAEN::turnOn(size_t idx){}
-	void CAEN::turnOff(size_t idx){}
-	void CAEN::SetHV(size_t idx, double hv){}
+	bool CAEN::IsOn(size_t idx) const{
+		return false;
+	}
+	double CAEN::GetHV(size_t idx) const{
+		return f_status_cache[idx2index(idx)]->getVMon();
+	}
+	void CAEN::turnOn(size_t idx){
+		LIBHV_switchChannel(f_handle,idx2index(idx),true);
+	}
+	void CAEN::turnOff(size_t idx){
+		LIBHV_switchChannel(f_handle,idx2index(idx),false);
+	}
+	void CAEN::SetHV(size_t idx, double hv){
+		LIBHV_setVoltage(f_handle,idx2index(idx),hv);
+	}
 }
