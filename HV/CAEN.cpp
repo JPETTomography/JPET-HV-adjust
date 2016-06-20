@@ -72,12 +72,12 @@ namespace Hardware{
 		return f_status_cache[idx2index(idx)]->getVMon();
 	}
 	void CAEN::turnOn(size_t idx){
-		LIBHV_switchChannel(f_handle,idx2index(idx),true);
+		f_handle->switchChannel(idx2index(idx),true);
 	}
 	void CAEN::turnOff(size_t idx){
-		LIBHV_switchChannel(f_handle,idx2index(idx),false);
+		f_handle->switchChannel(idx2index(idx),false);
 	}
 	void CAEN::SetHV(size_t idx, double hv){
-		LIBHV_setVoltage(f_handle,idx2index(idx),hv);
+		f_handle->setVoltage(idx2index(idx),hv);
 	}
 }
