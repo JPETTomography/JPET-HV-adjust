@@ -27,7 +27,6 @@ TEST(HVTable,base){
 	EXPECT_EQ(table.SlotInfo().size(),8);
 	EXPECT_EQ(table.HVConfigEntries().size(),8);
 	EXPECT_EQ(table.HardwareHV().size(),8);
-	EXPECT_EQ(table.HardwareCurent().size(),8);
 	table.SynchroHardwarewithDB();
 	size_t count=0;
 	for(const double&hv:table.HardwareHV())
@@ -36,10 +35,4 @@ TEST(HVTable,base){
 			count++;
 		}
 	EXPECT_EQ(5,count);
-	for(const double&i:table.HardwareCurent())
-		if(isfinite(i)){
-			EXPECT_EQ(200,i);
-			count++;
-		}
-	EXPECT_EQ(10,count);
 }

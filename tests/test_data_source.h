@@ -16,15 +16,18 @@ public:
 
 class test_hv_setter:public HVAdjust::IHVSetter{
 private:
-	std::map<size_t,std::pair<size_t,double>> f_data;
+	std::map<size_t,std::pair<bool,double>> f_data;
+	size_t f_update_counter;
 public:
 	test_hv_setter();
 	virtual ~test_hv_setter();
-	size_t GetCount(size_t channel_no)const;
+	virtual void UpdateRequest()override;
+	virtual bool IsOn(size_t channel_no)const override;
 	virtual double GetHV(size_t channel_no)const override;
-	virtual double GetCurent(size_t channel_no)const override;
-	virtual bool SetHV(size_t channel_no,double hv)override;
-	
+	virtual void turnOn(size_t channel_no) override;
+	virtual void turnOff(size_t channel_no) override;
+	virtual bool SetHV(size_t channel_no,double hv) override;
+	const size_t UpdatesCount()const;
 };
 
 #endif

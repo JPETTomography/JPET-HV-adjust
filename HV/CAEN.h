@@ -11,16 +11,15 @@ namespace Hardware{
 	public:
 		CAEN(const std::string connstr);
 		virtual ~CAEN();
-		virtual void UpdateRequest()const override;
-		//getters
-		virtual const size_t ChannelCount()const override;
+		virtual void UpdateRequest()override;
 		virtual bool IsOn(size_t channel_no)const override;
 		virtual double GetHV(size_t channel_no)const override;
-		ChanelStatus*operator[](const size_t channel_no)const;
-		//setters
 		virtual void turnOn(size_t channel_no)override;
 		virtual void turnOff(size_t channel_no)override;
 		virtual bool SetHV(size_t channel_no,double hv)override;
+
+		const size_t ChannelCount()const;
+		ChanelStatus*operator[](const size_t channel_no)const;
 	private:
 		libhv* f_handle;
 		ChanelStatus** f_status_cache;

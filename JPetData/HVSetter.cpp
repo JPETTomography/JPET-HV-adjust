@@ -115,8 +115,17 @@ namespace HVAdjust{
 	}
 	void HVTable::SynchroHardwarewithDB(){
 		for(size_t i=0; i<SlotInfo().size();i++)
-			if(isfinite(HVConfigEntries()[i].HV()))
+			if(isfinite(HVConfigEntries()[i].HV())){
+				f_hardware->turnOn(SlotInfo()[i].hvchannel.idx());
 				f_hardware->SetHV(SlotInfo()[i].hvchannel.idx(),HVConfigEntries()[i].HV());
+			}else{
+				f_hardware->turnOff(SlotInfo()[i].hvchannel.idx());
+			}
+		read_hardware();
+	}
+	void HVTable::SwitchOffHardware(){
+		for(size_t i=0; i<SlotInfo().size();i++)
+			f_hardware->turnOff(SlotInfo()[i].hvchannel.idx());
 		read_hardware();
 	}
 	void HVTable::clear(){

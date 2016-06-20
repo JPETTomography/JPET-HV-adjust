@@ -40,7 +40,7 @@ namespace Hardware{
 			throw Exception<CAEN>("Range check error");
 		return f_status_cache[channel_no];
 	}
-	void CAEN::UpdateRequest() const{
+	void CAEN::UpdateRequest(){
 		LIBHV_getStatusForAll(f_handle,f_status_cache,f_count);
 	}
 	double CAEN::GetHV(size_t channel_no) const{

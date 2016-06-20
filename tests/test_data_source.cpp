@@ -311,13 +311,13 @@ void test_data_source::ResetCounters(){
 
 
 
-test_hv_setter::test_hv_setter(){}
+test_hv_setter::test_hv_setter():f_update_counter(0){}
 test_hv_setter::~test_hv_setter(){}
-size_t test_hv_setter::GetCount(size_t channel_no) const{
+bool test_hv_setter::IsOn(size_t channel_no) const{
 	if(f_data.find(channel_no)!=f_data.end())
 		return f_data.find(channel_no)->second.first;
 	else 
-		return 0;
+		return false;
 }
 double test_hv_setter::GetHV(size_t channel_no) const{
 	if(f_data.find(channel_no)!=f_data.end())
@@ -325,17 +325,24 @@ double test_hv_setter::GetHV(size_t channel_no) const{
 	else 
 		return INFINITY;
 }
-double test_hv_setter::GetCurent(size_t channel_no) const{
-	if(f_data.find(channel_no)!=f_data.end())
-		return 200.0;
-	else 
-		return INFINITY;
+void test_hv_setter::turnOn(size_t channel_no){
+	if(f_data.find(channel_no)!=f_data.end()){
+		f_data[channel_no].first=true;
+	}else f_data[channel_no]=make_pair(false,INFINITY);
 }
+void test_hv_setter::turnOff(size_t channel_no){
+	if(f_data.find(channel_no)!=f_data.end()){
+		f_data[channel_no].first=false;
+	}else f_data[channel_no]=make_pair(false,INFINITY);
+}
+
 bool test_hv_setter::SetHV(size_t channel_no, double hv){
 	if(f_data.find(channel_no)!=f_data.end()){
-		f_data[channel_no].first++;
 		f_data[channel_no].second=hv;
-	}else f_data[channel_no]=make_pair(channel_no,hv);
+	}else f_data[channel_no]=make_pair(false,hv);
+}
+void test_hv_setter::UpdateRequest(){
+	f_update_counter++;
 }
 
 

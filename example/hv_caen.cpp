@@ -26,6 +26,6 @@ int main(int argc,char**argv){
 	cout<<"========"<<endl;
 	cout<<hv.ChannelCount()<<" channels"<<endl;
 	for(size_t i=0;i<hv.ChannelCount();i++)
-		cout<<"i="<<i<<" ; Descr="<<hv[i]->toString()<<endl;
+		cout<<hv[i]->getChannelName()<<endl;
 	cout<<"========"<<endl;
 }

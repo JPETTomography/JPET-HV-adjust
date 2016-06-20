@@ -11,12 +11,9 @@ namespace HVAdjust{
 	class IHVSetter{
 	public:
 		virtual ~IHVSetter(){}
-		virtual void UpdateRequest()const=0;
-		//getters
-		virtual const size_t ChannelCount()const=0;
+		virtual void UpdateRequest()=0;
 		virtual bool IsOn(size_t channel_no)const=0;
 		virtual double GetHV(size_t channel_no)const=0;
-		//setters
 		virtual void turnOn(size_t channel_no)=0;
 		virtual void turnOff(size_t channel_no)=0;
 		virtual bool SetHV(size_t channel_no,double hv)=0;
@@ -52,6 +49,7 @@ namespace HVAdjust{
 		const std::vector<double>&HardwareHV()const;
 		bool SetHV(const size_t index,const double hv);
 		void SynchroHardwarewithDB();
+		void SwitchOffHardware();
 		void read_hardware();
 		void clear();
 	private:
