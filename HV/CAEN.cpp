@@ -6,6 +6,7 @@
 #include "CAEN.h"
 using namespace std;
 using namespace HVAdjust;
+using namespace MathTemplates;
 namespace Hardware{
 	CAEN::CAEN(const string connstr){
 		char buf[connstr.length()];
@@ -22,30 +23,37 @@ namespace Hardware{
 				f_count+=channelsCounts[i];
 			delete channelsCounts;
 		}
+		f_status_cache=new ChanelStatus*[f_count];
+		for(size_t i=0;i<f_count;i++)
+			f_status_cache[i]=new ChanelStatus();
+		LIBHV_getStatusForAll(f_handle,f_status_cache,f_count);
 	}
 	CAEN::~CAEN(){
+		for(size_t i=0;i<f_count;i++)
+			delete f_status_cache[i];
+		delete[] f_status_cache;
 		delete f_handle;
 	}
-	const size_t CAEN::size() const{return f_count;}
-	double CAEN::GetCurent(size_t channel_no) const{
-		if(channel_no>f_count)
-			throw MathTemplates::Exception<CAEN>("Channel range check error");
-		return LIBHV_getCurrent(f_handle,channel_no);
+	const size_t CAEN::ChannelCount() const{return f_count;}
+	ChanelStatus* CAEN::operator[](const size_t channel_no)const{
+		if(channel_no>=f_count)
+			throw Exception<CAEN>("Range check error");
+		return f_status_cache[channel_no];
+	}
+	void CAEN::UpdateRequest() const{
+		LIBHV_getStatusForAll(f_handle,f_status_cache,f_count);
 	}
 	double CAEN::GetHV(size_t channel_no) const{
-		if(channel_no>f_count)
-			throw MathTemplates::Exception<CAEN>("Channel range check error");
-		return LIBHV_getVoltage(f_handle,channel_no);
+		if(channel_no>=f_count)
+			throw Exception<CAEN>("Range check error");
+		return f_status_cache[channel_no]->getVMon();
 	}
-	bool CAEN::SetHV(size_t channel_no, double hv){
-		if(channel_no>f_count)
-			throw MathTemplates::Exception<CAEN>("Channel range check error");
-		//ToDo: check maximum HV in the hardware
-		if(hv>1300)return false;
-		if(hv<-1300)return false;
-		//
-		return LIBHV_setVoltage(f_handle,channel_no,hv);
+	bool CAEN::IsOn(size_t channel_no) const{
+		if(channel_no>=f_count)
+			throw Exception<CAEN>("Range check error");
+		return f_status_cache[channel_no]->getRamp();
 	}
-
-
+	bool CAEN::SetHV(size_t channel_no, double hv){}
+	void CAEN::turnOn(size_t channel_no){}
+	void CAEN::turnOff(size_t channel_no){}
 }

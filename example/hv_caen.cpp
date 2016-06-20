@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <libhv_global.h>
 #include <HV/CAEN.h>
 using namespace std;
 using namespace Hardware;
@@ -23,8 +24,8 @@ int main(int argc,char**argv){
 	}
 	CAEN hv(constr);
 	cout<<"========"<<endl;
-	cout<<hv.size()<<" channels"<<endl;
-	for(size_t i=0;i<hv.size();i++)
-		cout<<"i="<<i<<" ; HV="<<hv.GetHV(i)<<endl;
+	cout<<hv.ChannelCount()<<" channels"<<endl;
+	for(size_t i=0;i<hv.ChannelCount();i++)
+		cout<<"i="<<i<<" ; Descr="<<hv[i]->toString()<<endl;
 	cout<<"========"<<endl;
 }
