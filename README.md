@@ -31,6 +31,8 @@ Must contain two lines
 Tools provided in this repository
 =================================
 
+Tool for getting HV config from database and applying it into HV hardware
+
 	hv-config-apply frame setup config
 
 
