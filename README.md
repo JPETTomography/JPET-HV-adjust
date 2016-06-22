@@ -14,3 +14,23 @@ Environment variables
 =====================
 
 	HVLIBDIR - HV directory from Silvermedia software source repository
+
+
+Config file required for tools
+==============================
+
+	connstr.txt
+
+Must contain two lines
+
+	database connection string
+
+	HV connection string
+
+
+Tools provided in this repository
+=================================
+
+	hv-config-apply frame setup config
+
+

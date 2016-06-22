@@ -15,13 +15,11 @@ int main(int argc,char**argv){
 		ifstream cfg;
 		cfg.open(filepath);
 		if(cfg){
-			string token;
-			while(cfg>>token)
-				constr+=" "+token;
+			getline(cfg,constr);
 			cfg.close();
-			cout<<constr<<endl;
 		}
 	}
+	cout<<constr<<endl;
 	CAEN hv(constr);
 	try{
 		for(size_t idx=800;idx<832;idx++)
