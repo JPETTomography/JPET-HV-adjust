@@ -30,7 +30,7 @@ namespace Calibration {
 		return {to_string(m_id)};
 	}
 
-	CalibrationTypes::CalibrationTypes(const shared_ptr<IDataSource> src):Factory<CalibrationType>(src,{}){}
+	CalibrationTypes::CalibrationTypes(const shared_ptr<IDataSource> src):DataTableInterface<CalibrationType>(src,{}){}
 	CalibrationTypes::~CalibrationTypes(){}
 	
 	Calibration::Calibration():m_name(""),m_formula(""),m_encoded_params(""){}

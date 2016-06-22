@@ -26,7 +26,7 @@ namespace JPetSetup {
 	const string& Photomultiplier::status() const{return f_status;}
 	const double Photomultiplier::max_hv() const{return f_max_hv;}
 	Photomultipliers::Photomultipliers(const shared_ptr<IDataSource> src)
-	:Factory<JPetSetup::Photomultiplier>(src, {}){}
+	:DataTableInterface<JPetSetup::Photomultiplier>(src, {}){}
 	Photomultipliers::~Photomultipliers(){}
 	const Photomultiplier Photomultipliers::ByID(const size_t id)const{
 		auto vec=Select([id](const DataItem&row){return row.num_field<size_t>("id")==id;});

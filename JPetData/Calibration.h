@@ -12,13 +12,13 @@ namespace Calibration{
 		virtual ~PhotomultiplierGain();
 		const size_t phm_id()const;
 	protected:
-		friend class DataAccess::Factory<PhotomultiplierGain>;
+		friend class DataAccess::DataTableInterface<PhotomultiplierGain>;
 		enum{type=DataAccess::data_calibration_phmampl};
 		PhotomultiplierGain(const DataAccess::DataItem& row,const std::shared_ptr<DataAccess::IDataSource>);
 		DataAccess::RequestParameters params_to_insert()const; 
 		DataAccess::RequestParameters params_to_delete()const;
 	};
-	class PhotomultiplierGains:public DataAccess::Factory<PhotomultiplierGain>{
+	class PhotomultiplierGains:public DataAccess::DataTableInterface<PhotomultiplierGain>{
 	public:
 		PhotomultiplierGains(const std::shared_ptr<DataAccess::IDataSource> src, const size_t phm_id);
 		virtual ~PhotomultiplierGains();
@@ -35,7 +35,7 @@ namespace Calibration{
 		const size_t connection_id()const;
 		const size_t phm_id()const;
 	protected:
-		friend class DataAccess::Factory<PhotomultiplierGain4Run>;
+		friend class DataAccess::DataTableInterface<PhotomultiplierGain4Run>;
 		enum{type=DataAccess::data_calibration_phmampl_connected};
 		PhotomultiplierGain4Run(const DataAccess::DataItem& row,const std::shared_ptr<DataAccess::IDataSource>);
 		DataAccess::RequestParameters params_to_insert()const;
@@ -43,7 +43,7 @@ namespace Calibration{
 	private:
 		size_t f_key;
 	};
-	class PhotomultiplierGains4Run:public DataAccess::Factory<PhotomultiplierGain4Run>{
+	class PhotomultiplierGains4Run:public DataAccess::DataTableInterface<PhotomultiplierGain4Run>{
 	public:
 		PhotomultiplierGains4Run(const std::shared_ptr<DataAccess::IDataSource> src, const size_t run_id);
 		virtual ~PhotomultiplierGains4Run();

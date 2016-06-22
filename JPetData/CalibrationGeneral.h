@@ -16,7 +16,7 @@ namespace Calibration{
 		const std::string&name()const;
 		const std::string&formula()const;
 	protected:
-		friend class DataAccess::Factory<CalibrationType>;
+		friend class DataAccess::DataTableInterface<CalibrationType>;
 		enum{type=DataAccess::data_calibrationtype};
 		CalibrationType(const DataAccess::DataItem&item,const std::shared_ptr<DataAccess::IDataSource>);
 		DataAccess::RequestParameters params_to_insert()const; 
@@ -25,7 +25,7 @@ namespace Calibration{
 		size_t m_id,m_count;
 		std::string m_name,m_formula;
 	};
-	class CalibrationTypes:public DataAccess::Factory<CalibrationType>{
+	class CalibrationTypes:public DataAccess::DataTableInterface<CalibrationType>{
 	public:
 		CalibrationTypes(const std::shared_ptr<DataAccess::IDataSource> src);
 		virtual ~CalibrationTypes();

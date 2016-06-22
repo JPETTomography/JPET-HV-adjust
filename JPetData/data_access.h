@@ -86,7 +86,7 @@ namespace DataAccess{
 		bool Update();
 	};
 	template<class DataItemRepresenter>
-	class Factory{
+	class DataTableInterface{
 	private:
 		std::shared_ptr<DataSet> m_data;
 		std::shared_ptr<IDataSource> f_src;
@@ -94,11 +94,11 @@ namespace DataAccess{
 		virtual RequestParameters additional_add_parameters(){return m_data->getter_params();}
 		virtual RequestParameters additional_delete_parameters(){return RequestParameters();}
 	public:
-		Factory(const std::shared_ptr<IDataSource> src,const RequestParameters&params)
+		DataTableInterface(const std::shared_ptr<IDataSource> src,const RequestParameters&params)
 		:m_data(new DataSet(src,datatype(DataItemRepresenter::type),params)),f_src(src){}
-		Factory(const std::shared_ptr<IDataSource> src,const RequestParameters&&params):Factory(src,params){}
-		Factory(const Factory&source):m_data(source.m_data),f_src(source.f_src){}
-		virtual ~Factory(){}
+		DataTableInterface(const std::shared_ptr<IDataSource> src,const RequestParameters&&params):DataTableInterface(src,params){}
+		DataTableInterface(const DataTableInterface&source):m_data(source.m_data),f_src(source.f_src){}
+		virtual ~DataTableInterface(){}
 		const std::shared_ptr<IDataSource>DataSource()const{return f_src;}
 		const size_t DataRowsCount()const{return m_data->size();}
 		const std::vector<DataItemRepresenter> Select(std::function<bool(const DataItem&)>condition)const{

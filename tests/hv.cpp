@@ -16,12 +16,13 @@ TEST(HVTable,base){
 	auto data_source=make_shared<test_data_source>(true);
 	auto hv_source=make_shared<test_hv_setter>();
 	auto frame=Frames(data_source).ByID(2);
-	auto setup=frame.CreateSetupFactory().SelectAll()[0];
+	auto setup=frame.CreateSetupInterface().SelectAll()[0];
 	auto config=HVconfigTable(data_source,setup.id()).SelectAll()[0];
 	auto hv_record=HighVoltageTable(data_source).ByID(setup.highvoltage_id());
 	data_source->ResetCounters();
 	HVTable table(config,setup,frame,hv_record,data_source,hv_source);
-	EXPECT_EQ(8,data_source->Count(DataAccess::data_obtain));//8 because of two layers in the frame
+	//8 because of two layers in the test frame
+	EXPECT_EQ(8,data_source->Count(DataAccess::data_obtain));
 	for(const double&hv:table.HardwareHV())
 		EXPECT_EQ(INFINITY,hv);
 	EXPECT_EQ(table.SlotInfo().size(),8);

@@ -14,7 +14,7 @@ namespace JPetSetup{
 		const std::string&name()const;
 		const bool active()const;
 	protected:
-		friend class DataAccess::Factory<Slot>;
+		friend class DataAccess::DataTableInterface<Slot>;
 		enum{type=DataAccess::data_slot};
 		Slot(const DataAccess::DataItem&item,const std::shared_ptr<DataAccess::IDataSource>);
 		//DataAccess::RequestParameters params_to_insert()const; 
@@ -34,9 +34,9 @@ namespace JPetSetup{
 		const std::string&name()const;
 		const double radius()const;
 		const bool active()const;
-		DataAccess::Factory<Slot> CreateSlotsFactory()const;
+		DataAccess::DataTableInterface<Slot> CreateSlotsInterface()const;
 	protected:
-		friend class DataAccess::Factory<Layer>;
+		friend class DataAccess::DataTableInterface<Layer>;
 		enum{type=DataAccess::data_layer};
 		Layer(const DataAccess::DataItem&item,const std::shared_ptr<DataAccess::IDataSource>src);
 		//DataAccess::RequestParameters params_to_insert()const; 
@@ -60,7 +60,7 @@ namespace JPetSetup{
 		const std::string&name()const;
 		const std::string&description()const;
 	protected:
-		friend class DataAccess::Factory<Setup>;
+		friend class DataAccess::DataTableInterface<Setup>;
 		enum{type=DataAccess::data_setup};
 		Setup(const DataAccess::DataItem&item,const std::shared_ptr<DataAccess::IDataSource>src);
 		//DataAccess::RequestParameters params_to_insert()const; 
@@ -79,11 +79,11 @@ namespace JPetSetup{
 		const std::string&description()const;
 		const std::string&status()const;
 		const bool active()const;
-		DataAccess::Factory<Layer> CreateLayersFactory()const;
-		DataAccess::Factory<Setup> CreateSetupFactory()const;
+		DataAccess::DataTableInterface<Layer> CreateLayersInterface()const;
+		DataAccess::DataTableInterface<Setup> CreateSetupInterface()const;
 		const std::shared_ptr<DataAccess::IDataSource> DataSource()const;
 	protected:
-		friend class DataAccess::Factory<Frame>;
+		friend class DataAccess::DataTableInterface<Frame>;
 		enum{type=DataAccess::data_frame};
 		Frame(const DataAccess::DataItem&item,const std::shared_ptr<DataAccess::IDataSource>src);
 		//DataAccess::RequestParameters params_to_insert()const; 
@@ -94,7 +94,7 @@ namespace JPetSetup{
 		bool f_active;
 		std::shared_ptr<DataAccess::IDataSource> f_data_source;
 	};
-	class Frames:public DataAccess::Factory<Frame>{
+	class Frames:public DataAccess::DataTableInterface<Frame>{
 	public:
 		Frames(const std::shared_ptr<DataAccess::IDataSource> src);
 		virtual ~Frames();

@@ -44,7 +44,7 @@ namespace JPetSetup {
 	const string& Layer::name() const{return f_name;}
 	const double Layer::radius() const{return f_radius;}
 	const bool Layer::active() const{return f_active;}
-	Factory<Slot> Layer::CreateSlotsFactory() const{return Factory<Slot>(f_data_source,{to_string(id())});}
+	DataTableInterface<Slot> Layer::CreateSlotsInterface() const{return DataTableInterface<Slot>(f_data_source,{to_string(id())});}
 
 	
 	Setup::Setup(const Setup& source)
@@ -92,11 +92,11 @@ namespace JPetSetup {
 	const size_t Frame::version() const{return f_version;}
 	const string& Frame::status() const{return f_status;}
 	const bool Frame::active() const{return f_active;}
-	Factory<Layer> Frame::CreateLayersFactory() const{return Factory<Layer>(f_data_source,{to_string(id())});}
-	Factory<Setup> Frame::CreateSetupFactory() const{return Factory<Setup>(f_data_source,{to_string(id())});}
+	DataTableInterface<Layer> Frame::CreateLayersInterface() const{return DataTableInterface<Layer>(f_data_source,{to_string(id())});}
+	DataTableInterface<Setup> Frame::CreateSetupInterface() const{return DataTableInterface<Setup>(f_data_source,{to_string(id())});}
 	const shared_ptr< IDataSource > Frame::DataSource() const{return f_data_source;}
 	
-	Frames::Frames(const shared_ptr< IDataSource > src):Factory<Frame>(src,{}){}
+	Frames::Frames(const shared_ptr< IDataSource > src):DataTableInterface<Frame>(src,{}){}
 	Frames::~Frames(){}
 	const Frame Frames::ByID(const size_t id) const{
 		auto vec=Select([id](const DataItem&row){return row.num_field<size_t>("id")==id;});

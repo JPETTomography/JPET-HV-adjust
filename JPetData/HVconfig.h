@@ -15,7 +15,7 @@ namespace JPetSetup{
 		const size_t hvconfig_id()const;
 		const double HV()const;
 	protected:
-		friend class DataAccess::Factory<HVconfigEntry>;
+		friend class DataAccess::DataTableInterface<HVconfigEntry>;
 		enum{type=DataAccess::data_hvconfigentry};
 		HVconfigEntry(const DataAccess::DataItem&item,const std::shared_ptr<DataAccess::IDataSource>);
 		DataAccess::RequestParameters params_to_insert()const; 
@@ -34,9 +34,9 @@ namespace JPetSetup{
 		const size_t id()const;
 		const size_t setup_id()const;
 		const std::string&description()const;
-		DataAccess::Factory<HVconfigEntry> CreateEntriesFactory()const;
+		DataAccess::DataTableInterface<HVconfigEntry> CreateEntriesInterface()const;
 	protected:
-		friend class DataAccess::Factory<HVconfig>;
+		friend class DataAccess::DataTableInterface<HVconfig>;
 		enum{type=DataAccess::data_hvconfig};
 		HVconfig(const DataAccess::DataItem&item,const std::shared_ptr<DataAccess::IDataSource>);
 		DataAccess::RequestParameters params_to_insert()const; 
@@ -46,7 +46,7 @@ namespace JPetSetup{
 		std::string f_description;
 		std::shared_ptr<DataAccess::IDataSource> f_source;
 	};
-	class HVconfigTable:public DataAccess::Factory<HVconfig>{
+	class HVconfigTable:public DataAccess::DataTableInterface<HVconfig>{
 	public:
 		HVconfigTable(const std::shared_ptr<DataAccess::IDataSource> src,const size_t setup_id);
 		virtual ~HVconfigTable();
@@ -68,7 +68,7 @@ namespace JPetSetup{
 		const double maxv()const;
 		const double maxi()const;
 	protected:
-		friend class DataAccess::Factory<HVChannel>;
+		friend class DataAccess::DataTableInterface<HVChannel>;
 		enum{type=DataAccess::data_hvchannel};
 		HVChannel(const DataAccess::DataItem&item,const std::shared_ptr<DataAccess::IDataSource>src);
 		//DataAccess::RequestParameters params_to_insert()const; 
@@ -87,9 +87,9 @@ namespace JPetSetup{
 		const size_t id()const;
 		const std::string&description()const;
 		const std::string&status()const;
-		DataAccess::Factory<HVChannel> CreateChannelsFactory()const;
+		DataAccess::DataTableInterface<HVChannel> CreateChannelsInterface()const;
 	protected:
-		friend class DataAccess::Factory<HighVoltage>;
+		friend class DataAccess::DataTableInterface<HighVoltage>;
 		enum{type=DataAccess::data_highvoltage};
 		HighVoltage(const DataAccess::DataItem&item,const std::shared_ptr<DataAccess::IDataSource>src);
 		//DataAccess::RequestParameters params_to_insert()const; 
@@ -99,7 +99,7 @@ namespace JPetSetup{
 		std::string f_description,f_status;
 		std::shared_ptr<DataAccess::IDataSource> f_data_source;
 	};
-	class HighVoltageTable:public DataAccess::Factory<HighVoltage>{
+	class HighVoltageTable:public DataAccess::DataTableInterface<HighVoltage>{
 	public:
 		HighVoltageTable(std::shared_ptr<DataAccess::IDataSource>source);
 		virtual ~HighVoltageTable();
@@ -119,7 +119,7 @@ namespace JPetSetup{
 		const size_t slot_id()const;
 		const JPET_side side()const;
 	protected:
-		friend class DataAccess::Factory<HVPMConnection>;
+		friend class DataAccess::DataTableInterface<HVPMConnection>;
 		enum{type=DataAccess::data_hvpmconnection};
 		HVPMConnection(const DataAccess::DataItem&item,const std::shared_ptr<DataAccess::IDataSource>);
 		//DataAccess::RequestParameters params_to_insert()const; 
@@ -128,7 +128,7 @@ namespace JPetSetup{
 		size_t f_id,f_hvchannel_id,f_photomultiplier_id,f_setup_id,f_slot_id;
 		JPET_side f_side;
 	};
-	class HVPMConnections:public DataAccess::Factory<HVPMConnection>{
+	class HVPMConnections:public DataAccess::DataTableInterface<HVPMConnection>{
 	public:
 		HVPMConnections(const std::shared_ptr<DataAccess::IDataSource> source);
 		virtual ~HVPMConnections();

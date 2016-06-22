@@ -52,10 +52,10 @@ namespace JPetSetup{
 	const string& HVconfig::description() const{return f_description;}
 	RequestParameters HVconfig::params_to_insert() const{return {to_string(f_setup_id),"'"+f_description+"'"};}
 	RequestParameters HVconfig::params_to_delete() const{return {to_string(f_id)};}
-	Factory<HVconfigEntry> HVconfig::CreateEntriesFactory() const{
-		return Factory<HVconfigEntry>(f_source,{to_string(id())});
+	DataTableInterface<HVconfigEntry> HVconfig::CreateEntriesInterface() const{
+		return DataTableInterface<HVconfigEntry>(f_source,{to_string(id())});
 	}
-	HVconfigTable::HVconfigTable(const shared_ptr<IDataSource>src,const size_t setup_id):Factory<JPetSetup::HVconfig>(src,{to_string(setup_id)}){}
+	HVconfigTable::HVconfigTable(const shared_ptr<IDataSource>src,const size_t setup_id):DataTableInterface<JPetSetup::HVconfig>(src,{to_string(setup_id)}){}
 	HVconfigTable::~HVconfigTable(){}
 	
 	
@@ -107,12 +107,12 @@ namespace JPetSetup{
 	const size_t HighVoltage::id() const{return f_id;}
 	const string& HighVoltage::description() const{return f_description;}
 	const string& HighVoltage::status() const{return f_status;}
-	Factory<HVChannel> HighVoltage::CreateChannelsFactory() const{
-		return Factory<HVChannel>(f_data_source,{to_string(id())});
+	DataTableInterface<HVChannel> HighVoltage::CreateChannelsInterface() const{
+		return DataTableInterface<HVChannel>(f_data_source,{to_string(id())});
 	}
 	
 	HighVoltageTable::HighVoltageTable(std::shared_ptr<DataAccess::IDataSource>source)
-	:Factory<HighVoltage>(source,{}){}
+	:DataTableInterface<HighVoltage>(source,{}){}
 	HighVoltageTable::~HighVoltageTable(){}
 	const HighVoltage HighVoltageTable::ByID(const size_t id) const{
 		auto vec=Select([id](const DataItem&row){return row.num_field<size_t>("id")==id;});
@@ -147,7 +147,7 @@ namespace JPetSetup{
 
 	
 	HVPMConnections::HVPMConnections(const shared_ptr<IDataSource> source)
-	:Factory< JPetSetup::HVPMConnection >(source,{}){}
+	:DataTableInterface< JPetSetup::HVPMConnection >(source,{}){}
 	HVPMConnections::~HVPMConnections(){}
 	const HVPMConnection HVPMConnections::ByID(const size_t id) const{
 		auto vec=Select([id](const DataItem&row){return row.num_field<size_t>("id")==id;});

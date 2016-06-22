@@ -20,7 +20,7 @@ namespace Calibration {
 	}
 	
 	PhotomultiplierGains::PhotomultiplierGains(const shared_ptr<IDataSource> src, const size_t phm_id)
-	:Factory<PhotomultiplierGain>(src,{to_string(phm_id)}),f_phm_id(phm_id){}
+	:DataTableInterface<PhotomultiplierGain>(src,{to_string(phm_id)}),f_phm_id(phm_id){}
 	const size_t PhotomultiplierGains::PhotomultiplierID() const{return f_phm_id;}
 	PhotomultiplierGains::~PhotomultiplierGains(){}
 	
@@ -46,7 +46,7 @@ namespace Calibration {
 	}
 	
 	PhotomultiplierGains4Run::PhotomultiplierGains4Run(const shared_ptr< IDataSource > src, const size_t run_id)
-	:Factory<PhotomultiplierGain4Run>(src,{to_string(run_id)}),f_run_id(run_id){}
+	:DataTableInterface<PhotomultiplierGain4Run>(src,{to_string(run_id)}),f_run_id(run_id){}
 	PhotomultiplierGains4Run::~PhotomultiplierGains4Run(){}
 	const size_t PhotomultiplierGains4Run::RunID() const{return f_run_id;}
 };

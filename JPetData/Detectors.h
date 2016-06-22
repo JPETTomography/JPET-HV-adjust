@@ -15,7 +15,7 @@ namespace JPetSetup{
 		const std::string&description()const;
 		const double max_hv()const;
 	protected:
-		friend class DataAccess::Factory<Photomultiplier>;
+		friend class DataAccess::DataTableInterface<Photomultiplier>;
 		enum{type=DataAccess::data_photomultiplier};
 		Photomultiplier(const DataAccess::DataItem&item,const std::shared_ptr<DataAccess::IDataSource>);
 		//DataAccess::RequestParameters params_to_insert()const; 
@@ -25,7 +25,7 @@ namespace JPetSetup{
 		std::string f_name,f_status,f_description;
 		double f_max_hv;
 	};
-	class Photomultipliers:public DataAccess::Factory<Photomultiplier>{
+	class Photomultipliers:public DataAccess::DataTableInterface<Photomultiplier>{
 	public:
 		Photomultipliers(const std::shared_ptr<DataAccess::IDataSource> src);
 		virtual ~Photomultipliers();
