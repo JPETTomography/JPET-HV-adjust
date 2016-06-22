@@ -9,7 +9,7 @@ using namespace std;
 using namespace DataAccess;
 using namespace JPetSetup;
 int main(){
-	auto src=make_shared<PQData>("host=127.0.0.1 dbname=postgres user=postgres password=pass");
+	auto src=make_shared<PQData>("host=127.0.0.1 dbname=test user=postgres password=pass");
 	Photomultipliers phm_table(src);
 	HVPMConnections connections(src);
 	for(const Frame&frame:Frames(src).SelectAll()){

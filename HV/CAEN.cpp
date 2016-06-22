@@ -17,9 +17,9 @@ namespace Hardware{
 		{
 			int boardsCount=0;
 			int* channelsCounts=nullptr;
-			LIBHV_getBordCountAndChannel(f_handle,channelsCounts,boardsCount);
+			f_handle->getBordCountAndChannel(channelsCounts,boardsCount);
 			channelsCounts=new int[boardsCount];
-			LIBHV_getBordCountAndChannel(f_handle,channelsCounts,boardsCount);
+			f_handle->getBordCountAndChannel(channelsCounts,boardsCount);
 			f_count=0;
 			for(int i=0;i<boardsCount;i++)
 				f_count+=channelsCounts[i];
@@ -39,7 +39,7 @@ namespace Hardware{
 		delete f_handle;
 	}
 	void CAEN::UpdateRequest(){
-		LIBHV_getStatusForAll(f_handle,f_status_cache,f_count);
+		f_handle->getStatusForAll(f_status_cache,f_count);
 		for(size_t i=0;i<f_count;i++){
 			string idx_msg(f_status_cache[i]->getChannelName());
 			idx_msg=idx_msg.substr(2,4);
