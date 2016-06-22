@@ -18,6 +18,17 @@ namespace HVAdjust{
 		virtual void turnOff(size_t channel_no)=0;
 		virtual void SetHV(size_t channel_no,double hv)=0;
 	};
+	class DummyHV:public IHVSetter{
+	public:
+		DummyHV();
+		virtual ~DummyHV();
+		virtual void UpdateRequest()override;
+		virtual bool IsOn(size_t channel_no)const override;
+		virtual double GetHV(size_t channel_no)const override;
+		virtual void turnOn(size_t channel_no)override;
+		virtual void turnOff(size_t channel_no)override;
+		virtual void SetHV(size_t channel_no,double hv)override;
+	};
 	class HVTable{
 	public:
 		HVTable(

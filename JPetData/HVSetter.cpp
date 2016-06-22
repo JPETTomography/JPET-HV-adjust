@@ -8,6 +8,16 @@ using namespace DataAccess;
 using namespace JPetSetup;
 using namespace MathTemplates;
 namespace HVAdjust{
+	
+	DummyHV::DummyHV(){}
+	DummyHV::~DummyHV(){}
+	double DummyHV::GetHV(size_t channel_no) const{return INFINITY;}
+	bool DummyHV::IsOn(size_t channel_no)const{return false;}
+	void DummyHV::UpdateRequest(){}
+	void DummyHV::SetHV(size_t channel_no, double hv){}
+	void DummyHV::turnOn(size_t channel_no){}
+	void DummyHV::turnOff(size_t channel_no){}
+	
 	HVTable::Item::Item(const Layer&l, const Slot&s, const HVPMConnection&hvconn, const Photomultiplier&phm, const HVChannel&ch)
 	:layer(l),slot(s),hvpm(hvconn),phm(phm),hvchannel(ch){}
 	HVTable::Item::Item(const HVTable::Item& source)
