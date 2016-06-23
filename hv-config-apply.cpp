@@ -43,24 +43,29 @@ int main(int argc,char**argv){
 								cout<<"Writting HV"<<endl;
 								hvtable.SynchroHardwarewithDB();
 								for(bool matches=false;!matches;){
+									cout<<"waiting..."<<endl;
 									this_thread::sleep_for(chrono::seconds(10));
-									cout<<"Reading HV"<<endl;
+									cout<<"Reading HV..."<<endl;
 									hvtable.read_hardware();
 									matches=true;
-									for(size_t index=0;index<hvtable.SlotInfo().size();index++)
+									for(size_t index=0;index<hvtable.SlotInfo().size();index++){
+										cout<<"IDX="<<hvtable.SlotInfo()[index].hvchannel.idx()<<"...";
 										if(isfinite(hvtable.HVConfigEntries()[index].HV())){
+											cout<<"comparing...";
 											if(isfinite(hvtable.HardwareHV()[index])){
-												matches&=(pow(hvtable.HVConfigEntries()[index].HV()-hvtable.HardwareHV()[index],2)<pow(max_difference,2));
+												bool res=(pow(hvtable.HVConfigEntries()[index].HV()-hvtable.HardwareHV()[index],2)<pow(max_difference,2));
+												if(res)cout<<"OK.";
+												else cout<<"not OK.";
+												matches&=res;
 											}else{
 												matches=false;
 												cout <<"HV hardware unknown error (infinite value was read). Code=2"<<endl;
 												return 2;
 											}
-										}else {
-											matches=false;
-											cout <<"configuration is not complete. Code=3"<<endl;
-											return 3;
+											cout<<endl;
 										}
+										cout<<"not configured"<<endl;
+									}
 									cout<<"Success"<<endl;
 									return 0;
 								}
