@@ -4,12 +4,18 @@ set(CMAKE_CXX_FLAGS "-pthread -std=gnu++11")
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 add_subdirectory(math_h)
-include_directories(math_h/include)
+include_directories(${MATH_H_INC})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+get_directory_property(has_parent PARENT_DIRECTORY)
+if(has_parent)
+	set(HV_ADJUST_INC 
+		${CMAKE_CURRENT_SOURCE_DIR}
+		${MATH_H_INC}
+		PARENT_SCOPE)
+endif()
 
 file(GLOB JPETDATA JPetData/*.cpp)
 add_library(jpetdata ${JPETDATA})
-
 option(tests "Compile jpetdata unit-tests." OFF) 
 if(tests)
 	file(GLOB TESTS JPetData-tests/*.cpp)
@@ -22,7 +28,6 @@ endif()
 find_package(PQXX REQUIRED)
 include_directories(${PQXX_INCLUDE_DIRS})
 add_definitions(${PQXX_DEFINITIONS})
-
 file(GLOB PGInterface Postgres/*.cpp)
 add_library(pg_interface ${PGInterface})
 target_link_libraries(pg_interface jpetdata ${PQXX_LIBRARIES})
@@ -43,7 +48,6 @@ foreach(tool ${TOOLS})
 	add_executable(${tool_app} ${tool} config-read.cc)
 	target_link_libraries(${tool_app} jpetdata pg_interface  hvadjust ${PQXX_LIBRARIES})
 endforeach()
-
 option(examples "Compile examples." OFF) 
 if(examples)
 	file(GLOB EXAMPLES example/*.cpp)
