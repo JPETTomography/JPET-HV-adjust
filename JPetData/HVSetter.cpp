@@ -35,7 +35,10 @@ namespace HVAdjust{
 		if(hvpm.side() >second.hvpm.side())return false;
 		if(layer.name()<second.layer.name())return true;
 		if(layer.name()>second.layer.name())return false;
-		if(slot.name() <second.slot.name())return true;
+		string s1=slot.name(),s2=second.slot.name();
+		while(s1.length()<7)s1="0"+s1;
+		while(s2.length()<7)s2="0"+s2;
+		if(s1<s2)return true;
 		return false;
 	}
 	const bool HVTable::Item::operator>(const HVTable::Item& second) const{
@@ -43,7 +46,10 @@ namespace HVAdjust{
 		if(hvpm.side() <second.hvpm.side())return false;
 		if(layer.name()>second.layer.name())return true;
 		if(layer.name()<second.layer.name())return false;
-		if(slot.name() >second.slot.name())return true;
+		string s1=slot.name(),s2=second.slot.name();
+		while(s1.length()<7)s1="0"+s1;
+		while(s2.length()<7)s2="0"+s2;
+		if(s1>s2)return true;
 		return false;
 	}
 
