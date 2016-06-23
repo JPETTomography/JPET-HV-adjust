@@ -18,10 +18,12 @@ Environment variables
 
 Config file required for tools
 ==============================
+The tools look for file 
 
 	connstr.txt
 
-Must contain two lines
+in current directory.
+It must contain two lines
 
 	database connection string
 
@@ -36,3 +38,10 @@ Tool for getting HV config from database and applying it into HV hardware
 	hv-config-apply frame setup config
 
 
+
+SQL scripts
+===========
+
+	DB_upgrade.sql - adding tables connected with newly implemented calibration
+	
+	HVConfigTables_patch.sql - fix structure of tables connected with HV configuration (!!!DELETES OLD DATA)
