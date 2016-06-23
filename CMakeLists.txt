@@ -6,14 +6,6 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 add_subdirectory(math_h)
 include_directories(${MATH_H_INC})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
-get_directory_property(has_parent PARENT_DIRECTORY)
-if(has_parent)
-	set(HV_ADJUST_INC 
-		${CMAKE_CURRENT_SOURCE_DIR}
-		${MATH_H_INC}
-		PARENT_SCOPE)
-endif()
-
 file(GLOB JPETDATA JPetData/*.cpp)
 add_library(jpetdata ${JPETDATA})
 option(tests "Compile jpetdata unit-tests." OFF) 
@@ -34,12 +26,28 @@ target_link_libraries(pg_interface jpetdata ${PQXX_LIBRARIES})
 
 if(NOT $ENV{HVLIBDIR} STREQUAL "")
 	link_directories($ENV{HVLIBDIR}/libsy4527)
-	include_directories($ENV{HVLIBDIR}/libsy4527)
 	link_directories($ENV{HVLIBDIR}/libhv)
 	include_directories($ENV{HVLIBDIR}/libhv)
 	file(GLOB HV HV/*.cpp)
 	add_library(hvadjust ${HV})
 	target_link_libraries(hvadjust jpetdata hv CAENComm CAENVME caenhvwrapper dl)
+endif()
+
+get_directory_property(has_parent PARENT_DIRECTORY)
+if(has_parent)
+	set(HV_ADJUST_INC 
+		${CMAKE_CURRENT_SOURCE_DIR}
+		${MATH_H_INC}
+		$ENV{HVLIBDIR}/libhv
+		PARENT_SCOPE)
+	set(HV_ADJUST_LIBDIR
+		$ENV{HVLIBDIR}/libhv
+		$ENV{HVLIBDIR}/libsy4527
+		PARENT_SCOPE)
+	set(HV_ADJUST_LIBS
+		jpetdata pg_interface  hvadjust ${PQXX_LIBRARIES}
+		hv CAENComm CAENVME caenhvwrapper dl
+		PARENT_SCOPE)
 endif()
 
 file(GLOB TOOLS *.cpp)
