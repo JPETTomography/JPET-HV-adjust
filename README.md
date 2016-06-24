@@ -1,8 +1,8 @@
 Set of libraries needed for HV management in J-PET
 ==================================================
 
-Directories
-===========
+Directories with source code of libraries
+=========================================
 
 	JPetData - abstraction layer between data source and analysis layer
 
@@ -15,10 +15,9 @@ Environment variables
 
 	HVLIBDIR - HV directory from Silvermedia software source repository
 
-
 Config file required for tools
 ==============================
-The tools look for file 
+The tools look for file
 
 	connstr.txt
 

@@ -68,14 +68,16 @@ namespace Hardware{
 	bool CAEN::IsOn(size_t idx) const{
 		return string(f_status_cache[idx2index(idx)]->getStatus())=="ON";
 	}
-	double CAEN::GetHV(size_t idx) const{
-		return -f_status_cache[idx2index(idx)]->getVMon();
-	}
 	void CAEN::turnOn(size_t idx){
 		f_handle->switchChannel(idx,true);
 	}
 	void CAEN::turnOff(size_t idx){
 		f_handle->switchChannel(idx,false);
+	}
+	//ATTENTION These two methods contain sign "minus" because the modules require positive values
+	// though the values in DB are negative (as it actually is)
+	double CAEN::GetHV(size_t idx) const{
+		return -f_status_cache[idx2index(idx)]->getVMon();
 	}
 	void CAEN::SetHV(size_t idx, double hv){
 		f_handle->setVoltage(idx,-hv);
