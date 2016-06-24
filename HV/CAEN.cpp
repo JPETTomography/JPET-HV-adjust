@@ -69,7 +69,7 @@ namespace Hardware{
 		return string(f_status_cache[idx2index(idx)]->getStatus())=="ON";
 	}
 	double CAEN::GetHV(size_t idx) const{
-		return f_status_cache[idx2index(idx)]->getVMon();
+		return -f_status_cache[idx2index(idx)]->getVMon();
 	}
 	void CAEN::turnOn(size_t idx){
 		f_handle->switchChannel(idx,true);
@@ -78,7 +78,6 @@ namespace Hardware{
 		f_handle->switchChannel(idx,false);
 	}
 	void CAEN::SetHV(size_t idx, double hv){
-		if(hv>0) f_handle->setVoltage(idx,hv);
-		else f_handle->setVoltage(idx,-hv);
+		f_handle->setVoltage(idx,-hv);
 	}
 }

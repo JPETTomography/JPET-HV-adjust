@@ -46,21 +46,23 @@ int main(int argc,char**argv){
 									hvtable.SynchroHardwarewithDB();
 									for(bool matches=false;!matches;){
 										cout<<"waiting..."<<endl;
-										this_thread::sleep_for(chrono::seconds(10));
+										this_thread::sleep_for(chrono::seconds(2));
 										cout<<"Reading HV..."<<endl;
 										hvtable.read_hardware();
 										matches=true;
-										for(size_t index=0;index<hvtable.SlotInfo().size();index++){
-											cout<<"IDX="<<hvtable.SlotInfo()[index].hvchannel.idx()<<";";
+										for(size_t index=0;(index<hvtable.SlotInfo().size())&&matches;index++){
 											double hv_conf=hvtable.HVConfigEntries()[index].HV();
-											cout<<hv_conf<<";";
 											if(isfinite(hv_conf)){
-												cout<<"comparing...";
+												cout<<"IDX="<<hvtable.SlotInfo()[index].hvchannel.idx()<<";";
+												cout<<hv_conf<<";";
 												double hv_actual=hvtable.HardwareHV()[index];
 												cout<<hv_actual<<";";
 												if(isfinite(hv_actual)){
 													if(pow(hv_actual-hv_conf,2)<pow(max_difference,2))cout<<"OK.";
-													else matches=false;
+													else{
+														cout<<"notOK!";
+														matches=false;
+													}
 												}else{
 													cout <<"HV hardware unknown error (infinite value was read). Code=2"<<endl;
 													return 2;
