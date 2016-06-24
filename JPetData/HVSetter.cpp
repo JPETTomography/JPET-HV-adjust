@@ -133,8 +133,8 @@ namespace HVAdjust{
 	void HVTable::SynchroHardwarewithDB(){
 		for(size_t i=0; i<SlotInfo().size();i++)
 			if(isfinite(HVConfigEntries()[i].HV())){
-				f_hardware->turnOn(SlotInfo()[i].hvchannel.idx());
 				f_hardware->SetHV(SlotInfo()[i].hvchannel.idx(),HVConfigEntries()[i].HV());
+				f_hardware->turnOn(SlotInfo()[i].hvchannel.idx());
 			}else{
 				f_hardware->turnOff(SlotInfo()[i].hvchannel.idx());
 			}
