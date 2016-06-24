@@ -46,13 +46,13 @@ int main(int argc,char**argv){
 									hvtable.SynchroHardwarewithDB();
 									for(bool matches=false;!matches;){
 										cout<<"waiting..."<<endl;
-										this_thread::sleep_for(chrono::seconds(2));
+										this_thread::sleep_for(chrono::seconds(10));
 										cout<<"Reading HV..."<<endl;
 										hvtable.read_hardware();
 										matches=true;
 										for(size_t index=0;(index<hvtable.SlotInfo().size())&&matches;index++){
 											double hv_conf=hvtable.HVConfigEntries()[index].HV();
-											if(isfinite(hv_conf)){
+											if(isfinite(hv_conf)){//not configured channels are skipped
 												cout<<"IDX="<<hvtable.SlotInfo()[index].hvchannel.idx()<<";";
 												cout<<hv_conf<<";";
 												double hv_actual=hvtable.HardwareHV()[index];
@@ -69,11 +69,10 @@ int main(int argc,char**argv){
 												}
 												cout<<endl;
 											}
-											cout<<"not configured"<<endl;
 										}
-										cout<<"Success"<<endl;
-										return 0;
 									}
+									cout<<"Success"<<endl;
+									return 0;
 								}catch(libhvException* ex){
 									cout<<"HVERROR!!!!!: "<< ex->getMessage()<<endl;
 									cout<<"Code = 3"<<endl;
