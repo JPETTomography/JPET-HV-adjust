@@ -20,7 +20,7 @@ using namespace Hardware;
 using namespace HVAdjust;
 const double max_difference=2;
 int main(int argc,char**argv){
-	if(argc==3){
+	if(argc==4){
 		string framename(argv[1]),setupname(argv[2]),hvconfigname(argv[3]);
 		auto db=make_shared<PQData>(connstr_config::DB());
 		auto hv=make_shared<CAEN>(connstr_config::HV());
@@ -51,16 +51,17 @@ int main(int argc,char**argv){
 										hvtable.read_hardware();
 										matches=true;
 										for(size_t index=0;index<hvtable.SlotInfo().size();index++){
-											cout<<"IDX="<<hvtable.SlotInfo()[index].hvchannel.idx()<<"...";
-											if(isfinite(hvtable.HVConfigEntries()[index].HV())){
+											cout<<"IDX="<<hvtable.SlotInfo()[index].hvchannel.idx()<<";";
+											double hv_conf=hvtable.HVConfigEntries()[index].HV();
+											cout<<hv_conf<<";";
+											if(isfinite(hv_conf)){
 												cout<<"comparing...";
-												if(isfinite(hvtable.HardwareHV()[index])){
-													bool res=(pow(hvtable.HVConfigEntries()[index].HV()-hvtable.HardwareHV()[index],2)<pow(max_difference,2));
-													if(res)cout<<"OK.";
-													else cout<<"not OK.";
-													matches&=res;
+												double hv_actual=hvtable.HardwareHV()[index];
+												cout<<hv_actual<<";";
+												if(isfinite(hv_actual)){
+													if(pow(hv_actual-hv_conf,2)<pow(max_difference,2))cout<<"OK.";
+													else matches=false;
 												}else{
-													matches=false;
 													cout <<"HV hardware unknown error (infinite value was read). Code=2"<<endl;
 													return 2;
 												}

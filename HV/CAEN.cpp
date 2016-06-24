@@ -2,8 +2,6 @@
 // MIT license
 #include <string>
 #include <sstream>
-#include <chrono>
-#include <thread>
 #include <connectionstring.h>
 #include <libhv_global.h>
 #include <math_h/error.h>
@@ -11,7 +9,6 @@
 using namespace std;
 using namespace HVAdjust;
 using namespace MathTemplates;
-const int ms_to_wait=300;
 namespace Hardware{
 	CAEN::CAEN(const string connstr){
 		char buf[connstr.length()];
@@ -42,7 +39,6 @@ namespace Hardware{
 		delete f_handle;
 	}
 	void CAEN::UpdateRequest(){
-		this_thread::sleep_for(chrono::milliseconds(ms_to_wait));
 		f_handle->getStatusForAll(f_status_cache,f_count);
 		for(size_t i=0;i<f_count;i++){
 			string idx_msg(f_status_cache[i]->getChannelName());
@@ -76,15 +72,13 @@ namespace Hardware{
 		return f_status_cache[idx2index(idx)]->getVMon();
 	}
 	void CAEN::turnOn(size_t idx){
-		this_thread::sleep_for(chrono::milliseconds(ms_to_wait));
 		f_handle->switchChannel(idx,true);
 	}
 	void CAEN::turnOff(size_t idx){
-		this_thread::sleep_for(chrono::milliseconds(ms_to_wait));
 		f_handle->switchChannel(idx,false);
 	}
 	void CAEN::SetHV(size_t idx, double hv){
-		this_thread::sleep_for(chrono::milliseconds(ms_to_wait));
-		f_handle->setVoltage(idx,hv);
+		if(hv>0) f_handle->setVoltage(idx,hv);
+		else f_handle->setVoltage(idx,-hv);
 	}
 }
