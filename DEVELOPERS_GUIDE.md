@@ -2,12 +2,12 @@ DEVELOPERS GUIDE
 ================
 
 
-library jpetdata
-================
+library jpetdata - general data access
+=======================================
 
 	database.h
 
-This file contains the declaration of the abstraction level between analysis
+This file contains the declaration of the abstraction layer between analysis
 parametric objects and the access to the data source (f.eg. database).
 
 The enums 'datatype' and 'operationtype' are used to encode the interaction
@@ -85,4 +85,43 @@ Method Delete(...) requires as a parameter the instance of representer
 obtained from current 'DataTableInterface' instance and removes this 
 item from data source.
 
+library jpetdata - implemented particular data types
+====================================================
 
+	Detectors.h
+
+Class 'Photomultipliers' provides interface to the table of photomultipliers.
+It's constructor requires the data source.
+Single photomultiplier is represented as 'Photomultiplier' class instance.
+
+	Frames.h
+
+Class 'Frames' provides interface to the table of J-PET frames.
+Single frame is represented by the class 'Frame'.
+It has methods CreateLayersInterface() and CreateSetupInterface that created
+interfaces for the tables of J-PET layers and setups respectively.
+All these interfaces are looking only for the records linked to current frame.
+
+class 'Layer' has also method CreateSlotsInterface() creating the interface
+to slots table for looking for slots in curent layer.
+
+
+	HVconfig.h
+
+'HighVoltageTable' provides interface to the table of high voltage hardware units.
+It's constructor requires the data source.
+Single instance is represented by the class 'HighVoltage'.
+It's method CreateChannelsInterface() creates interface to the table of HV chnnels
+owned by curent HV hardware unit.
+Single channel is represented by the class 'HVChannel'
+
+'HVPMConnections' provides interface to the table of connections between 
+photomultipliers slots and HV channels with linking to J-PET setup.
+It has methods for selecting set of connection by ids of all these types of objects.
+Single connection is represented by 'HVPMConnection'.
+
+'HVconfigTable' provides interface to the table of HV configurations.
+It's constructor requires data source and J-PET setup id.
+Single configuration is represented by 'HVconfig' that has method
+CreateEntriesInterface() that creates interface to the table of entries connecting
+the configuration with HVPMConnections and store used HV values.
