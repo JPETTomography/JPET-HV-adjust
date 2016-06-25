@@ -68,9 +68,21 @@ contain the following declarations:
 It's constructor requires the data source and set of parameters transferred to it for every request.
 (when sending 'add' or 'delete' requests, parameters obtained from corresponding representer's
 methods are appended to the "common" list)
-It caches the set of 'DataItem' instances and provides methods of creating the instances of 
-higher-level representing classes for the particular data type.
-For creating instances of representing higher-level class for set of obtained 'DataItem' instances
-there are SelectAll() and Select(...) methods.
-The first one returns vector of higher-level representations for all data obtined.
+
+'DataTableInterface' caches the set of 'DataItem' instances and provides methods of creating 
+the instances of higher-level representing classes for the particular data type.
+For creating instances of representing higher-level class for set of obtained 'DataItem' 
+instances there are SelectAll() and Select(...) methods.
+The first one returns vector of higher-level representations for all data obtained.
+The second one require a function or lambda providing the condition on 'DataItem' instances
+we are interested in.
+Both these methods return vector of representer instances.
+
+Method Add(...) requires as a parameter the instance of representer created 
+by the "higher-level" constructor and writes it into the data source.
+
+Method Delete(...) requires as a parameter the instance of representer
+obtained from current 'DataTableInterface' instance and removes this 
+item from data source.
+
 
