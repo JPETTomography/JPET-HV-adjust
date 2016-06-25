@@ -24,39 +24,22 @@ The class for particular data type can be implemented arbitarilly but must
 contain the following declarations:
 
 	class ParticularDataRepresenter{
-	
 	public:
-	
 		ParticularDataRepresenter(const ParticularDataRepresenter&source);
-		
 		ParticularDataRepresenter&operator=(const ParticularDataRepresenter&source);
-		
 		virtual ~ParticularDataRepresenter();
-		
 		//ToDo: declare public methods for read accessing the properties
-		
 	protected:
-	
 		friend class DataAccess::DataTableInterface<ParticularDataRepresenter>;
-		
 		//value of enum 'datatype' meaning the request to data of this type
-		
 		enum{type=DataAccess::<request_type>};
-		
 		//Creating the instance from DataItem (by 'DataTableInterface')
-		
 		ParticularDataRepresenter(const DataAccess::DataItem&item,const std::shared_ptr<DataAccess::IDataSource>);
-		
 		// parameters transferred to data source for inserting new data item
-		
 		DataAccess::RequestParameters params_to_insert()const; 
-		
 		// parameters transferred to data source for deleting current data item
-		
 		DataAccess::RequestParameters params_to_delete()const;
-		
 	private:
-		
 		//.........
 	};
 
