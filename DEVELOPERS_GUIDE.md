@@ -25,21 +25,52 @@ contain the following declarations:
 
 	class ParticularDataRepresenter{
 	public:
+		virtual ~ParticularDataRepresenter();
+		
+		//For copying
 		ParticularDataRepresenter(const ParticularDataRepresenter&source);
 		ParticularDataRepresenter&operator=(const ParticularDataRepresenter&source);
-		virtual ~ParticularDataRepresenter();
+		
+		//For creating new data item you must implement constructor with parameters
+		//defined by you. It's called in your higher-level code
+		ParticularDataRepresenter(......);
+		
 		//ToDo: declare public methods for read accessing the properties
+		.............
 	protected:
+		//For DataTableInterface could call these methods
+		//declared in this 'protected; section
+		//but they stayed closed for your higher-level code
 		friend class DataAccess::DataTableInterface<ParticularDataRepresenter>;
-		//value of enum 'datatype' meaning the request to data of this type
+		
+		//Here you insert value of enum 'datatype' 
+		//meaning the request to data of this type
 		enum{type=DataAccess::<request_type>};
-		//Creating the instance from DataItem (by 'DataTableInterface')
+		
+		//Creating the instance from DataItem
+		//This constructor will be called by DataTableInterface
 		ParticularDataRepresenter(const DataAccess::DataItem&item,const std::shared_ptr<DataAccess::IDataSource>);
+		
 		// parameters transferred to data source for inserting new data item
+		// if it's not declared calling Add method of
+		// corresponding DataTableInterface won't compile
 		DataAccess::RequestParameters params_to_insert()const; 
+		
 		// parameters transferred to data source for deleting current data item
+		// if it's not declared calling Delete method of
+		// corresponding DataTableInterface won't compile
 		DataAccess::RequestParameters params_to_delete()const;
 	private:
-		//.........
+		............
 	};
+
+'DataTableInterface' performs the access to corresponding type of data from the data source.
+It's constructor requires the data source and set of parameters transferred to it for every request.
+(when sending 'add' or 'delete' requests, parameters obtained from corresponding representer's
+methods are appended to the "common" list)
+It caches the set of 'DataItem' instances and provides methods of creating the instances of 
+higher-level representing classes for the particular data type.
+For creating instances of representing higher-level class for set of obtained 'DataItem' instances
+there are SelectAll() and Select(...) methods.
+The first one returns vector of higher-level representations for all data obtined.
 
