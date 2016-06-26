@@ -74,6 +74,8 @@ int main(int argc,char**argv){
 									cout<<"Success"<<endl;
 									return 0;
 								}catch(libhvException* ex){
+									//yes, they throw pointers to exception
+									//and don't override what()
 									cout<<"HVERROR!!!!!: "<< ex->getMessage()<<endl;
 									cout<<"Code = 3"<<endl;
 									return 3;
