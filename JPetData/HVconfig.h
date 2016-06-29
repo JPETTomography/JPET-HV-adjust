@@ -28,8 +28,8 @@ namespace JPetSetup{
 	public:
 		HVconfig(const HVconfig&source);
 		HVconfig&operator=(const HVconfig&source);
-		HVconfig(const size_t setup_id,const std::string&descr);
-		HVconfig(const size_t setup_id,const std::string&&descr):HVconfig(setup_id,descr){}
+		HVconfig(const std::string&descr);
+		HVconfig(const std::string&&descr):HVconfig(descr){}
 		virtual ~HVconfig();
 		const size_t id()const;
 		const size_t setup_id()const;

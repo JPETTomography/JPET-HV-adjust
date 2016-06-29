@@ -42,8 +42,8 @@ namespace JPetSetup{
 		f_source=source.f_source;
 		return *this;
 	}
-	HVconfig::HVconfig(const size_t setup_id,const string&descr)
-	:f_id(0),f_setup_id(setup_id),f_description(descr){}
+	HVconfig::HVconfig(const string&descr)
+	:f_id(0),f_setup_id(0),f_description(descr){}
 	HVconfig::HVconfig(const DataItem& item, const shared_ptr<IDataSource>src)
 	:f_id(item.num_field<size_t>("id")),f_setup_id(item.num_field<size_t>("setup_id")),f_description(item["description"]),f_source(src){}
 	HVconfig::~HVconfig(){}
