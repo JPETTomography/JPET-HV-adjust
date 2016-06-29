@@ -12,6 +12,7 @@ namespace HVAdjust{
 	DummyHV::DummyHV(){}
 	DummyHV::~DummyHV(){}
 	double DummyHV::GetHV(size_t channel_no) const{return INFINITY;}
+	double DummyHV::GetHVMon(size_t channel_no) const{return INFINITY;}
 	bool DummyHV::IsOn(size_t channel_no)const{return false;}
 	void DummyHV::UpdateRequest(){}
 	void DummyHV::SetHV(size_t channel_no, double hv){}
@@ -98,8 +99,10 @@ namespace HVAdjust{
 	void HVTable::read_hardware(){
 		f_hardware->UpdateRequest();
 		f_hv_from_hw.clear();
+		f_hv_from_hw_mon.clear();
 		for(const Item&item:SlotInfo()){
 			f_hv_from_hw.push_back(f_hardware->GetHV(item.hvchannel.idx()));
+			f_hv_from_hw_mon.push_back(f_hardware->GetHVMon(item.hvchannel.idx()));
 		}
 	}
 	const SortedChain<HVTable::Item>& HVTable::SlotInfo() const{
@@ -110,6 +113,9 @@ namespace HVAdjust{
 	}
 	const vector<double>& HVTable::HardwareHV() const{
 		return f_hv_from_hw;
+	}
+	const vector<double>& HVTable::HVMon() const{
+		return f_hv_from_hw_mon;
 	}
 	bool HVTable::SetHV(const size_t index, const double hv){
 		if(index>=f_items.size())return false;

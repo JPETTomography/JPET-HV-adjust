@@ -14,6 +14,7 @@ namespace HVAdjust{
 		virtual void UpdateRequest()=0;
 		virtual bool IsOn(size_t channel_no)const=0;
 		virtual double GetHV(size_t channel_no)const=0;
+		virtual double GetHVMon(size_t channel_no)const=0;
 		virtual void turnOn(size_t channel_no)=0;
 		virtual void turnOff(size_t channel_no)=0;
 		virtual void SetHV(size_t channel_no,double hv)=0;
@@ -25,6 +26,7 @@ namespace HVAdjust{
 		virtual void UpdateRequest()override;
 		virtual bool IsOn(size_t channel_no)const override;
 		virtual double GetHV(size_t channel_no)const override;
+		virtual double GetHVMon(size_t channel_no)const override;
 		virtual void turnOn(size_t channel_no)override;
 		virtual void turnOff(size_t channel_no)override;
 		virtual void SetHV(size_t channel_no,double hv)override;
@@ -58,6 +60,7 @@ namespace HVAdjust{
 		const MathTemplates::SortedChain<Item>&SlotInfo()const;
 		const std::vector<JPetSetup::HVconfigEntry>&HVConfigEntries()const;
 		const std::vector<double>&HardwareHV()const;
+		const std::vector<double>&HVMon()const;
 		bool SetHV(const size_t index,const double hv);
 		void SynchroHardwarewithDB();
 		void SwitchOffHardware();
@@ -75,6 +78,7 @@ namespace HVAdjust{
 		MathTemplates::SortedChain<Item> f_items;
 		std::vector<JPetSetup::HVconfigEntry> f_hv_values;
 		std::vector<double> f_hv_from_hw;
+		std::vector<double> f_hv_from_hw_mon;
 		std::shared_ptr<IHVSetter> f_hardware;
 	};
 }

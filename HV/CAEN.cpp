@@ -79,6 +79,9 @@ namespace Hardware{
 	double CAEN::GetHV(size_t idx) const{
 		return -f_status_cache[idx2index(idx)]->getVMon();
 	}
+	double CAEN::GetHVMon(size_t idx) const{
+		return -f_status_cache[idx2index(idx)]->getVMon();
+	}
 	void CAEN::SetHV(size_t idx, double hv){
 		f_handle->setVoltage(idx,-hv);
 	}
