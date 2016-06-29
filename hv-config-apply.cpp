@@ -55,7 +55,7 @@ int main(int argc,char**argv){
 											if(isfinite(hv_conf)){//not configured channels are skipped
 												cout<<"IDX="<<hvtable.SlotInfo()[index].hvchannel.idx()<<";";
 												cout<<hv_conf<<";";
-												double hv_actual=hvtable.HardwareHV()[index];
+												double hv_actual=hvtable.HVMon()[index];
 												cout<<hv_actual<<";";
 												if(isfinite(hv_actual)){
 													if(pow(hv_actual-hv_conf,2)<pow(max_difference,2))cout<<"OK.";

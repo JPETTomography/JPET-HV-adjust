@@ -14,6 +14,7 @@ namespace Hardware{
 		virtual void UpdateRequest()override;
 		virtual bool IsOn(size_t idx)const override;
 		virtual double GetHV(size_t idx)const override;
+		virtual double GetHVMon(size_t idx)const override;
 		virtual void turnOn(size_t idx)override;
 		virtual void turnOff(size_t idx)override;
 		virtual void SetHV(size_t idx,double hv)override;
