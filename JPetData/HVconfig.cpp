@@ -50,7 +50,7 @@ namespace JPetSetup{
 	const size_t HVconfig::id() const{return f_id;}
 	const size_t HVconfig::setup_id() const{return f_setup_id;}
 	const string& HVconfig::description() const{return f_description;}
-	RequestParameters HVconfig::params_to_insert() const{return {to_string(f_setup_id),"'"+f_description+"'"};}
+	RequestParameters HVconfig::params_to_insert() const{return {"'"+f_description+"'"};}
 	RequestParameters HVconfig::params_to_delete() const{return {to_string(f_id)};}
 	DataTableInterface<HVconfigEntry> HVconfig::CreateEntriesInterface() const{
 		return DataTableInterface<HVconfigEntry>(f_source,{to_string(id())});
