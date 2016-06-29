@@ -77,6 +77,7 @@ namespace Hardware{
 	//ATTENTION These two methods contain sign "minus" because the modules require positive values
 	// though the values in DB are negative (as it actually is)
 	double CAEN::GetHV(size_t idx) const{
+		//ToDo: Change here to getting the value that was set
 		return -f_status_cache[idx2index(idx)]->getVMon();
 	}
 	double CAEN::GetHVMon(size_t idx) const{
