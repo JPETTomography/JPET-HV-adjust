@@ -3,6 +3,7 @@
 #ifndef ___________________HV_____SETTER_H___________
 #	define ___________________HV_____SETTER_H___________
 #include <memory>
+#include <fstream>
 #include <math_h/chains.h>
 #include <JPetData/HVconfig.h>
 #include <JPetData/Frames.h>
@@ -81,5 +82,7 @@ namespace HVAdjust{
 		std::vector<double> f_hv_from_hw_mon;
 		std::shared_ptr<IHVSetter> f_hardware;
 	};
+	void SaveHV(std::ofstream&stream,const HVTable&table);
+	void ReadHV(std::ifstream&stream,      HVTable&table);
 }
 #endif

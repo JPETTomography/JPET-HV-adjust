@@ -64,7 +64,7 @@ int main(int argc,char**argv){
 														matches=false;
 													}
 												}else{
-													cout <<"HV hardware unknown error (infinite value was read). Code=2"<<endl;
+													cout <<"HV hardware unknown error (infinite value was read)"<<endl;
 													return 2;
 												}
 												cout<<endl;
@@ -77,16 +77,14 @@ int main(int argc,char**argv){
 									//yes, they throw pointers to exception
 									//and don't override what()
 									cout<<"HVERROR!!!!!: "<< ex->getMessage()<<endl;
-									cout<<"Code = 3"<<endl;
 									return 3;
 								}
 							}else cout<<"hvconfig name is not inique"<<endl;
 						}else cout<<"hvconfig not found"<<endl;
 					}else cout <<"setup name is not unique"<<endl;
 				}else cout<<"setup not found"<<endl;
-			}cout<<"frame name is not unique"<<endl;
+			}else cout<<"frame name is not unique"<<endl;
 		}else cout<<"frame not found"<<endl;
 	}else cout<<"wrong parameters"<<endl;
-	cout<<"Code = 1"<<endl;
 	return 1;
 }

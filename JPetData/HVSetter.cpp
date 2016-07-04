@@ -159,4 +159,24 @@ namespace HVAdjust{
 		}
 		read();
 	}
+	void SaveHV(ofstream& stream, const HVTable& table){
+		for(size_t i=0;i<table.SlotInfo().size();i++)
+			stream<<table.SlotInfo()[i].hvpm.side()<<"\t"
+			<<table.SlotInfo()[i].layer.name()<<"\t"
+			<<table.SlotInfo()[i].slot.name()<<"\t"
+			<<table.HVConfigEntries()[i].HV()<<"\n";
+	}
+	void ReadHV(ifstream& stream, HVTable& table){
+		unsigned int side;
+		string layer,slot;
+		double hv;
+		while(stream>>side>>layer>>slot>>hv){
+			int index=-1;
+			for(int i=0;i<table.SlotInfo().size();i++)
+				if((table.SlotInfo()[i].hvpm.side()==side)&&(table.SlotInfo()[i].layer.name()==layer)&&(table.SlotInfo()[i].slot.name()==slot))
+					index=i;
+			if(index>=0) 
+				table.SetHV(index,hv);
+		}
+	}
 }
