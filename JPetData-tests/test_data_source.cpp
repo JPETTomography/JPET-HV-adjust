@@ -325,6 +325,12 @@ double test_hv_setter::GetHV(size_t channel_no) const{
 	else 
 		return INFINITY;
 }
+double test_hv_setter::GetHVMon(size_t channel_no) const{
+	if(f_data.find(channel_no)!=f_data.end())
+		return f_data.find(channel_no)->second.second;
+	else 
+		return INFINITY;
+}
 void test_hv_setter::turnOn(size_t channel_no){
 	if(f_data.find(channel_no)!=f_data.end()){
 		f_data[channel_no].first=true;
