@@ -35,16 +35,16 @@ endif()
 
 get_directory_property(has_parent PARENT_DIRECTORY)
 if(has_parent)
-	set(HV_ADJUST_INC 
+	set(JPET_DATA_INC 
 		${CMAKE_CURRENT_SOURCE_DIR}
 		${MATH_H_INC}
 		$ENV{HVLIBDIR}/libhv
 		PARENT_SCOPE)
-	set(HV_ADJUST_LIBDIR
+	set(JPET_DATA_LIBDIR
 		$ENV{HVLIBDIR}/libhv
 		$ENV{HVLIBDIR}/libsy4527
 		PARENT_SCOPE)
-	set(HV_ADJUST_LIBS
+	set(JPET_DATA_LIBS
 		jpetdata pg_interface  hvadjust ${PQXX_LIBRARIES}
 		hv CAENComm CAENVME caenhvwrapper dl
 		PARENT_SCOPE)
