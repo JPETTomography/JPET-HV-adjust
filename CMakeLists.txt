@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.6)
-project(HV-adjust)
+project(JPET-data)
 set(CMAKE_CXX_FLAGS "-pthread -std=gnu++11")
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
