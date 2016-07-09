@@ -3,8 +3,8 @@ project(JPET-data)
 set(CMAKE_CXX_FLAGS "-pthread -std=gnu++11")
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
-add_subdirectory(math_h)
-include_directories(${MATH_H_INC})
+add_subdirectory(FitGen)
+include_directories(${FITGEN_INC})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 file(GLOB JPETDATA JPetData/*.cpp)
 add_library(jpetdata ${JPETDATA})
@@ -37,7 +37,7 @@ get_directory_property(has_parent PARENT_DIRECTORY)
 if(has_parent)
 	set(JPET_DATA_INC 
 		${CMAKE_CURRENT_SOURCE_DIR}
-		${MATH_H_INC}
+		${FITGEN_INC}
 		$ENV{HVLIBDIR}/libhv
 		PARENT_SCOPE)
 	set(JPET_DATA_LIBDIR
