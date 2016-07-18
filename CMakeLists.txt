@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 2.6)
-project(HV-adjust)
+project(JPET-data)
 set(CMAKE_CXX_FLAGS "-pthread -std=gnu++11")
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
-add_subdirectory(math_h)
-include_directories(${MATH_H_INC})
+add_subdirectory(FitGen)
+include_directories(${FITGEN_INC})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 file(GLOB JPETDATA JPetData/*.cpp)
 add_library(jpetdata ${JPETDATA})
@@ -35,16 +35,16 @@ endif()
 
 get_directory_property(has_parent PARENT_DIRECTORY)
 if(has_parent)
-	set(HV_ADJUST_INC 
+	set(JPET_DATA_INC 
 		${CMAKE_CURRENT_SOURCE_DIR}
-		${MATH_H_INC}
+		${FITGEN_INC}
 		$ENV{HVLIBDIR}/libhv
 		PARENT_SCOPE)
-	set(HV_ADJUST_LIBDIR
+	set(JPET_DATA_LIBDIR
 		$ENV{HVLIBDIR}/libhv
 		$ENV{HVLIBDIR}/libsy4527
 		PARENT_SCOPE)
-	set(HV_ADJUST_LIBS
+	set(JPET_DATA_LIBS
 		jpetdata pg_interface  hvadjust ${PQXX_LIBRARIES}
 		hv CAENComm CAENVME caenhvwrapper dl
 		PARENT_SCOPE)
