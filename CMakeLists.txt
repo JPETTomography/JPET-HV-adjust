@@ -37,7 +37,7 @@ get_directory_property(has_parent PARENT_DIRECTORY)
 if(has_parent)
 	set(JPET_DATA_INC 
 		${CMAKE_CURRENT_SOURCE_DIR}
-		${FITGEN_INC}
+		${MATH_H_INC}
 		$ENV{HVLIBDIR}/libhv
 		PARENT_SCOPE)
 	set(JPET_DATA_LIBDIR
