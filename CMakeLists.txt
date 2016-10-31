@@ -26,11 +26,12 @@ target_link_libraries(pg_interface jpetdata ${PQXX_LIBRARIES})
 
 if(NOT $ENV{HVLIBDIR} STREQUAL "")
 	link_directories($ENV{HVLIBDIR}/libsy4527)
-	link_directories($ENV{HVLIBDIR}/libhv)
 	include_directories($ENV{HVLIBDIR}/libhv)
+	include_directories($ENV{HVLIBDIR}/libsy4527)
+	file(GLOB SM_HV $ENV{HVLIBDIR}/libhv/*.cpp)
 	file(GLOB HV HV/*.cpp)
-	add_library(hvadjust ${HV})
-	target_link_libraries(hvadjust jpetdata hv CAENComm CAENVME caenhvwrapper dl)
+	add_library(hvadjust ${HV} ${SM_HV})
+	target_link_libraries(hvadjust jpetdata CAENComm CAENVME caenhvwrapper dl)
 endif()
 
 get_directory_property(has_parent PARENT_DIRECTORY)
@@ -46,7 +47,7 @@ if(has_parent)
 		PARENT_SCOPE)
 	set(JPET_DATA_LIBS
 		jpetdata pg_interface  hvadjust ${PQXX_LIBRARIES}
-		hv CAENComm CAENVME caenhvwrapper dl
+		CAENComm CAENVME caenhvwrapper dl
 		PARENT_SCOPE)
 endif()
 
