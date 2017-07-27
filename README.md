@@ -1,6 +1,25 @@
 Set of libraries needed for HV management in J-PET
 ==================================================
 
+Compiling
+=========
+
+If you have your git repository with cmake project you can add needed repositories as submodules:
+
+    git submodule add https://github.com/alexkernphysiker/math_h.git
+    git submodule add https://github.com/alexkernphysiker/JPET-Data.git
+    git submodule update --init --recursive
+
+Then add to CMakeLists.txt the following lines
+
+    add_subdirectory(math_h)
+    include_directories(${MATH_H_INC})
+    add_subdirectory(JPET-Data)
+    include_directories(${JPET_DATA_INC})
+    link_directories(${JPET_DATA_LIBDIR})
+
+
+
 Directories with source code of libraries
 =========================================
 
