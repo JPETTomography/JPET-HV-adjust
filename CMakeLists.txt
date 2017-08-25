@@ -23,11 +23,11 @@ if(DEFINED MATH_H_INC)
     add_library(pg_interface ${PGInterface})
     target_link_libraries(pg_interface jpetdata ${PQXX_LIBRARIES})
 
-    if(NOT $ENV{HVLIBDIR} STREQUAL "")
-	link_directories($ENV{HVLIBDIR}/libsy4527)
-	include_directories($ENV{HVLIBDIR}/libhv)
-	include_directories($ENV{HVLIBDIR}/libsy4527)
-	file(GLOB SM_HV $ENV{HVLIBDIR}/libhv/*.cpp)
+    if(NOT ${HVLIBDIR} STREQUAL "")
+	link_directories(${HVLIBDIR}/libsy4527)
+	include_directories(${HVLIBDIR}/libhv)
+	include_directories(${HVLIBDIR}/libsy4527)
+	file(GLOB SM_HV ${HVLIBDIR}/libhv/*.cpp)
 	file(GLOB HV HV/*.cpp)
 	add_library(hvadjust ${HV} ${SM_HV})
 	target_link_libraries(hvadjust jpetdata CAENComm CAENVME caenhvwrapper dl)
@@ -38,11 +38,11 @@ if(DEFINED MATH_H_INC)
 	set(JPET_DATA_INC 
 		${CMAKE_CURRENT_SOURCE_DIR}
 		${MATH_H_INC}
-		$ENV{HVLIBDIR}/libhv
+		${HVLIBDIR}/libhv
 		PARENT_SCOPE)
 	set(JPET_DATA_LIBDIR
-		$ENV{HVLIBDIR}/libhv
-		$ENV{HVLIBDIR}/libsy4527
+		${HVLIBDIR}/libhv
+		${HVLIBDIR}/libsy4527
 		PARENT_SCOPE)
 	set(JPET_DATA_LIBS
 		jpetdata pg_interface  hvadjust ${PQXX_LIBRARIES}

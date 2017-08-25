@@ -14,6 +14,7 @@ Then add to CMakeLists.txt the following lines
 
     add_subdirectory(math_h)
     include_directories(${MATH_H_INC})
+    set(HVLIBDIR "/path/to/Silvermedia/LIBS/HV")
     add_subdirectory(JPET-Data)
     include_directories(${JPET_DATA_INC})
     link_directories(${JPET_DATA_LIBDIR})
@@ -32,11 +33,6 @@ library for providing HV management in frames of previously described libraries
 	Postgress
 implementation of accessing data from postgress server in frames of previous library
 
-Environment variables
-=====================
-
-	HVLIBDIR
-HV directory from Silvermedia software source repository
 
 Config file required for tools
 ==============================
