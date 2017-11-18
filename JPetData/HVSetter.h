@@ -4,7 +4,7 @@
 #	define ___________________HV_____SETTER_H___________
 #include <memory>
 #include <fstream>
-#include <math_h/chains.h>
+#include <math_h/tabledata.h>
 #include <JPetData/HVconfig.h>
 #include <JPetData/Frames.h>
 #include <JPetData/Detectors.h>
