@@ -6,18 +6,20 @@ Compiling
 
 If you have your git repository with cmake project you can add needed repositories as submodules:
 
-    git submodule add https://github.com/alexkernphysiker/math_h.git
-    git submodule add https://github.com/alexkernphysiker/JPET-Data.git
-    git submodule update --init --recursive
+	git submodule add https://github.com/alexkernphysiker/math_h.git
+	git submodule add https://github.com/alexkernphysiker/JPET-Data.git
+	git submodule update --init --recursive
 
 Then add to CMakeLists.txt the following lines
 
-    add_subdirectory(math_h)
-    include_directories(${MATH_H_INC})
-    set(HVLIBDIR "/path/to/Silvermedia/LIBS/HV")
-    add_subdirectory(JPET-Data)
-    include_directories(${JPET_DATA_INC})
-    link_directories(${JPET_DATA_LIBDIR})
+	add_definitions(--std=c++17) #the most recommended compiler mode
+	set(GTEST ON) #for compiling unit-tests. Requires gtest
+	add_subdirectory(math_h)
+	include_directories(${MATH_H_INC})
+	set(HVLIBDIR "/path/to/Silvermedia/LIBS/HV")
+	add_subdirectory(JPET-Data)
+	include_directories(${JPET_DATA_INC})
+	link_directories(${JPET_DATA_LIBDIR})
 
 
 
